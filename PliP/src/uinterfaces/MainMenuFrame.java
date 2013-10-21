@@ -102,6 +102,16 @@ public class MainMenuFrame extends JFrame implements TrayEventListener {
 		JMenu mnTools = new JMenu("Tools");
 		menuBar.add(mnTools);
 
+		JMenuItem mntmCalibrateThreshold = new JMenuItem("Calibrate Threshold");
+		mntmCalibrateThreshold.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new CalibrationDialog().setVisible(true);
+			}
+		});
+		mntmCalibrateThreshold.setAccelerator(KeyStroke.getKeyStroke(
+				KeyEvent.VK_T, InputEvent.ALT_MASK | InputEvent.SHIFT_MASK));
+		mnTools.add(mntmCalibrateThreshold);
+
 		JMenu mnHelp = new JMenu("Help");
 		menuBar.add(mnHelp);
 
@@ -131,7 +141,7 @@ public class MainMenuFrame extends JFrame implements TrayEventListener {
 		stopper.setRepeats(false);
 
 		JLayer<JPanel> layer = new JLayer<JPanel>();
-		//layer = new JLayer<JPanel>(videoDisplayPanel, layerUI);
+		layer = new JLayer<JPanel>(videoDisplayPanel, layerUI);
 		westPanel.add(layer);
 
 		JPanel centerPanel = new JPanel();

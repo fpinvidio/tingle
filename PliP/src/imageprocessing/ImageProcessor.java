@@ -1,7 +1,11 @@
 package imageprocessing;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
@@ -17,12 +21,10 @@ public class ImageProcessor {
 
 	private static Mat possibleTray = null;
 	public static int threshold = 2;
-	// public static int thr1 = 20;
-	// public static int thr2 = 30;
 	public static int thr1 = 0;
-	public static int thr2 = 154;
-	public static int thr3 = 90;
-	public static int thr4 = 500;
+	public static int thr2 = 102;
+	public static int thr3 = 0;
+	public static int thr4 = 90;
 	public static int thr5 = 500;
 	public static int thr6 = 500;
 	public static Mat background = null;
@@ -30,6 +32,33 @@ public class ImageProcessor {
 
 	public ImageProcessor() {
 		super();
+		loadParams();
+	}
+
+	public void loadParams() {
+		Properties props = new Properties();
+		InputStream is = null;
+		try {
+			File f = new File("./res/config.properties");
+			is = new FileInputStream(f);
+		} catch (Exception e) {
+			is = null;
+		}
+
+		try {
+			if (is == null) {
+				is = getClass().getResourceAsStream("./res/config.properties");
+			}
+
+			props.load(is);
+		} catch (Exception e) {
+		}
+		thr1 = new Integer(props.getProperty("minHueThreshold", "0"));
+		thr2 = new Integer(props.getProperty("minSatThreshold", "108"));
+		thr3 = new Integer(props.getProperty("minValueThreshold", "0"));
+		thr4 = new Integer(props.getProperty("maxHueThreshold", "90"));
+		thr5 = new Integer(props.getProperty("maxSatThreshold", "500"));
+		thr6 = new Integer(props.getProperty("maxValueThreshold", "500"));
 	}
 
 	public double angle(Point pt1, Point pt2, Point pt0) {
