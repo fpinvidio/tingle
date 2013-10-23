@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.opencv.core.Mat;
 
-public class TrayProcessor {
+public class TrayEventHandler {
 	private final int BUFFER_SIZE = 5;
 	private final float tol = 0.7f;
 	private List<Mat> tray_buffer = new ArrayList<Mat>();

@@ -1,18 +1,19 @@
 package systemmonitor;
 
-import imageprocessing.ImageProcessor;
+import imageprocessing.TrayProcessor;
+import imageprocessing.ObjectProcessor;
 
 import org.opencv.core.Mat;
 import org.opencv.highgui.Highgui;
 import org.opencv.highgui.VideoCapture;
 
 import uinterfaces.MainMenuFrame;
-import eventhandling.TrayProcessor;
+import eventhandling.TrayEventHandler;
 
 public class MainSystemMonitor{
 	private VideoCapture vcapture;
-	private ImageProcessor iprocessor;
 	private TrayProcessor tprocessor;
+	private TrayEventHandler tehandler;
 	private MainMenuFrame mmf;
 	
 	public MainSystemMonitor() {
@@ -31,9 +32,10 @@ public class MainSystemMonitor{
 		vcapture = new VideoCapture(0);
 		vcapture.set(Highgui.CV_CAP_PROP_FRAME_WIDTH, 200);
 		vcapture.set(Highgui.CV_CAP_PROP_FRAME_HEIGHT, 250);
-		iprocessor = new ImageProcessor();
 		tprocessor = new TrayProcessor();
-		tprocessor.addEventListener(mmf);
+		tehandler = new TrayEventHandler();
+		tehandler.addEventListener(mmf);
+		tehandler.addEventListener(new ObjectProcessor());
 	}
 
 	public Mat captureVideoFrame() {
@@ -41,9 +43,10 @@ public class MainSystemMonitor{
 		if (vcapture.isOpened()) {
 			vcapture.read(capturedFrame);
 			if (!capturedFrame.empty()) {
-				capturedFrame = iprocessor.findRectangleInImage(capturedFrame);
-				tprocessor.addTray(iprocessor.getPossibleTray());
-				iprocessor.clearPossibleTray();
+				capturedFrame = tprocessor.findRectangleInImage(capturedFrame);
+				Mat possibleTray = tprocessor.getPossibleTray();
+				tehandler.addTray(possibleTray);
+				tprocessor.clearPossibleTray();
 			} else {
 				capturedFrame = null;
 			}

@@ -1,6 +1,6 @@
 package uinterfaces;
 
-import imageprocessing.ImageProcessor;
+import imageprocessing.TrayProcessor;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -39,7 +39,7 @@ public class CalibrationDialog extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 
 	private VideoCapture vcapture;
-	private ImageProcessor iprocessor;
+	private TrayProcessor iprocessor;
 
 	private CalibrationDialog cDialog = this;
 	private JSlider minHueSlider;
@@ -302,7 +302,7 @@ public class CalibrationDialog extends JDialog {
 		vcapture = new VideoCapture(0);
 		vcapture.set(Highgui.CV_CAP_PROP_FRAME_WIDTH, 240);
 		vcapture.set(Highgui.CV_CAP_PROP_FRAME_HEIGHT, 240);
-		iprocessor = new ImageProcessor();
+		iprocessor = new TrayProcessor();
 		new Thread(new Runnable() {
 			public void run() {
 				try {
@@ -315,12 +315,12 @@ public class CalibrationDialog extends JDialog {
 						Mat capturedFrame = new Mat();
 						vcapture.read(capturedFrame);
 						if (!capturedFrame.empty()) {
-							ImageProcessor.thr1 = minHueSlider.getValue();
-							ImageProcessor.thr2 = minSatSlider.getValue();
-							ImageProcessor.thr3 = minValueSlider.getValue();
-							ImageProcessor.thr4 = maxHueSlider.getValue();
-							ImageProcessor.thr5 = maxSatSlider.getValue();
-							ImageProcessor.thr6 = maxValueSlider.getValue();
+							TrayProcessor.thr1 = minHueSlider.getValue();
+							TrayProcessor.thr2 = minSatSlider.getValue();
+							TrayProcessor.thr3 = minValueSlider.getValue();
+							TrayProcessor.thr4 = maxHueSlider.getValue();
+							TrayProcessor.thr5 = maxSatSlider.getValue();
+							TrayProcessor.thr6 = maxValueSlider.getValue();
 							capturedFrame = iprocessor
 									.findRectangleInImage(capturedFrame);
 							videoDisplayPanel.matToBufferedImage(capturedFrame);

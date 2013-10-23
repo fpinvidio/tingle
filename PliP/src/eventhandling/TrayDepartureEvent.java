@@ -23,7 +23,7 @@ public class TrayDepartureEvent extends EventObject implements GenericTrayEvent 
 
 	@Override
 	public boolean isOfType(String type) {
-		return EventFactory.TRAY_DEPARTURE_EVENT.equals(type);
+		return getEventType().equals(type);
 	}
 	
 	@Override

@@ -17,7 +17,7 @@ import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
-public class ImageProcessor {
+public class TrayProcessor {
 
 	private static Mat possibleTray = null;
 	public static int threshold = 2;
@@ -30,7 +30,7 @@ public class ImageProcessor {
 	public static Mat background = null;
 	public static boolean hasRun = false;
 
-	public ImageProcessor() {
+	public TrayProcessor() {
 		super();
 		loadParams();
 	}
@@ -121,7 +121,8 @@ public class ImageProcessor {
 		for (int idx = 0; idx < squares.size(); ++idx) {
 			Mat contour = squares.get(idx);
 			if (SquareValidator.validateSquare(contour)) {
-				possibleTray = contour;
+				//possibleTray = contour;
+				possibleTray = inputFrame;
 			}
 		}
 		Imgproc.cvtColor(gray, resultRGB, Imgproc.COLOR_GRAY2RGB);

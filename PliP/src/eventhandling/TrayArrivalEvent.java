@@ -31,7 +31,7 @@ public class TrayArrivalEvent extends EventObject implements GenericTrayEvent {
 
 	@Override
 	public boolean isOfType(String type) {
-		return EventFactory.TRAY_ARRIVAL_EVENT.equals(type);
+		return getEventType().equals(type);
 	}
 
 	@Override

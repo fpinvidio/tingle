@@ -31,9 +31,12 @@ import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 
 import org.opencv.core.Mat;
+import org.opencv.highgui.Highgui;
 
 import systemmonitor.MainSystemMonitor;
+import eventhandling.EventFactory;
 import eventhandling.GenericTrayEvent;
+import eventhandling.TrayArrivalEvent;
 import eventhandling.TrayEventListener;
 
 public class MainMenuFrame extends JFrame implements TrayEventListener {
@@ -227,6 +230,13 @@ public class MainMenuFrame extends JFrame implements TrayEventListener {
 		String shortTimeStr = sdf.format(new Date());
 		GenericTrayEvent gte = (GenericTrayEvent) event;
 		String text = "\n" + shortTimeStr + " - " + gte.getEventType();
+		if (gte.isOfType(EventFactory.TRAY_ARRIVAL_EVENT)) {
+			TrayArrivalEvent tae = (TrayArrivalEvent) event;
+			Mat[] trayArray = tae.getTray_images();
+			for (Mat tray : trayArray) {
+				Highgui.imwrite("Tray.jpg", tray);
+			}
+		}
 		logTextPane.append(text);
 		logTextPane.setCaretPosition(logTextPane.getDocument().getLength());
 	}
