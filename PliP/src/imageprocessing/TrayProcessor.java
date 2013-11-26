@@ -121,13 +121,25 @@ public class TrayProcessor {
 		for (int idx = 0; idx < squares.size(); ++idx) {
 			Mat contour = squares.get(idx);
 			if (SquareValidator.validateSquare(contour)) {
-				//possibleTray = contour;
-				possibleTray = inputFrame;
+				Mat mask = Mat.zeros(inputFrame.size(), inputFrame.type());
+				Scalar s = new Scalar(255, 255, 255);
+				Imgproc.drawContours(mask, squares, idx, s, -1);
+
+				Mat canvas = new Mat(inputFrame.size(), inputFrame.type());
+				Scalar s2 = new Scalar(0, 0, 0);
+				canvas.setTo(s2);
+				inputFrame.copyTo(canvas, mask);
+
+				Scalar s1 = new Scalar(255);
+				Imgproc.drawContours(canvas, squares, idx, s1, 1);
+
+				possibleTray = canvas;
+				// possibleTray = inputFrame;
 			}
 		}
 		Imgproc.cvtColor(gray, resultRGB, Imgproc.COLOR_GRAY2RGB);
 		Core.polylines(resultRGB, squares, true, new Scalar(0, 255, 0), 1);
-
+		// return possibleTray;
 		return resultRGB;
 	}
 
