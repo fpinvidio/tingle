@@ -8,33 +8,27 @@ import java.util.List;
 
 import org.opencv.core.Mat;
 
-public class TrayEventHandler {
+import eventhandling.events.TrayArrivalEvent;
+import eventhandling.listeners.GenericEventListener;
+
+public class TrayEventHandler extends GenericEventHandler {
 	private final int BUFFER_SIZE = 5;
 	private final float tol = 0.7f;
 	private List<Mat> tray_buffer = new ArrayList<Mat>();
-	private List<TrayEventListener> listeners = new ArrayList<TrayEventListener>();
-	private GenericTrayEvent lastEvent = null;
 
-	public synchronized void addEventListener(TrayEventListener listener) {
-		listeners.add(listener);
-	}
-
-	public synchronized void removeEventListener(TrayEventListener listener) {
-		listeners.remove(listener);
-	}
-
-	private synchronized void fireEvent(String type) {
+	@Override
+	protected synchronized void fireEvent(String type) {
 		Mat[] tempArray = trayBufferArray();
-		EventObject event = EventFactory.generateTrayEvent(type, this,
-				new Date(), tempArray);
-		Iterator<TrayEventListener> iterator = listeners.iterator();
-		setLastEvent((GenericTrayEvent) event);
+		EventObject event = EventFactory.generateEvent(type, this, new Date(),
+				tempArray);
+		Iterator<GenericEventListener> iterator = listeners.iterator();
+		setLastEvent(event);
 		while (iterator.hasNext()) {
-			((TrayEventListener) iterator.next()).handleTrayEvent(event);
+			((GenericEventListener) iterator.next()).handleEvent(event);
 		}
 	}
 
-	private void setLastEvent(GenericTrayEvent event) {
+	private void setLastEvent(EventObject event) {
 		this.lastEvent = event;
 	}
 
@@ -47,12 +41,11 @@ public class TrayEventHandler {
 		if (isBufferFull()) {
 			if (isBufferFullOfTrays()) {
 				if (lastEvent == null
-						|| !lastEvent.isOfType(EventFactory.TRAY_ARRIVAL_EVENT)) {
+						|| !(lastEvent instanceof TrayArrivalEvent)) {
 					fireEvent(EventFactory.TRAY_ARRIVAL_EVENT);
 				}
 			} else if (isBufferFullOfVoid()) {
-				if (lastEvent != null
-						&& lastEvent.isOfType(EventFactory.TRAY_ARRIVAL_EVENT)) {
+				if (lastEvent != null && lastEvent instanceof TrayArrivalEvent) {
 					fireEvent(EventFactory.TRAY_DEPARTURE_EVENT);
 				}
 			}
@@ -68,7 +61,7 @@ public class TrayEventHandler {
 				count++;
 			}
 		}
-		return count > BUFFER_SIZE*tol;
+		return count > BUFFER_SIZE * tol;
 	}
 
 	private boolean isBufferFullOfVoid() {
@@ -79,7 +72,7 @@ public class TrayEventHandler {
 				count++;
 			}
 		}
-		return count > BUFFER_SIZE*tol;
+		return count > BUFFER_SIZE * tol;
 	}
 
 	private Mat[] trayBufferArray() {

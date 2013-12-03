@@ -1,9 +1,11 @@
-package eventhandling;
+package eventhandling.events;
 
 import java.util.Date;
 import java.util.EventObject;
 
-public class TrayDepartureEvent extends EventObject implements GenericTrayEvent {
+import eventhandling.EventFactory;
+
+public class TrayDepartureEvent extends EventObject {
 
 	private static final long serialVersionUID = 5506707119943266359L;
 	private Date departure_date;
@@ -20,14 +22,5 @@ public class TrayDepartureEvent extends EventObject implements GenericTrayEvent 
 	public Date getDeparture_date() {
 		return departure_date;
 	}
-
-	@Override
-	public boolean isOfType(String type) {
-		return getEventType().equals(type);
-	}
 	
-	@Override
-	public String getEventType() {
-		return EventFactory.TRAY_DEPARTURE_EVENT;
-	}
 }

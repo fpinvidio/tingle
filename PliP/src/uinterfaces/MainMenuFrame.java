@@ -34,12 +34,10 @@ import org.opencv.core.Mat;
 import org.opencv.highgui.Highgui;
 
 import systemmonitor.MainSystemMonitor;
-import eventhandling.EventFactory;
-import eventhandling.GenericTrayEvent;
-import eventhandling.TrayArrivalEvent;
-import eventhandling.TrayEventListener;
+import eventhandling.events.TrayArrivalEvent;
+import eventhandling.listeners.GenericEventListener;
 
-public class MainMenuFrame extends JFrame implements TrayEventListener {
+public class MainMenuFrame extends JFrame implements GenericEventListener {
 
 	public MainSystemMonitor msm = null;
 
@@ -225,12 +223,12 @@ public class MainMenuFrame extends JFrame implements TrayEventListener {
 	}
 
 	@Override
-	public void handleTrayEvent(EventObject event) {
+	public void handleEvent(EventObject event) {
 		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 		String shortTimeStr = sdf.format(new Date());
-		GenericTrayEvent gte = (GenericTrayEvent) event;
-		String text = "\n" + shortTimeStr + " - " + gte.getEventType();
-		if (gte.isOfType(EventFactory.TRAY_ARRIVAL_EVENT)) {
+		String text = "\n" + shortTimeStr + " - "
+				+ event.getClass().getSimpleName();
+		if (event instanceof TrayArrivalEvent) {
 			TrayArrivalEvent tae = (TrayArrivalEvent) event;
 			Mat[] trayArray = tae.getTray_images();
 			for (Mat tray : trayArray) {

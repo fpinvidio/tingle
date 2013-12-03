@@ -1,11 +1,11 @@
-package eventhandling;
+package eventhandling.events;
 
 import java.util.Date;
 import java.util.EventObject;
 
 import org.opencv.core.Mat;
 
-public class TrayArrivalEvent extends EventObject implements GenericTrayEvent {
+public class TrayArrivalEvent extends EventObject {
 
 	private static final long serialVersionUID = -5279179661488190208L;
 	private Date arrival_date;
@@ -28,14 +28,5 @@ public class TrayArrivalEvent extends EventObject implements GenericTrayEvent {
 	public Mat[] getTray_images() {
 		return tray_images;
 	}
-
-	@Override
-	public boolean isOfType(String type) {
-		return getEventType().equals(type);
-	}
-
-	@Override
-	public String getEventType() {
-		return EventFactory.TRAY_ARRIVAL_EVENT;
-	}
+	
 }

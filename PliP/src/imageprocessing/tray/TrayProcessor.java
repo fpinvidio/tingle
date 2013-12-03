@@ -1,4 +1,4 @@
-package imageprocessing;
+package imageprocessing.tray;
 
 import java.io.File;
 import java.io.FileInputStream;

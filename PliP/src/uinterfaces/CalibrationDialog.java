@@ -1,6 +1,6 @@
 package uinterfaces;
 
-import imageprocessing.TrayProcessor;
+import imageprocessing.tray.TrayProcessor;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
