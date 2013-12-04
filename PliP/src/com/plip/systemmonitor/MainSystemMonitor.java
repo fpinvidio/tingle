@@ -56,7 +56,7 @@ public class MainSystemMonitor implements GenericEventListener {
 	*/
 	public void initializeCapture() {
 
-		vcapture = new VideoCapture(2);
+		vcapture = new VideoCapture(1);
 		vcapture.set(Highgui.CV_CAP_PROP_FRAME_WIDTH, 200);
 		vcapture.set(Highgui.CV_CAP_PROP_FRAME_HEIGHT, 250);
 		tprocessor = new TrayProcessor();
@@ -88,8 +88,18 @@ public class MainSystemMonitor implements GenericEventListener {
 	public void handleEvent(EventObject event) {
 		if (event instanceof TrayArrivalEvent) {
 			System.out.println("Arrival");
+			vcapture.set(Highgui.CV_CAP_PROP_FRAME_WIDTH, 2592);
+			vcapture.set(Highgui.CV_CAP_PROP_FRAME_HEIGHT, 1936);
+			Mat screenshot = new Mat(); 
+			vcapture.read(screenshot);
+			while(screenshot.empty()) {
+				vcapture.read(screenshot);
+			}
+			vcapture.set(Highgui.CV_CAP_PROP_FRAME_WIDTH, 200);
+			vcapture.set(Highgui.CV_CAP_PROP_FRAME_HEIGHT, 250);
+			Highgui.imwrite("Tray.jpg", screenshot);
 			TrayArrivalEvent temp = (TrayArrivalEvent) event;
-			ArrayList<Mat> images = ocounter.count(temp.getTray_images()[0]);
+			ArrayList<Mat> images = ocounter.count(screenshot);
 			cehandler.addCountedObjects(images);
 		} else if (event instanceof TrayDepartureEvent) {
 			System.out.println("Departure");

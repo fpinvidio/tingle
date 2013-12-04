@@ -44,6 +44,7 @@ public class ObjectCounter {
 
 	public Mat findContours(Mat filteredImage) {
 		quantity = 0;
+		this.contours.clear();
 		List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
 		MatOfPoint2f approx = new MatOfPoint2f();
 		MatOfPoint2f mMOP2f1 = new MatOfPoint2f();
@@ -120,7 +121,8 @@ public class ObjectCounter {
 
 		// Filter Create binary image from source image
 		/* Transform Image from BGR To RGB */
-		Imgproc.cvtColor(image, binary, Imgproc.COLOR_BGR2RGB);
+//		Imgproc.cvtColor(image, binary, Imgproc.COLOR_BGR2RGB);
+		binary=image;
 		/* Apply median blur to smooth image */
 		Imgproc.medianBlur(binary, medianBlur, 7);
 		/* Apply bilateral filter to smooth image but maintaining edges */

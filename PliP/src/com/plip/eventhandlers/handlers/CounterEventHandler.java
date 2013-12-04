@@ -15,7 +15,8 @@ public class CounterEventHandler extends GenericEventHandler {
 
 	@Override
 	protected synchronized void fireEvent(String type) {
-		Mat[] tempArray = (Mat[]) countedObjects.toArray();
+//		Mat[] tempArray = (Mat[]) countedObjects.toArray();
+		Mat[] tempArray = null;
 		EventObject event = EventFactory.generateEvent(type, this, new Date(),
 				tempArray);
 		Iterator<GenericEventListener> iterator = listeners.iterator();

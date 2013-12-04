@@ -13,8 +13,8 @@ import com.plip.eventhandlers.listeners.GenericEventListener;
 
 
 public class TrayEventHandler extends GenericEventHandler {
-	private final int BUFFER_SIZE = 5;
-	private final float tol = 0.7f;
+	private final int BUFFER_SIZE = 2;
+	private final float tol = 0.99f;
 	private List<Mat> tray_buffer = new ArrayList<Mat>();
 
 	@Override

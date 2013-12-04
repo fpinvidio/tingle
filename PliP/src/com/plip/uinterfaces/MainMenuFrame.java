@@ -37,7 +37,6 @@ import com.plip.eventhandlers.events.TrayArrivalEvent;
 import com.plip.eventhandlers.listeners.GenericEventListener;
 import com.plip.systemmonitor.MainSystemMonitor;
 
-
 public class MainMenuFrame extends JFrame implements GenericEventListener {
 
 	public MainSystemMonitor msm = null;
@@ -233,7 +232,11 @@ public class MainMenuFrame extends JFrame implements GenericEventListener {
 			TrayArrivalEvent tae = (TrayArrivalEvent) event;
 			Mat[] trayArray = tae.getTray_images();
 			for (Mat tray : trayArray) {
-				Highgui.imwrite("Tray.jpg", tray);
+				try {
+					//Highgui.imwrite("Tray.jpg", tray);
+				} catch (Exception e) {
+					System.out.println("Imagen NULA");
+				}
 			}
 		}
 		logTextPane.append(text);

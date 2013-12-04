@@ -4,7 +4,7 @@ import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc;
 
 public class SquareValidator {
-	private static double[] allowed_areas = { 26000.0, 29000.0 };
+	private static double[] allowed_areas = { 33000.0, 39000.0 };
 	private static double allowed_area_tol = 0.08;
 	
 	public static boolean validateSquare(Mat square) {
