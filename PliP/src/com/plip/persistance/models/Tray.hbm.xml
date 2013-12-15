@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 15, 2013 7:23:19 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.plip.persistance.models.Tray" table="Tray" catalog="PLiP">
+        <id name="idTray" type="long">
+            <column name="id_tray" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="page" class="com.plip.persistance.models.Page" fetch="select">
+            <column name="Page_id_page" not-null="true" />
+        </many-to-one>
+        <property name="code" type="string">
+            <column name="code" length="1024" not-null="true" />
+        </property>
+        <set name="trayStatuses" table="Tray_Status" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="Tray_id_tray" not-null="true" />
+            </key>
+            <one-to-many class="com.plip.persistance.models.TrayStatus" />
+        </set>
+        <set name="trayProducts" table="Tray_Product" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="Tray_id_tray" not-null="true" />
+            </key>
+            <one-to-many class="com.plip.persistance.models.TrayProduct" />
+        </set>
+    </class>
+</hibernate-mapping>

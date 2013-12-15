@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 15, 2013 7:23:19 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.plip.persistance.models.Position" table="Position" catalog="PLiP">
+        <id name="idPosition" type="int">
+            <column name="id_position" />
+            <generator class="assigned" />
+        </id>
+        <property name="face" type="int">
+            <column name="face" not-null="true" />
+        </property>
+        <property name="angle" type="int">
+            <column name="angle" not-null="true" />
+        </property>
+        <set name="images" table="Image" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="Position_id_position" not-null="true" />
+            </key>
+            <one-to-many class="com.plip.persistance.models.Image" />
+        </set>
+    </class>
+</hibernate-mapping>

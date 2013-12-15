@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 15, 2013 7:23:19 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.plip.persistance.models.ProductCategory" table="Product_Category" catalog="PLiP">
+        <id name="idProductType" type="long">
+            <column name="id_product_type" />
+            <generator class="assigned" />
+        </id>
+        <property name="description" type="string">
+            <column name="description" length="2048" />
+        </property>
+        <set name="products" table="Product" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_product_category" not-null="true" />
+            </key>
+            <one-to-many class="com.plip.persistance.models.Product" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 15, 2013 6:52:02 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.plip.persistance.models.Order" table="Order" catalog="PLiP">
+        <id name="idOrders" type="java.lang.Long">
+            <column name="id_orders" />
+            <generator class="identity" />
+        </id>
+        <property name="code" type="string">
+            <column name="code" length="256" />
+        </property>
+        <property name="insertDate" type="timestamp">
+            <column name="insert_date" length="19" />
+        </property>
+        <property name="client" type="string">
+            <column name="client" length="1024" />
+        </property>
+        <set name="pages" table="Page" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="Order_id_orders" not-null="true" />
+            </key>
+            <one-to-many class="com.plip.persistance.models.Page" />
+        </set>
+    </class>
+</hibernate-mapping>

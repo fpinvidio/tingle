@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 15, 2013 7:23:19 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.plip.persistance.models.Status" table="Status" catalog="PLiP">
+        <id name="idStatus" type="java.lang.Integer">
+            <column name="id_status" />
+            <generator class="identity" />
+        </id>
+        <property name="description" type="string">
+            <column name="description" length="1024" not-null="true" />
+        </property>
+        <set name="trayStatuses" table="Tray_Status" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="Status_id_status" not-null="true" />
+            </key>
+            <one-to-many class="com.plip.persistance.models.TrayStatus" />
+        </set>
+    </class>
+</hibernate-mapping>

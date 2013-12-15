@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 15, 2013 6:52:02 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.plip.persistance.models.OrderImages" table="Order_Images" catalog="PLiP">
+        <id name="idOrderImages" type="long">
+            <column name="idOrder_Images" />
+            <generator class="assigned" />
+        </id>
+        <property name="path" type="string">
+            <column name="path" length="2048" not-null="true" />
+        </property>
+        <set name="pages" table="Page" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="Order_Images_idOrder_Images" not-null="true" />
+            </key>
+            <one-to-many class="com.plip.persistance.models.Page" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 15, 2013 6:52:02 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.plip.persistance.models.Page" table="Page" catalog="PLiP">
+        <id name="idPage" type="long">
+            <column name="id_page" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="order" class="com.plip.persistance.models.Order" fetch="select">
+            <column name="Order_id_orders" not-null="true" />
+        </many-to-one>
+        <many-to-one name="orderImages" class="com.plip.persistance.models.OrderImages" fetch="select">
+            <column name="Order_Images_idOrder_Images" not-null="true" />
+        </many-to-one>
+        <property name="productQuantity" type="java.lang.Integer">
+            <column name="product_quantity" />
+        </property>
+        <property name="pageNumber" type="int">
+            <column name="page_number" not-null="true" />
+        </property>
+        <set name="trays" table="Tray" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="Page_id_page" not-null="true" />
+            </key>
+            <one-to-many class="com.plip.persistance.models.Tray" />
+        </set>
+        <set name="pageProducts" table="Page_Product" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="Page_id_page" not-null="true" />
+            </key>
+            <one-to-many class="com.plip.persistance.models.PageProduct" />
+        </set>
+    </class>
+</hibernate-mapping>

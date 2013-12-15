@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 15, 2013 7:23:19 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.plip.persistance.models.TrayProduct" table="Tray_Product" catalog="PLiP">
+        <composite-id name="id" class="com.plip.persistance.models.TrayProductId">
+            <key-property name="trayIdTray" type="long">
+                <column name="Tray_id_tray" />
+            </key-property>
+            <key-property name="productsIdProduct" type="long">
+                <column name="Products_id_product" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="product" class="com.plip.persistance.models.Product" update="false" insert="false" fetch="select">
+            <column name="Products_id_product" not-null="true" />
+        </many-to-one>
+        <many-to-one name="tray" class="com.plip.persistance.models.Tray" update="false" insert="false" fetch="select">
+            <column name="Tray_id_tray" not-null="true" />
+        </many-to-one>
+        <property name="quantity" type="int">
+            <column name="quantity" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>
