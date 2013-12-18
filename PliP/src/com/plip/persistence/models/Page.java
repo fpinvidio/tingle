@@ -1,6 +1,6 @@
 package com.plip.persistence.models;
 
-// Generated Dec 15, 2013 8:06:54 PM by Hibernate Tools 3.4.0.CR1
+// Generated Dec 18, 2013 12:11:56 PM by Hibernate Tools 4.0.0
 
 import java.util.HashSet;
 import java.util.Set;
@@ -10,7 +10,7 @@ import java.util.Set;
  */
 public class Page implements java.io.Serializable {
 
-	private long idPage;
+	private Long idPage;
 	private Order order;
 	private OrderImages orderImages;
 	private Integer productQuantity;
@@ -21,17 +21,14 @@ public class Page implements java.io.Serializable {
 	public Page() {
 	}
 
-	public Page(long idPage, Order order, OrderImages orderImages,
-			int pageNumber) {
-		this.idPage = idPage;
+	public Page(Order order, OrderImages orderImages, int pageNumber) {
 		this.order = order;
 		this.orderImages = orderImages;
 		this.pageNumber = pageNumber;
 	}
 
-	public Page(long idPage, Order order, OrderImages orderImages,
-			Integer productQuantity, int pageNumber, Set trays, Set pageProducts) {
-		this.idPage = idPage;
+	public Page(Order order, OrderImages orderImages, Integer productQuantity,
+			int pageNumber, Set trays, Set pageProducts) {
 		this.order = order;
 		this.orderImages = orderImages;
 		this.productQuantity = productQuantity;
@@ -40,11 +37,11 @@ public class Page implements java.io.Serializable {
 		this.pageProducts = pageProducts;
 	}
 
-	public long getIdPage() {
+	public Long getIdPage() {
 		return this.idPage;
 	}
 
-	public void setIdPage(long idPage) {
+	public void setIdPage(Long idPage) {
 		this.idPage = idPage;
 	}
 

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated Dec 15, 2013 8:06:54 PM by Hibernate Tools 3.4.0.CR1 -->
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 18, 2013 12:11:56 PM by Hibernate Tools 4.0.0 -->
 <hibernate-mapping>
     <class name="com.plip.persistence.models.Product" table="Product" catalog="PLiP">
         <id name="idProduct" type="java.lang.Long">

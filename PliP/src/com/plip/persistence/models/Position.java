@@ -1,6 +1,6 @@
 package com.plip.persistence.models;
 
-// Generated Dec 15, 2013 8:06:54 PM by Hibernate Tools 3.4.0.CR1
+// Generated Dec 18, 2013 12:11:56 PM by Hibernate Tools 4.0.0
 
 import java.util.HashSet;
 import java.util.Set;
@@ -10,7 +10,7 @@ import java.util.Set;
  */
 public class Position implements java.io.Serializable {
 
-	private int idPosition;
+	private Integer idPosition;
 	private int face;
 	private int angle;
 	private Set images = new HashSet(0);
@@ -18,24 +18,22 @@ public class Position implements java.io.Serializable {
 	public Position() {
 	}
 
-	public Position(int idPosition, int face, int angle) {
-		this.idPosition = idPosition;
+	public Position(int face, int angle) {
 		this.face = face;
 		this.angle = angle;
 	}
 
-	public Position(int idPosition, int face, int angle, Set images) {
-		this.idPosition = idPosition;
+	public Position(int face, int angle, Set images) {
 		this.face = face;
 		this.angle = angle;
 		this.images = images;
 	}
 
-	public int getIdPosition() {
+	public Integer getIdPosition() {
 		return this.idPosition;
 	}
 
-	public void setIdPosition(int idPosition) {
+	public void setIdPosition(Integer idPosition) {
 		this.idPosition = idPosition;
 	}
 

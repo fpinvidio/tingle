@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated Dec 15, 2013 8:06:54 PM by Hibernate Tools 3.4.0.CR1 -->
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 18, 2013 12:11:56 PM by Hibernate Tools 4.0.0 -->
 <hibernate-mapping>
     <class name="com.plip.persistence.models.ProductCategory" table="Product_Category" catalog="PLiP">
-        <id name="idProductType" type="long">
+        <id name="idProductType" type="java.lang.Long">
             <column name="id_product_type" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
         <property name="description" type="string">
             <column name="description" length="2048" />

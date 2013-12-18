@@ -7,6 +7,8 @@
 	<table-filter match-name="Order_Images" match-catalog="PLiP"></table-filter>
 	<table-filter match-name="Page" match-catalog="PLiP"></table-filter>
 	<table-filter match-name="Page_Product" match-catalog="PLiP"></table-filter>
+	<table-filter match-name="PlipUser" match-catalog="PLiP"></table-filter>
+	<table-filter match-name="Plip_Roles" match-catalog="PLiP"></table-filter>
 	<table-filter match-name="Position" match-catalog="PLiP"></table-filter>
 	<table-filter match-name="Product" match-catalog="PLiP"></table-filter>
 	<table-filter match-name="Product_Category" match-catalog="PLiP"></table-filter>
@@ -14,6 +16,4 @@
 	<table-filter match-name="Tray" match-catalog="PLiP"></table-filter>
 	<table-filter match-name="Tray_Product" match-catalog="PLiP"></table-filter>
 	<table-filter match-name="Tray_Status" match-catalog="PLiP"></table-filter>
-	<table-filter match-name="User" match-catalog="PLiP"></table-filter>
-	<table-filter match-name="User_Types" match-catalog="PLiP"></table-filter>
 </hibernate-reverse-engineering>

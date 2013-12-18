@@ -1,6 +1,6 @@
 package com.plip.persistence.models;
 
-// Generated Dec 15, 2013 8:06:54 PM by Hibernate Tools 3.4.0.CR1
+// Generated Dec 18, 2013 12:11:56 PM by Hibernate Tools 4.0.0
 
 import java.util.HashSet;
 import java.util.Set;
@@ -10,29 +10,27 @@ import java.util.Set;
  */
 public class OrderImages implements java.io.Serializable {
 
-	private long idOrderImages;
+	private Long idOrderImages;
 	private String path;
 	private Set pages = new HashSet(0);
 
 	public OrderImages() {
 	}
 
-	public OrderImages(long idOrderImages, String path) {
-		this.idOrderImages = idOrderImages;
+	public OrderImages(String path) {
 		this.path = path;
 	}
 
-	public OrderImages(long idOrderImages, String path, Set pages) {
-		this.idOrderImages = idOrderImages;
+	public OrderImages(String path, Set pages) {
 		this.path = path;
 		this.pages = pages;
 	}
 
-	public long getIdOrderImages() {
+	public Long getIdOrderImages() {
 		return this.idOrderImages;
 	}
 
-	public void setIdOrderImages(long idOrderImages) {
+	public void setIdOrderImages(Long idOrderImages) {
 		this.idOrderImages = idOrderImages;
 	}
 

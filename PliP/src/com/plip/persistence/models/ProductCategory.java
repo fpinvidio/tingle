@@ -1,6 +1,6 @@
 package com.plip.persistence.models;
 
-// Generated Dec 15, 2013 8:06:54 PM by Hibernate Tools 3.4.0.CR1
+// Generated Dec 18, 2013 12:11:56 PM by Hibernate Tools 4.0.0
 
 import java.util.HashSet;
 import java.util.Set;
@@ -10,28 +10,23 @@ import java.util.Set;
  */
 public class ProductCategory implements java.io.Serializable {
 
-	private long idProductType;
+	private Long idProductType;
 	private String description;
 	private Set products = new HashSet(0);
 
 	public ProductCategory() {
 	}
 
-	public ProductCategory(long idProductType) {
-		this.idProductType = idProductType;
-	}
-
-	public ProductCategory(long idProductType, String description, Set products) {
-		this.idProductType = idProductType;
+	public ProductCategory(String description, Set products) {
 		this.description = description;
 		this.products = products;
 	}
 
-	public long getIdProductType() {
+	public Long getIdProductType() {
 		return this.idProductType;
 	}
 
-	public void setIdProductType(long idProductType) {
+	public void setIdProductType(Long idProductType) {
 		this.idProductType = idProductType;
 	}
 
