@@ -3,15 +3,14 @@
 "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
-    <session-factory>
+    <session-factory name="">
         <property name="hibernate.bytecode.use_reflection_optimizer">false</property>
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
         <property name="hibernate.connection.password">PLiP</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/PLiP</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/plip</property>
         <property name="hibernate.connection.username">PLiP</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
         <property name="hibernate.search.autoregister_listeners">false</property>
-        <mapping resource="com/plip/persistence/models/PlipRoles.hbm.xml" />
         <mapping resource="com/plip/persistence/models/PageProduct.hbm.xml" />
         <mapping resource="com/plip/persistence/models/Position.hbm.xml" />
         <mapping resource="com/plip/persistence/models/TrayStatus.hbm.xml" />
@@ -19,11 +18,12 @@
         <mapping resource="com/plip/persistence/models/TrayProduct.hbm.xml" />
         <mapping resource="com/plip/persistence/models/Image.hbm.xml" />
         <mapping resource="com/plip/persistence/models/Status.hbm.xml" />
+        <mapping resource="com/plip/persistence/models/PageImage.hbm.xml" />
         <mapping resource="com/plip/persistence/models/Product.hbm.xml" />
         <mapping resource="com/plip/persistence/models/ProductCategory.hbm.xml" />
         <mapping resource="com/plip/persistence/models/Order.hbm.xml" />
         <mapping resource="com/plip/persistence/models/Page.hbm.xml" />
         <mapping resource="com/plip/persistence/models/PlipUser.hbm.xml" />
-        <mapping resource="com/plip/persistence/models/OrderImages.hbm.xml" />
+        <mapping resource="com/plip/persistence/models/PlipRole.hbm.xml" />
     </session-factory>
 </hibernate-configuration>

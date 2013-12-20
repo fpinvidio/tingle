@@ -1,19 +1,19 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Dec 18, 2013 12:11:56 PM by Hibernate Tools 4.0.0 -->
+<!-- Generated Dec 20, 2013 6:23:53 PM by Hibernate Tools 4.0.0 -->
 <hibernate-mapping>
-    <class name="com.plip.persistence.models.OrderImages" table="Order_Images" catalog="PLiP">
-        <id name="idOrderImages" type="java.lang.Long">
-            <column name="idOrder_Images" />
-            <generator class="identity" />
+    <class name="com.plip.persistence.models.PageImage" table="Page_Image" catalog="plip">
+        <id name="idPageImage" type="long">
+            <column name="id_page_image" />
+            <generator class="assigned" />
         </id>
         <property name="path" type="string">
             <column name="path" length="2048" not-null="true" />
         </property>
         <set name="pages" table="Page" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="Order_Images_idOrder_Images" not-null="true" />
+                <column name="id_page_image" not-null="true" />
             </key>
             <one-to-many class="com.plip.persistence.models.Page" />
         </set>

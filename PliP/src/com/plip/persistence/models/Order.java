@@ -1,6 +1,6 @@
 package com.plip.persistence.models;
 
-// Generated Dec 18, 2013 12:11:56 PM by Hibernate Tools 4.0.0
+// Generated Dec 20, 2013 6:23:53 PM by Hibernate Tools 4.0.0
 
 import java.util.Date;
 import java.util.HashSet;
@@ -18,6 +18,12 @@ public class Order implements java.io.Serializable {
 	private Set pages = new HashSet(0);
 
 	public Order() {
+	}
+
+	public Order(String code, Date insertDate, String client) {
+		this.code = code;
+		this.insertDate = insertDate;
+		this.client = client;
 	}
 
 	public Order(String code, Date insertDate, String client, Set pages) {

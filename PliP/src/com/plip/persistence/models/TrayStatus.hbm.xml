@@ -1,25 +1,25 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Dec 18, 2013 12:11:56 PM by Hibernate Tools 4.0.0 -->
+<!-- Generated Dec 20, 2013 6:23:53 PM by Hibernate Tools 4.0.0 -->
 <hibernate-mapping>
-    <class name="com.plip.persistence.models.TrayStatus" table="Tray_Status" catalog="PLiP">
+    <class name="com.plip.persistence.models.TrayStatus" table="Tray_Status" catalog="plip">
         <composite-id name="id" class="com.plip.persistence.models.TrayStatusId">
-            <key-property name="trayIdTray" type="long">
-                <column name="Tray_id_tray" />
+            <key-property name="idTray" type="long">
+                <column name="id_tray" />
             </key-property>
-            <key-property name="statusIdStatus" type="int">
-                <column name="Status_id_status" />
+            <key-property name="idStatus" type="int">
+                <column name="id_status" />
             </key-property>
         </composite-id>
         <many-to-one name="product" class="com.plip.persistence.models.Product" fetch="select">
-            <column name="Products_id_product" />
+            <column name="id_product" />
         </many-to-one>
         <many-to-one name="tray" class="com.plip.persistence.models.Tray" update="false" insert="false" fetch="select">
-            <column name="Tray_id_tray" not-null="true" />
+            <column name="id_tray" not-null="true" />
         </many-to-one>
         <many-to-one name="status" class="com.plip.persistence.models.Status" update="false" insert="false" fetch="select">
-            <column name="Status_id_status" not-null="true" />
+            <column name="id_status" not-null="true" />
         </many-to-one>
         <property name="quantity" type="java.lang.Integer">
             <column name="quantity" />

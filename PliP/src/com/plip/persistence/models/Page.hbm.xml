@@ -1,18 +1,18 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Dec 18, 2013 12:11:56 PM by Hibernate Tools 4.0.0 -->
+<!-- Generated Dec 20, 2013 6:23:53 PM by Hibernate Tools 4.0.0 -->
 <hibernate-mapping>
-    <class name="com.plip.persistence.models.Page" table="Page" catalog="PLiP">
-        <id name="idPage" type="java.lang.Long">
+    <class name="com.plip.persistence.models.Page" table="Page" catalog="plip">
+        <id name="idPage" type="long">
             <column name="id_page" />
-            <generator class="identity" />
+            <generator class="assigned" />
         </id>
         <many-to-one name="order" class="com.plip.persistence.models.Order" fetch="select">
-            <column name="Order_id_orders" not-null="true" />
+            <column name="id_order" not-null="true" />
         </many-to-one>
-        <many-to-one name="orderImages" class="com.plip.persistence.models.OrderImages" fetch="select">
-            <column name="Order_Images_idOrder_Images" not-null="true" />
+        <many-to-one name="pageImage" class="com.plip.persistence.models.PageImage" fetch="select">
+            <column name="id_page_image" not-null="true" />
         </many-to-one>
         <property name="productQuantity" type="java.lang.Integer">
             <column name="product_quantity" />
@@ -28,7 +28,7 @@
         </set>
         <set name="pageProducts" table="Page_Product" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="Page_id_page" not-null="true" />
+                <column name="id_page" not-null="true" />
             </key>
             <one-to-many class="com.plip.persistence.models.PageProduct" />
         </set>

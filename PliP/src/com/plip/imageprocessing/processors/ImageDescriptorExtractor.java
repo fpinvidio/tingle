@@ -3,6 +3,9 @@ package com.plip.imageprocessing.processors;
 
 
 	import java.io.File;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfKeyPoint;
@@ -11,7 +14,10 @@ import org.opencv.features2d.DescriptorExtractor;
 import org.opencv.features2d.FeatureDetector;
 import org.opencv.highgui.Highgui;
 import org.opencv.imgproc.Imgproc;
+
 import com.plip.persistence.managers.FileSystemManager;
+import com.plip.persistence.models.Image;
+import com.plip.persistence.models.Product;
 
 public class ImageDescriptorExtractor {
 
@@ -74,7 +80,16 @@ public class ImageDescriptorExtractor {
 			}
 			return descriptors;
 		}
-
+		
+		public ArrayList<Mat> extractProductImageDescriptors(Product product){
+			ArrayList<Mat> descriptors = new ArrayList<Mat>();
+			if(product != null){
+			   HashSet<Image> images = (HashSet) product.getImages();
+			   Iterator<Image> imageIterator = images.iterator();
+			   
+			}
+			return descriptors;   
+		}
 		
 
 	}

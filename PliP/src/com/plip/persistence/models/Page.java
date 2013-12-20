@@ -1,6 +1,6 @@
 package com.plip.persistence.models;
 
-// Generated Dec 18, 2013 12:11:56 PM by Hibernate Tools 4.0.0
+// Generated Dec 20, 2013 6:23:53 PM by Hibernate Tools 4.0.0
 
 import java.util.HashSet;
 import java.util.Set;
@@ -10,9 +10,9 @@ import java.util.Set;
  */
 public class Page implements java.io.Serializable {
 
-	private Long idPage;
+	private long idPage;
 	private Order order;
-	private OrderImages orderImages;
+	private PageImage pageImage;
 	private Integer productQuantity;
 	private int pageNumber;
 	private Set trays = new HashSet(0);
@@ -21,27 +21,29 @@ public class Page implements java.io.Serializable {
 	public Page() {
 	}
 
-	public Page(Order order, OrderImages orderImages, int pageNumber) {
+	public Page(long idPage, Order order, PageImage pageImage, int pageNumber) {
+		this.idPage = idPage;
 		this.order = order;
-		this.orderImages = orderImages;
+		this.pageImage = pageImage;
 		this.pageNumber = pageNumber;
 	}
 
-	public Page(Order order, OrderImages orderImages, Integer productQuantity,
-			int pageNumber, Set trays, Set pageProducts) {
+	public Page(long idPage, Order order, PageImage pageImage,
+			Integer productQuantity, int pageNumber, Set trays, Set pageProducts) {
+		this.idPage = idPage;
 		this.order = order;
-		this.orderImages = orderImages;
+		this.pageImage = pageImage;
 		this.productQuantity = productQuantity;
 		this.pageNumber = pageNumber;
 		this.trays = trays;
 		this.pageProducts = pageProducts;
 	}
 
-	public Long getIdPage() {
+	public long getIdPage() {
 		return this.idPage;
 	}
 
-	public void setIdPage(Long idPage) {
+	public void setIdPage(long idPage) {
 		this.idPage = idPage;
 	}
 
@@ -53,12 +55,12 @@ public class Page implements java.io.Serializable {
 		this.order = order;
 	}
 
-	public OrderImages getOrderImages() {
-		return this.orderImages;
+	public PageImage getPageImage() {
+		return this.pageImage;
 	}
 
-	public void setOrderImages(OrderImages orderImages) {
-		this.orderImages = orderImages;
+	public void setPageImage(PageImage pageImage) {
+		this.pageImage = pageImage;
 	}
 
 	public Integer getProductQuantity() {

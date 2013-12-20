@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Dec 18, 2013 12:11:56 PM by Hibernate Tools 4.0.0 -->
+<!-- Generated Dec 20, 2013 6:23:53 PM by Hibernate Tools 4.0.0 -->
 <hibernate-mapping>
-    <class name="com.plip.persistence.models.PlipRoles" table="Plip_Roles" catalog="PLiP">
+    <class name="com.plip.persistence.models.PlipRole" table="Plip_Role" catalog="plip">
         <id name="idPlipRole" type="int">
             <column name="id_plip_role" />
             <generator class="assigned" />
@@ -14,9 +14,9 @@
         <property name="description" type="string">
             <column name="description" length="145" />
         </property>
-        <set name="plipUsers" table="PlipUser" inverse="true" lazy="true" fetch="select">
+        <set name="plipUsers" table="Plip_User" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="Plip_Roles_id_plip_role" not-null="true" />
+                <column name="id_plip_role" not-null="true" />
             </key>
             <one-to-many class="com.plip.persistence.models.PlipUser" />
         </set>

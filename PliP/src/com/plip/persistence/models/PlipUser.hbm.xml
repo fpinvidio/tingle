@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Dec 18, 2013 12:11:56 PM by Hibernate Tools 4.0.0 -->
+<!-- Generated Dec 20, 2013 6:23:53 PM by Hibernate Tools 4.0.0 -->
 <hibernate-mapping>
-    <class name="com.plip.persistence.models.PlipUser" table="PlipUser" catalog="PLiP">
+    <class name="com.plip.persistence.models.PlipUser" table="Plip_User" catalog="plip">
         <id name="idPlipUser" type="java.lang.Long">
             <column name="id_plip_user" />
             <generator class="identity" />
         </id>
-        <many-to-one name="plipRoles" class="com.plip.persistence.models.PlipRoles" fetch="select">
-            <column name="Plip_Roles_id_plip_role" not-null="true" />
+        <many-to-one name="plipRole" class="com.plip.persistence.models.PlipRole" fetch="select">
+            <column name="id_plip_role" not-null="true" />
         </many-to-one>
         <property name="name" type="string">
             <column name="name" length="256" not-null="true" />
