@@ -1,10 +1,17 @@
 package com.plip.persistence.dao.impls;
 
 import com.plip.persistence.dao.interfaces.PlipUserDao;
+import com.plip.persistence.managers.DaoManager;
 import com.plip.persistence.model.PlipUser;
-import com.plip.persistence.model.Status;
 
 public class PlipUserDaoImpl implements PlipUserDao {
+	
+	DaoManager daoManager;
+
+	public PlipUserDaoImpl(DaoManager daoManager) {
+		super();
+		this.daoManager = daoManager;
+	}
 
 	@Override
 	public Integer addUser(PlipUser user) {

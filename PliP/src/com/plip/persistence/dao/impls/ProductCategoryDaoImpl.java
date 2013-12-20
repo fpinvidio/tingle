@@ -1,10 +1,18 @@
 package com.plip.persistence.dao.impls;
 
 import com.plip.persistence.dao.interfaces.ProductCategoryDao;
+import com.plip.persistence.managers.DaoManager;
 import com.plip.persistence.model.ProductCategory;
 import com.plip.persistence.model.Status;
 
 public class ProductCategoryDaoImpl implements ProductCategoryDao{
+	
+	DaoManager daoManager;
+
+	public ProductCategoryDaoImpl(DaoManager daoManager) {
+		super();
+		this.daoManager = daoManager;
+	}
 
 	@Override
 	public Integer addProductCategory(ProductCategory productCategory) {

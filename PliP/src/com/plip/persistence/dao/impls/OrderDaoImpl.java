@@ -1,10 +1,17 @@
 package com.plip.persistence.dao.impls;
 
 import com.plip.persistence.dao.interfaces.OrderDao;
+import com.plip.persistence.managers.DaoManager;
 import com.plip.persistence.model.Order;
-import com.plip.persistence.model.Status;
 
 public class OrderDaoImpl implements OrderDao {
+	
+	DaoManager daoManager;
+
+	public OrderDaoImpl(DaoManager daoManager) {
+		super();
+		this.daoManager = daoManager;
+	}
 
 	@Override
 	public Integer addOrder(Order order) {

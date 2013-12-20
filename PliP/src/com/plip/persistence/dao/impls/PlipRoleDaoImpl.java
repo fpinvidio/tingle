@@ -1,9 +1,17 @@
 package com.plip.persistence.dao.impls;
 
 import com.plip.persistence.dao.interfaces.PlipRoleDao;
+import com.plip.persistence.managers.DaoManager;
 import com.plip.persistence.model.PlipRole;
 
 public class PlipRoleDaoImpl implements PlipRoleDao {
+	
+	DaoManager daoManager;
+
+	public PlipRoleDaoImpl(DaoManager daoManager) {
+		super();
+		this.daoManager = daoManager;
+	}
 
 	@Override
 	public Integer addRole(PlipRole role) {

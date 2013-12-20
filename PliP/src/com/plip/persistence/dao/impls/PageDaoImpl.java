@@ -1,10 +1,17 @@
 package com.plip.persistence.dao.impls;
 
 import com.plip.persistence.dao.interfaces.PageDao;
+import com.plip.persistence.managers.DaoManager;
 import com.plip.persistence.model.Page;
-import com.plip.persistence.model.Status;
 
 public class PageDaoImpl implements PageDao {
+	
+	DaoManager daoManager;
+
+	public PageDaoImpl(DaoManager daoManager) {
+		super();
+		this.daoManager = daoManager;
+	}
 
 	@Override
 	public Integer addPage(Page page) {

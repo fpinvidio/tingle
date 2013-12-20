@@ -1,10 +1,17 @@
 package com.plip.persistence.dao.impls;
 
 import com.plip.persistence.dao.interfaces.PositionDao;
+import com.plip.persistence.managers.DaoManager;
 import com.plip.persistence.model.Position;
-import com.plip.persistence.model.Status;
 
 public class PositionDaoImpl implements PositionDao {
+	
+	DaoManager daoManager;
+
+	public PositionDaoImpl(DaoManager daoManager) {
+		super();
+		this.daoManager = daoManager;
+	}
 
 	@Override
 	public Integer addPosition(Position position) {

@@ -1,9 +1,17 @@
 package com.plip.persistence.dao.impls;
 
 import com.plip.persistence.dao.interfaces.ProductDao;
+import com.plip.persistence.managers.DaoManager;
 import com.plip.persistence.model.Product;
 
 public class ProductDaoImpl implements ProductDao{
+
+	DaoManager daoManager;
+	
+	public ProductDaoImpl(DaoManager daoManager) {
+		super();
+		this.daoManager = daoManager;
+	}
 
 	@Override
 	public Integer addProduct(Product product) {
@@ -28,6 +36,4 @@ public class ProductDaoImpl implements ProductDao{
 		// TODO Auto-generated method stub
 		
 	}
-	
-	
 }
