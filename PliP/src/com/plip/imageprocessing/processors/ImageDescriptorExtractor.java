@@ -86,7 +86,10 @@ public class ImageDescriptorExtractor {
 			if(product != null){
 			   HashSet<Image> images = (HashSet) product.getImages();
 			   Iterator<Image> imageIterator = images.iterator();
-			   
+			   while(imageIterator.hasNext()){
+				   Image image = imageIterator.next();
+				   
+			   }
 			}
 			return descriptors;   
 		}

@@ -31,7 +31,6 @@ import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 
 import org.opencv.core.Mat;
-import org.opencv.highgui.Highgui;
 
 import com.plip.eventhandlers.events.TrayArrivalEvent;
 import com.plip.eventhandlers.listeners.GenericEventListener;
