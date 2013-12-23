@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Dec 20, 2013 6:41:39 PM by Hibernate Tools 4.0.0 -->
+<!-- Generated Dec 20, 2013 7:47:29 PM by Hibernate Tools 4.0.0 -->
 <hibernate-mapping>
-    <class name="com.plip.persistence.models.Tray" table="Tray" catalog="plip">
-        <id name="idTray" type="long">
+    <class name="com.plip.persistence.model.Tray" table="Tray" catalog="plip">
+        <id name="idTray" type="java.lang.Long">
             <column name="id_tray" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
-        <many-to-one name="page" class="com.plip.persistence.models.Page" fetch="select">
+        <many-to-one name="page" class="com.plip.persistence.model.Page" fetch="select">
             <column name="Page_id_page" not-null="true" />
         </many-to-one>
         <property name="code" type="string">
@@ -18,13 +18,13 @@
             <key>
                 <column name="id_tray" not-null="true" />
             </key>
-            <one-to-many class="com.plip.persistence.models.TrayStatus" />
+            <one-to-many class="com.plip.persistence.model.TrayStatus" />
         </set>
         <set name="trayProducts" table="Tray_Product" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="Tray_id_tray" not-null="true" />
             </key>
-            <one-to-many class="com.plip.persistence.models.TrayProduct" />
+            <one-to-many class="com.plip.persistence.model.TrayProduct" />
         </set>
     </class>
 </hibernate-mapping>

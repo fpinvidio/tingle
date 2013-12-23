@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Dec 20, 2013 6:41:39 PM by Hibernate Tools 4.0.0 -->
+<!-- Generated Dec 20, 2013 7:47:29 PM by Hibernate Tools 4.0.0 -->
 <hibernate-mapping>
-    <class name="com.plip.persistence.models.PlipRole" table="Plip_Role" catalog="plip">
-        <id name="idPlipRole" type="int">
+    <class name="com.plip.persistence.model.PlipRole" table="Plip_Role" catalog="plip">
+        <id name="idPlipRole" type="java.lang.Integer">
             <column name="id_plip_role" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
         <property name="name" type="string">
             <column name="name" length="45" not-null="true" />
@@ -18,7 +18,7 @@
             <key>
                 <column name="id_plip_role" not-null="true" />
             </key>
-            <one-to-many class="com.plip.persistence.models.PlipUser" />
+            <one-to-many class="com.plip.persistence.model.PlipUser" />
         </set>
     </class>
 </hibernate-mapping>

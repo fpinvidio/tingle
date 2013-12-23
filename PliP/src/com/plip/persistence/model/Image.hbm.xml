@@ -1,17 +1,17 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Dec 20, 2013 6:41:39 PM by Hibernate Tools 4.0.0 -->
+<!-- Generated Dec 20, 2013 7:47:29 PM by Hibernate Tools 4.0.0 -->
 <hibernate-mapping>
-    <class name="com.plip.persistence.models.Image" table="Image" catalog="plip">
+    <class name="com.plip.persistence.model.Image" table="Image" catalog="plip">
         <id name="idImage" type="java.lang.Long">
             <column name="id_image" />
             <generator class="identity" />
         </id>
-        <many-to-one name="product" class="com.plip.persistence.models.Product" fetch="select">
+        <many-to-one name="product" class="com.plip.persistence.model.Product" fetch="select">
             <column name="id_product" not-null="true" />
         </many-to-one>
-        <many-to-one name="position" class="com.plip.persistence.models.Position" fetch="select">
+        <many-to-one name="position" class="com.plip.persistence.model.Position" fetch="select">
             <column name="id_position" not-null="true" />
         </many-to-one>
         <property name="path" type="string">

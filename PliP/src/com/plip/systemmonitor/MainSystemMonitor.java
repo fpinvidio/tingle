@@ -17,6 +17,10 @@ import com.plip.eventhandlers.handlers.TrayEventHandler;
 import com.plip.eventhandlers.listeners.GenericEventListener;
 import com.plip.imageprocessing.processors.ObjectCounter;
 import com.plip.imageprocessing.processors.TrayProcessor;
+import com.plip.persistence.dao.impls.StatusDaoImpl;
+import com.plip.persistence.dao.interfaces.StatusDao;
+import com.plip.persistence.managers.DaoManager;
+import com.plip.persistence.model.Status;
 import com.plip.uinterfaces.MainMenuFrame;
 
 
@@ -38,8 +42,13 @@ public class MainSystemMonitor implements GenericEventListener {
 
 	public static void main(String arg[]) {
 		System.loadLibrary("opencv_java246");
-		MainSystemMonitor msm = new MainSystemMonitor();
-		msm.initializeCapture();
+//		MainSystemMonitor msm = new MainSystemMonitor();
+//		msm.initializeCapture();
+		
+		Status status = new Status("Erroorrrrr");
+		DaoManager daoManager = new DaoManager();
+		StatusDao dao = new StatusDaoImpl(daoManager);
+		dao.addStatus(status);
 	}
 
 	/*CvCapture *cap;

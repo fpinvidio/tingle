@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Dec 20, 2013 6:41:39 PM by Hibernate Tools 4.0.0 -->
+<!-- Generated Dec 20, 2013 7:47:29 PM by Hibernate Tools 4.0.0 -->
 <hibernate-mapping>
-    <class name="com.plip.persistence.models.PageImage" table="Page_Image" catalog="plip">
-        <id name="idPageImage" type="long">
+    <class name="com.plip.persistence.model.PageImage" table="Page_Image" catalog="plip">
+        <id name="idPageImage" type="java.lang.Long">
             <column name="id_page_image" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
         <property name="path" type="string">
             <column name="path" length="2048" not-null="true" />
@@ -15,7 +15,7 @@
             <key>
                 <column name="id_page_image" not-null="true" />
             </key>
-            <one-to-many class="com.plip.persistence.models.Page" />
+            <one-to-many class="com.plip.persistence.model.Page" />
         </set>
     </class>
 </hibernate-mapping>

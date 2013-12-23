@@ -1,6 +1,6 @@
 package com.plip.persistence.model;
 
-// Generated Dec 20, 2013 6:41:39 PM by Hibernate Tools 4.0.0
+// Generated Dec 20, 2013 7:47:29 PM by Hibernate Tools 4.0.0
 
 import java.util.Date;
 import java.util.HashSet;

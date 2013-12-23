@@ -1,6 +1,6 @@
 package com.plip.persistence.model;
 
-// Generated Dec 20, 2013 6:41:39 PM by Hibernate Tools 4.0.0
+// Generated Dec 20, 2013 7:47:29 PM by Hibernate Tools 4.0.0
 
 import java.util.HashSet;
 import java.util.Set;
@@ -10,7 +10,7 @@ import java.util.Set;
  */
 public class PlipRole implements java.io.Serializable {
 
-	private int idPlipRole;
+	private Integer idPlipRole;
 	private String name;
 	private String description;
 	private Set plipUsers = new HashSet(0);
@@ -18,24 +18,21 @@ public class PlipRole implements java.io.Serializable {
 	public PlipRole() {
 	}
 
-	public PlipRole(int idPlipRole, String name) {
-		this.idPlipRole = idPlipRole;
+	public PlipRole(String name) {
 		this.name = name;
 	}
 
-	public PlipRole(int idPlipRole, String name, String description,
-			Set plipUsers) {
-		this.idPlipRole = idPlipRole;
+	public PlipRole(String name, String description, Set plipUsers) {
 		this.name = name;
 		this.description = description;
 		this.plipUsers = plipUsers;
 	}
 
-	public int getIdPlipRole() {
+	public Integer getIdPlipRole() {
 		return this.idPlipRole;
 	}
 
-	public void setIdPlipRole(int idPlipRole) {
+	public void setIdPlipRole(Integer idPlipRole) {
 		this.idPlipRole = idPlipRole;
 	}
 

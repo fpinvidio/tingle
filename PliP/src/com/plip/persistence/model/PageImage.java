@@ -1,6 +1,6 @@
 package com.plip.persistence.model;
 
-// Generated Dec 20, 2013 6:41:39 PM by Hibernate Tools 4.0.0
+// Generated Dec 20, 2013 7:47:29 PM by Hibernate Tools 4.0.0
 
 import java.util.HashSet;
 import java.util.Set;
@@ -10,29 +10,27 @@ import java.util.Set;
  */
 public class PageImage implements java.io.Serializable {
 
-	private long idPageImage;
+	private Long idPageImage;
 	private String path;
 	private Set pages = new HashSet(0);
 
 	public PageImage() {
 	}
 
-	public PageImage(long idPageImage, String path) {
-		this.idPageImage = idPageImage;
+	public PageImage(String path) {
 		this.path = path;
 	}
 
-	public PageImage(long idPageImage, String path, Set pages) {
-		this.idPageImage = idPageImage;
+	public PageImage(String path, Set pages) {
 		this.path = path;
 		this.pages = pages;
 	}
 
-	public long getIdPageImage() {
+	public Long getIdPageImage() {
 		return this.idPageImage;
 	}
 
-	public void setIdPageImage(long idPageImage) {
+	public void setIdPageImage(Long idPageImage) {
 		this.idPageImage = idPageImage;
 	}
 

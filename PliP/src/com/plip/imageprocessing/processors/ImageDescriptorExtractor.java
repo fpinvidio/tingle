@@ -1,8 +1,7 @@
 package com.plip.imageprocessing.processors;
 
 
-
-	import java.io.File;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -15,9 +14,10 @@ import org.opencv.features2d.FeatureDetector;
 import org.opencv.highgui.Highgui;
 import org.opencv.imgproc.Imgproc;
 
+import com.plip.persistence.managers.DataTypeManager;
 import com.plip.persistence.managers.FileSystemManager;
-import com.plip.persistence.models.Image;
-import com.plip.persistence.models.Product;
+import com.plip.persistence.model.Image;
+import com.plip.persistence.model.Product;
 
 public class ImageDescriptorExtractor {
 
@@ -88,7 +88,12 @@ public class ImageDescriptorExtractor {
 			   Iterator<Image> imageIterator = images.iterator();
 			   while(imageIterator.hasNext()){
 				   Image image = imageIterator.next();
-				   
+				   Mat descriptor = new Mat();
+				   if(image.isTrained()){
+					  descriptor = DataTypeManager.convertBlobToMat( image.getDescriptor());
+				   }else{
+					   
+				   }
 			   }
 			}
 			return descriptors;   

@@ -9,9 +9,9 @@ import org.opencv.features2d.DMatch;
 import org.opencv.features2d.DescriptorMatcher;
 
 import com.plip.imageprocessing.processors.ImageDescriptorExtractor;
-import com.plip.persistence.models.Page;
-import com.plip.persistence.models.PageProduct;
-import com.plip.persistence.models.Product;
+import com.plip.persistence.model.Page;
+import com.plip.persistence.model.PageProduct;
+import com.plip.persistence.model.Product;
 
 public class MinDistanceMatcher implements ImageMatcher {
 
