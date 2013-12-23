@@ -18,7 +18,7 @@ public class StatusDaoImpl implements StatusDao {
 		super();
 		this.daoManager = daoManager;
 	}
-	
+
 	@Override
 	/* Method to add a new Plip Status */
 	public Integer addStatus(Status status) {
@@ -39,7 +39,7 @@ public class StatusDaoImpl implements StatusDao {
 		}
 		return statusID;
 	}
-	
+
 	@Override
 	/* Method to GET a Plip System Status */
 	public Status getStatus(int idStatus) {
@@ -53,8 +53,6 @@ public class StatusDaoImpl implements StatusDao {
 					.createQuery("FROM Status where idStatus = :id");
 			query.setParameter("id", idStatus);
 			status = (Status) query.list().get(0);
-			System.out.print("Id: " + status.getIdStatus());
-			System.out.print("Description:" + status.getDescription());
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
@@ -65,7 +63,7 @@ public class StatusDaoImpl implements StatusDao {
 		}
 		return status;
 	}
-	
+
 	@Override
 	/* Method to UPDATE a Plip System Status */
 	public void updateStatus(Status status) {
@@ -87,7 +85,7 @@ public class StatusDaoImpl implements StatusDao {
 			session.close();
 		}
 	}
-	
+
 	@Override
 	/* Method to DELETE a possible system Status */
 	public void deleteStatus(Integer statusId) {
@@ -107,5 +105,4 @@ public class StatusDaoImpl implements StatusDao {
 			session.close();
 		}
 	}
-
 }

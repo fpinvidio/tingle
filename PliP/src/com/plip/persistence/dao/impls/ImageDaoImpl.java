@@ -9,6 +9,7 @@ import org.hibernate.Transaction;
 import com.plip.persistence.dao.interfaces.ImageDao;
 import com.plip.persistence.managers.DaoManager;
 import com.plip.persistence.model.Image;
+import com.plip.persistence.model.Status;
 
 public class ImageDaoImpl implements ImageDao {
 	
@@ -75,6 +76,7 @@ public class ImageDaoImpl implements ImageDao {
 			img.setPath(image.getPath());
 			img.setPosition(image.getPosition());
 			img.setProduct(image.getProduct());
+			img.setTrained(image.isTrained());
 			session.update(img);
 			tx.commit();
 		} catch (HibernateException e) {
@@ -88,7 +90,20 @@ public class ImageDaoImpl implements ImageDao {
 
 	@Override
 	public void deleteImage(Integer imageId) {
-		// TODO Auto-generated method stub
-		
+		SessionFactory factory = daoManager.initiateSession();
+		Session session = factory.openSession();
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			Image image = (Image) session.get(Image.class, imageId);
+			session.delete(image);
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
 	}
 }
