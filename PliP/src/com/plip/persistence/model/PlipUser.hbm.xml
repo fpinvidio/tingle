@@ -1,13 +1,16 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Dec 26, 2013 6:25:52 PM by Hibernate Tools 4.0.0 -->
+<!-- Generated Dec 26, 2013 7:09:50 PM by Hibernate Tools 4.0.0 -->
 <hibernate-mapping>
-    <class name="com.plip.persistence.model.PlipUser" table="Plip_User" catalog="plip">
+    <class name="com.plip.persistence.model.PlipUser" table="plip_user" catalog="plip">
         <id name="idPlipUser" type="java.lang.Long">
             <column name="id_plip_user" />
             <generator class="identity" />
         </id>
+        <many-to-one name="plipRole" class="com.plip.persistence.model.PlipRole" fetch="select">
+            <column name="id_plip_role" not-null="true" />
+        </many-to-one>
         <property name="name" type="string">
             <column name="name" length="256" not-null="true" />
         </property>
@@ -19,9 +22,6 @@
         </property>
         <property name="password" type="string">
             <column name="password" length="2048" not-null="true" />
-        </property>
-        <property name="idPlipRole" type="int">
-            <column name="id_plip_role" not-null="true" />
         </property>
     </class>
 </hibernate-mapping>

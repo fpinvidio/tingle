@@ -1,6 +1,6 @@
 package com.plip.persistence.model;
 
-// Generated Dec 26, 2013 6:25:52 PM by Hibernate Tools 4.0.0
+// Generated Dec 26, 2013 7:09:50 PM by Hibernate Tools 4.0.0
 
 import java.util.Date;
 
@@ -10,26 +10,26 @@ import java.util.Date;
 public class TrayStatus implements java.io.Serializable {
 
 	private Long idTrayStatus;
-	private long idTray;
-	private int idStatus;
+	private Product product;
+	private Tray tray;
+	private Status status;
 	private Integer quantity;
-	private Long idProduct;
 	private Date date;
 
 	public TrayStatus() {
 	}
 
-	public TrayStatus(long idTray, int idStatus) {
-		this.idTray = idTray;
-		this.idStatus = idStatus;
+	public TrayStatus(Tray tray, Status status) {
+		this.tray = tray;
+		this.status = status;
 	}
 
-	public TrayStatus(long idTray, int idStatus, Integer quantity,
-			Long idProduct, Date date) {
-		this.idTray = idTray;
-		this.idStatus = idStatus;
+	public TrayStatus(Product product, Tray tray, Status status,
+			Integer quantity, Date date) {
+		this.product = product;
+		this.tray = tray;
+		this.status = status;
 		this.quantity = quantity;
-		this.idProduct = idProduct;
 		this.date = date;
 	}
 
@@ -41,20 +41,28 @@ public class TrayStatus implements java.io.Serializable {
 		this.idTrayStatus = idTrayStatus;
 	}
 
-	public long getIdTray() {
-		return this.idTray;
+	public Product getProduct() {
+		return this.product;
 	}
 
-	public void setIdTray(long idTray) {
-		this.idTray = idTray;
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 
-	public int getIdStatus() {
-		return this.idStatus;
+	public Tray getTray() {
+		return this.tray;
 	}
 
-	public void setIdStatus(int idStatus) {
-		this.idStatus = idStatus;
+	public void setTray(Tray tray) {
+		this.tray = tray;
+	}
+
+	public Status getStatus() {
+		return this.status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 
 	public Integer getQuantity() {
@@ -63,14 +71,6 @@ public class TrayStatus implements java.io.Serializable {
 
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
-	}
-
-	public Long getIdProduct() {
-		return this.idProduct;
-	}
-
-	public void setIdProduct(Long idProduct) {
-		this.idProduct = idProduct;
 	}
 
 	public Date getDate() {

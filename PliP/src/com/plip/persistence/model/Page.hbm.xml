@@ -1,24 +1,36 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Dec 26, 2013 6:25:52 PM by Hibernate Tools 4.0.0 -->
+<!-- Generated Dec 26, 2013 7:09:50 PM by Hibernate Tools 4.0.0 -->
 <hibernate-mapping>
-    <class name="com.plip.persistence.model.Page" table="Page" catalog="plip">
+    <class name="com.plip.persistence.model.Page" table="page" catalog="plip">
         <id name="idPage" type="java.lang.Long">
             <column name="id_page" />
             <generator class="identity" />
         </id>
-        <property name="idOrder" type="long">
+        <many-to-one name="order" class="com.plip.persistence.model.Order" fetch="select">
             <column name="id_order" not-null="true" />
-        </property>
+        </many-to-one>
+        <many-to-one name="pageImage" class="com.plip.persistence.model.PageImage" fetch="select">
+            <column name="id_page_image" not-null="true" />
+        </many-to-one>
         <property name="productQuantity" type="java.lang.Integer">
             <column name="product_quantity" />
-        </property>
-        <property name="idPageImage" type="long">
-            <column name="id_page_image" not-null="true" />
         </property>
         <property name="pageNumber" type="int">
             <column name="page_number" not-null="true" />
         </property>
+        <set name="pageProducts" table="page_product" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_page" not-null="true" />
+            </key>
+            <one-to-many class="com.plip.persistence.model.PageProduct" />
+        </set>
+        <set name="trays" table="tray" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="Page_id_page" not-null="true" />
+            </key>
+            <one-to-many class="com.plip.persistence.model.Tray" />
+        </set>
     </class>
 </hibernate-mapping>

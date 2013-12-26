@@ -76,7 +76,7 @@ public class ProductDaoImpl implements ProductDao{
 			
 			prod.setCode(product.getCode());
 			prod.setDescription(product.getDescription());
-			prod.setHabilitado(product.isHabilitado());
+			prod.setEnabled(product.isEnabled());
 			prod.setImageNumber(product.getImageNumber());
 			prod.setLaboratory(product.getLaboratory());
 			prod.setName(product.getName());

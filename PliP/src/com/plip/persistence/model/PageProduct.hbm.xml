@@ -1,19 +1,19 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Dec 26, 2013 6:25:52 PM by Hibernate Tools 4.0.0 -->
+<!-- Generated Dec 26, 2013 7:09:50 PM by Hibernate Tools 4.0.0 -->
 <hibernate-mapping>
-    <class name="com.plip.persistence.model.PageProduct" table="Page_Product" catalog="plip">
+    <class name="com.plip.persistence.model.PageProduct" table="page_product" catalog="plip">
         <id name="idPageProduct" type="java.lang.Long">
             <column name="id_page_product" />
             <generator class="identity" />
         </id>
-        <property name="idPage" type="long">
-            <column name="id_page" not-null="true" />
-        </property>
-        <property name="idProduct" type="long">
+        <many-to-one name="product" class="com.plip.persistence.model.Product" fetch="select">
             <column name="id_product" not-null="true" />
-        </property>
+        </many-to-one>
+        <many-to-one name="page" class="com.plip.persistence.model.Page" fetch="select">
+            <column name="id_page" not-null="true" />
+        </many-to-one>
         <property name="quantity" type="int">
             <column name="quantity" not-null="true" />
         </property>

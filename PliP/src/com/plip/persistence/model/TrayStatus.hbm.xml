@@ -1,24 +1,24 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Dec 26, 2013 6:25:52 PM by Hibernate Tools 4.0.0 -->
+<!-- Generated Dec 26, 2013 7:09:50 PM by Hibernate Tools 4.0.0 -->
 <hibernate-mapping>
-    <class name="com.plip.persistence.model.TrayStatus" table="Tray_Status" catalog="plip">
+    <class name="com.plip.persistence.model.TrayStatus" table="tray_status" catalog="plip">
         <id name="idTrayStatus" type="java.lang.Long">
             <column name="id_tray_status" />
             <generator class="identity" />
         </id>
-        <property name="idTray" type="long">
+        <many-to-one name="product" class="com.plip.persistence.model.Product" fetch="select">
+            <column name="id_product" />
+        </many-to-one>
+        <many-to-one name="tray" class="com.plip.persistence.model.Tray" fetch="select">
             <column name="id_tray" not-null="true" />
-        </property>
-        <property name="idStatus" type="int">
+        </many-to-one>
+        <many-to-one name="status" class="com.plip.persistence.model.Status" fetch="select">
             <column name="id_status" not-null="true" />
-        </property>
+        </many-to-one>
         <property name="quantity" type="java.lang.Integer">
             <column name="quantity" />
-        </property>
-        <property name="idProduct" type="java.lang.Long">
-            <column name="id_product" />
         </property>
         <property name="date" type="timestamp">
             <column name="date" length="19" />
