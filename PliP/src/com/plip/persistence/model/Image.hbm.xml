@@ -1,27 +1,27 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Dec 20, 2013 7:47:29 PM by Hibernate Tools 4.0.0 -->
+<!-- Generated Dec 26, 2013 6:25:52 PM by Hibernate Tools 4.0.0 -->
 <hibernate-mapping>
     <class name="com.plip.persistence.model.Image" table="Image" catalog="plip">
         <id name="idImage" type="java.lang.Long">
             <column name="id_image" />
             <generator class="identity" />
         </id>
-        <many-to-one name="product" class="com.plip.persistence.model.Product" fetch="select">
-            <column name="id_product" not-null="true" />
-        </many-to-one>
-        <many-to-one name="position" class="com.plip.persistence.model.Position" fetch="select">
-            <column name="id_position" not-null="true" />
-        </many-to-one>
         <property name="path" type="string">
             <column name="path" length="2048" not-null="true" />
         </property>
         <property name="name" type="string">
             <column name="name" length="256" />
         </property>
+        <property name="idProduct" type="long">
+            <column name="id_product" not-null="true" />
+        </property>
         <property name="descriptor" type="binary">
             <column name="descriptor" not-null="true" />
+        </property>
+        <property name="idPosition" type="int">
+            <column name="id_position" not-null="true" />
         </property>
         <property name="trained" type="boolean">
             <column name="trained" not-null="true" />

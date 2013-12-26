@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Dec 20, 2013 7:47:29 PM by Hibernate Tools 4.0.0 -->
+<!-- Generated Dec 26, 2013 6:18:14 PM by Hibernate Tools 4.0.0 -->
 <hibernate-mapping>
     <class name="com.plip.persistence.model.TrayProduct" table="Tray_Product" catalog="plip">
         <composite-id name="id" class="com.plip.persistence.model.TrayProductId">
@@ -12,12 +12,6 @@
                 <column name="Products_id_product" />
             </key-property>
         </composite-id>
-        <many-to-one name="product" class="com.plip.persistence.model.Product" update="false" insert="false" fetch="select">
-            <column name="Products_id_product" not-null="true" />
-        </many-to-one>
-        <many-to-one name="tray" class="com.plip.persistence.model.Tray" update="false" insert="false" fetch="select">
-            <column name="Tray_id_tray" not-null="true" />
-        </many-to-one>
         <property name="quantity" type="int">
             <column name="quantity" not-null="true" />
         </property>

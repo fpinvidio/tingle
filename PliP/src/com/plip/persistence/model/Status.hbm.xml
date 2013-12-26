@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Dec 20, 2013 7:47:29 PM by Hibernate Tools 4.0.0 -->
+<!-- Generated Dec 26, 2013 6:25:52 PM by Hibernate Tools 4.0.0 -->
 <hibernate-mapping>
     <class name="com.plip.persistence.model.Status" table="Status" catalog="plip">
         <id name="idStatus" type="java.lang.Integer">
@@ -11,11 +11,5 @@
         <property name="description" type="string">
             <column name="description" length="1024" not-null="true" />
         </property>
-        <set name="trayStatuses" table="Tray_Status" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="id_status" not-null="true" />
-            </key>
-            <one-to-many class="com.plip.persistence.model.TrayStatus" />
-        </set>
     </class>
 </hibernate-mapping>
