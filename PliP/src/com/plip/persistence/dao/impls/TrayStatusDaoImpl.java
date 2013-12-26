@@ -16,16 +16,16 @@ import com.plip.persistence.model.TrayStatus;
 
 public class TrayStatusDaoImpl implements TrayStatusDao {
 
-	DaoManager daoManager;
+	
 
-	public TrayStatusDaoImpl(DaoManager daoManager) {
+	public TrayStatusDaoImpl() {
 		super();
-		this.daoManager = daoManager;
+		
 	}
 
 	@Override
 	public Integer addTrayStatus(TrayStatus trayStatus) {
-		SessionFactory factory = daoManager.initiateSession();
+		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		Integer trayStatusID = null;
@@ -45,7 +45,7 @@ public class TrayStatusDaoImpl implements TrayStatusDao {
 
 	@Override
 	public List<Tray> getTraysByStatus(int idStatus) {
-		SessionFactory factory = daoManager.initiateSession();
+		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		List trayList = null;
@@ -68,7 +68,7 @@ public class TrayStatusDaoImpl implements TrayStatusDao {
 
 	@Override
 	public List<Status> getStatusByTray(int idTray) {
-		SessionFactory factory = daoManager.initiateSession();
+		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		List statusList = null;
@@ -91,7 +91,7 @@ public class TrayStatusDaoImpl implements TrayStatusDao {
 
 	@Override
 	public void updateTrayStatus(TrayStatus trayStatus) {
-		SessionFactory factory = daoManager.initiateSession();
+		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		try {
@@ -115,7 +115,7 @@ public class TrayStatusDaoImpl implements TrayStatusDao {
 
 	@Override
 	public void deleteTrayStatus(Integer trayStatusId) {
-		SessionFactory factory = daoManager.initiateSession();
+		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		try {

@@ -17,16 +17,16 @@ import com.plip.persistence.model.Product;
 
 public class PageProductDaoImpl implements PageProductDao {
 
-	DaoManager daoManager;
+	
 
-	public PageProductDaoImpl(DaoManager daoManager) {
+	public PageProductDaoImpl() {
 		super();
-		this.daoManager = daoManager;
+	
 	}
 
 	@Override
 	public Integer addPageProduct(PageProduct pageProduct) {
-		SessionFactory factory = daoManager.initiateSession();
+		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		Integer pageProductID = null;
@@ -46,7 +46,7 @@ public class PageProductDaoImpl implements PageProductDao {
 
 	@Override
 	public List<Page> getPagesByProduct(int idProduct) {
-		SessionFactory factory = daoManager.initiateSession();
+		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		List pageList = null;
@@ -69,7 +69,7 @@ public class PageProductDaoImpl implements PageProductDao {
 
 	@Override
 	public List<Product> getProductsByPage(int idPage) {
-		SessionFactory factory = daoManager.initiateSession();
+		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		List productList = null;
@@ -92,7 +92,7 @@ public class PageProductDaoImpl implements PageProductDao {
 
 	@Override
 	public void updatePageProduct(PageProduct pageProduct) {
-		SessionFactory factory = daoManager.initiateSession();
+		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		try {
@@ -113,7 +113,7 @@ public class PageProductDaoImpl implements PageProductDao {
 
 	@Override
 	public void deletePageProduct(Integer pageProductId) {
-		SessionFactory factory = daoManager.initiateSession();
+		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		try {

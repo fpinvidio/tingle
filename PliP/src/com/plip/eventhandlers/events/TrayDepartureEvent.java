@@ -3,8 +3,6 @@ package com.plip.eventhandlers.events;
 import java.util.Date;
 import java.util.EventObject;
 
-import com.plip.eventhandlers.handlers.EventFactory;
-
 
 public class TrayDepartureEvent extends EventObject {
 
