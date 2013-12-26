@@ -13,16 +13,16 @@ import com.plip.persistence.model.Status;
 
 public class ProductDaoImpl implements ProductDao{
 
-	DaoManager daoManager;
 	
-	public ProductDaoImpl(DaoManager daoManager) {
+	
+	public ProductDaoImpl() {
 		super();
-		this.daoManager = daoManager;
+		
 	}
 
 	@Override
 	public Integer addProduct(Product product) {
-		SessionFactory factory = daoManager.initiateSession();
+		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		Integer productID = null;
@@ -42,7 +42,7 @@ public class ProductDaoImpl implements ProductDao{
 
 	@Override
 	public Product getProduct(int idProduct) {
-		SessionFactory factory = daoManager.initiateSession();
+		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		Product product = null;
@@ -66,7 +66,7 @@ public class ProductDaoImpl implements ProductDao{
 	@Override
 	public void updateProduct(Product product) {
 		// TODO Auto-generated method stub
-		SessionFactory factory = daoManager.initiateSession();
+		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		try {
@@ -96,7 +96,7 @@ public class ProductDaoImpl implements ProductDao{
 
 	@Override
 	public void deletePosition(Integer productId) {
-		SessionFactory factory = daoManager.initiateSession();
+		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		try {

@@ -14,16 +14,16 @@ import com.plip.persistence.model.Status;
 
 public class OrderDaoImpl implements OrderDao {
 	
-	DaoManager daoManager;
 
-	public OrderDaoImpl(DaoManager daoManager) {
+
+	public OrderDaoImpl() {
 		super();
-		this.daoManager = daoManager;
+	
 	}
 
 	@Override
 	public Integer addOrder(Order order) {
-		SessionFactory factory = daoManager.initiateSession();
+		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		Integer orderID = null;
@@ -43,7 +43,7 @@ public class OrderDaoImpl implements OrderDao {
 
 	@Override
 	public Order getOrder(int idOrder) {
-		SessionFactory factory = daoManager.initiateSession();
+		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		Order order = null;
@@ -66,7 +66,7 @@ public class OrderDaoImpl implements OrderDao {
 
 	@Override
 	public void updateOrder(Order order) {
-		SessionFactory factory = daoManager.initiateSession();
+		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		try {
@@ -90,7 +90,7 @@ public class OrderDaoImpl implements OrderDao {
 
 	@Override
 	public void deleteOrder(Integer orderId) {
-		SessionFactory factory = daoManager.initiateSession();
+		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		try {

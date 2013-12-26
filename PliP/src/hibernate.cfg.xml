@@ -4,26 +4,25 @@
 "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-    
+        <property name="hibernate.bytecode.use_reflection_optimizer">false</property>
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="hibernate.connection.password">PLiP</property>
+        <property name="hibernate.connection.password">plip</property>
         <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/plip</property>
-        <property name="hibernate.connection.username">PLiP</property>
+        <property name="hibernate.connection.username">plip</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
-       
-        <mapping resource="com/plip/persistence/model/TrayProduct.hbm.xml" />
-        <mapping resource="com/plip/persistence/model/Tray.hbm.xml" />
-        <mapping resource="com/plip/persistence/model/Image.hbm.xml" />
-        <mapping resource="com/plip/persistence/model/PlipUser.hbm.xml" />
-        <mapping resource="com/plip/persistence/model/ProductCategory.hbm.xml" />
-        <mapping resource="com/plip/persistence/model/Order.hbm.xml" />
-        <mapping resource="com/plip/persistence/model/Status.hbm.xml" />
-        <mapping resource="com/plip/persistence/model/Page.hbm.xml" />
-        <mapping resource="com/plip/persistence/model/PageProduct.hbm.xml" />
+        <property name="hibernate.search.autoregister_listeners">false</property>
         <mapping resource="com/plip/persistence/model/PageImage.hbm.xml" />
+        <mapping resource="com/plip/persistence/model/Tray.hbm.xml" />
         <mapping resource="com/plip/persistence/model/Product.hbm.xml" />
         <mapping resource="com/plip/persistence/model/TrayStatus.hbm.xml" />
+        <mapping resource="com/plip/persistence/model/Image.hbm.xml" />
+        <mapping resource="com/plip/persistence/model/PlipUser.hbm.xml" />
         <mapping resource="com/plip/persistence/model/PlipRole.hbm.xml" />
+        <mapping resource="com/plip/persistence/model/ProductCategory.hbm.xml" />
         <mapping resource="com/plip/persistence/model/Position.hbm.xml" />
+        <mapping resource="com/plip/persistence/model/Status.hbm.xml" />
+        <mapping resource="com/plip/persistence/model/Order.hbm.xml" />
+        <mapping resource="com/plip/persistence/model/Page.hbm.xml" />
+        <mapping resource="com/plip/persistence/model/PageProduct.hbm.xml" />
     </session-factory>
 </hibernate-configuration>

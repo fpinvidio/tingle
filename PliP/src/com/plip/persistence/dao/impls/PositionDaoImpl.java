@@ -14,16 +14,16 @@ import com.plip.persistence.model.Status;
 
 public class PositionDaoImpl implements PositionDao {
 
-	DaoManager daoManager;
+	
 
-	public PositionDaoImpl(DaoManager daoManager) {
+	public PositionDaoImpl() {
 		super();
-		this.daoManager = daoManager;
+		
 	}
 
 	@Override
 	public Integer addPosition(Position position) {
-		SessionFactory factory = daoManager.initiateSession();
+		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		Integer positionID = null;
@@ -43,7 +43,7 @@ public class PositionDaoImpl implements PositionDao {
 
 	@Override
 	public Position getPosition(int idPosition) {
-		SessionFactory factory = daoManager.initiateSession();
+		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		Position position = null;
@@ -66,7 +66,7 @@ public class PositionDaoImpl implements PositionDao {
 
 	@Override
 	public void updatePosition(Position position) {
-		SessionFactory factory = daoManager.initiateSession();
+		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		try {
@@ -89,7 +89,7 @@ public class PositionDaoImpl implements PositionDao {
 
 	@Override
 	public void deletePosition(Integer positionId) {
-		SessionFactory factory = daoManager.initiateSession();
+		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		try {

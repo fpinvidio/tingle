@@ -2,18 +2,17 @@
 <!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
 
 <hibernate-reverse-engineering>
-	<table-filter match-name="Image" match-catalog="plip"></table-filter>
-	<table-filter match-name="Order" match-catalog="plip"></table-filter>
-	<table-filter match-name="Page" match-catalog="plip"></table-filter>
-	<table-filter match-name="Page_Image" match-catalog="plip"></table-filter>
-	<table-filter match-name="Page_Product" match-catalog="plip"></table-filter>
-	<table-filter match-name="Plip_Role" match-catalog="plip"></table-filter>
-	<table-filter match-name="Plip_User" match-catalog="plip"></table-filter>
-	<table-filter match-name="Position" match-catalog="plip"></table-filter>
-	<table-filter match-name="Product" match-catalog="plip"></table-filter>
-	<table-filter match-name="Product_Category" match-catalog="plip"></table-filter>
-	<table-filter match-name="Status" match-catalog="plip"></table-filter>
-	<table-filter match-name="Tray" match-catalog="plip"></table-filter>
-	<table-filter match-name="Tray_Product" match-catalog="plip"></table-filter>
-	<table-filter match-name="Tray_Status" match-catalog="plip"></table-filter>
+	<table-filter match-name="image" match-catalog="plip"></table-filter>
+	<table-filter match-name="order" match-catalog="plip"></table-filter>
+	<table-filter match-name="page" match-catalog="plip"></table-filter>
+	<table-filter match-name="page_image" match-catalog="plip"></table-filter>
+	<table-filter match-name="page_product" match-catalog="plip"></table-filter>
+	<table-filter match-name="plip_role" match-catalog="plip"></table-filter>
+	<table-filter match-name="plip_user" match-catalog="plip"></table-filter>
+	<table-filter match-name="position" match-catalog="plip"></table-filter>
+	<table-filter match-name="product" match-catalog="plip"></table-filter>
+	<table-filter match-name="product_category" match-catalog="plip"></table-filter>
+	<table-filter match-name="status" match-catalog="plip"></table-filter>
+	<table-filter match-name="tray" match-catalog="plip"></table-filter>
+	<table-filter match-name="tray_status" match-catalog="plip"></table-filter>
 </hibernate-reverse-engineering>

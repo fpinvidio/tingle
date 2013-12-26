@@ -14,16 +14,16 @@ import com.plip.persistence.model.Tray;
 
 public class TrayDaoImpl implements TrayDao {
 	
-	DaoManager daoManager;
+	
 
-	public TrayDaoImpl(DaoManager daoManager) {
+	public TrayDaoImpl() {
 		super();
-		this.daoManager = daoManager;
+		
 	}
 
 	@Override
 	public Integer addTray(Tray tray) {
-		SessionFactory factory = daoManager.initiateSession();
+		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		Integer trayID = null;
@@ -43,7 +43,7 @@ public class TrayDaoImpl implements TrayDao {
 
 	@Override
 	public Tray getTray(int idTray) {
-		SessionFactory factory = daoManager.initiateSession();
+		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		Tray tray = null;
@@ -66,7 +66,7 @@ public class TrayDaoImpl implements TrayDao {
 
 	@Override
 	public void updateTray(Tray tray) {
-		SessionFactory factory = daoManager.initiateSession();
+		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		try {
@@ -88,7 +88,7 @@ public class TrayDaoImpl implements TrayDao {
 
 	@Override
 	public void deleteTray(Tray trayId) {
-		SessionFactory factory = daoManager.initiateSession();
+		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		try {

@@ -15,16 +15,16 @@ import com.plip.persistence.model.Status;
 
 public class PageProductDaoImpl implements PageProductDao {
 	
-	DaoManager daoManager;
+	
 
-	public PageProductDaoImpl(DaoManager daoManager) {
+	public PageProductDaoImpl() {
 		super();
-		this.daoManager = daoManager;
+	
 	}
 
 	@Override
 	public Integer addPageProduct(PageProduct pageProduct) {
-		SessionFactory factory = daoManager.initiateSession();
+		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		Integer pageProductID = null;
@@ -45,7 +45,7 @@ public class PageProductDaoImpl implements PageProductDao {
 
 	//@Override
 	/*public Page getPageProduct(int idPage , int idProduct) {
-		/*SessionFactory factory = daoManager.initiateSession();
+		/*SessionFactory factory = DaoManager.initiateSession();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		PageProduct pageProduct = null;
@@ -74,7 +74,7 @@ public class PageProductDaoImpl implements PageProductDao {
 
 	@Override
 	public void deletePageProduct(Integer pageProductId) {
-		SessionFactory factory = daoManager.initiateSession();
+		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		try {

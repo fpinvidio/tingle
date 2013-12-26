@@ -13,16 +13,16 @@ import com.plip.persistence.model.Status;
 
 public class PlipRoleDaoImpl implements PlipRoleDao {
 	
-	DaoManager daoManager;
+	
 
-	public PlipRoleDaoImpl(DaoManager daoManager) {
+	public PlipRoleDaoImpl() {
 		super();
-		this.daoManager = daoManager;
+	
 	}
 
 	@Override
 	public Integer addRole(PlipRole role) {
-		SessionFactory factory = daoManager.initiateSession();
+		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		Integer roleID = null;
@@ -42,7 +42,7 @@ public class PlipRoleDaoImpl implements PlipRoleDao {
 
 	@Override
 	public PlipRole getRole(int idRole) {
-		SessionFactory factory = daoManager.initiateSession();
+		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		PlipRole plipRole = null;
@@ -65,7 +65,7 @@ public class PlipRoleDaoImpl implements PlipRoleDao {
 
 	@Override
 	public void updateRole(PlipRole role) {
-		SessionFactory factory = daoManager.initiateSession();
+		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		try {
@@ -88,7 +88,7 @@ public class PlipRoleDaoImpl implements PlipRoleDao {
 
 	@Override
 	public void deleteRole(Integer roleId) {
-		SessionFactory factory = daoManager.initiateSession();
+		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		try {

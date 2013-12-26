@@ -14,16 +14,16 @@ import com.plip.persistence.model.Status;
 
 public class ProductCategoryDaoImpl implements ProductCategoryDao{
 	
-	DaoManager daoManager;
+	
 
-	public ProductCategoryDaoImpl(DaoManager daoManager) {
+	public ProductCategoryDaoImpl() {
 		super();
-		this.daoManager = daoManager;
+		
 	}
 
 	@Override
 	public Integer addProductCategory(ProductCategory productCategory) {
-		SessionFactory factory = daoManager.initiateSession();
+		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		Integer productCategoryID = null;
@@ -43,7 +43,7 @@ public class ProductCategoryDaoImpl implements ProductCategoryDao{
 
 	@Override
 	public ProductCategory getProductCategory(int idProductCategory) {
-		SessionFactory factory = daoManager.initiateSession();
+		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		ProductCategory productCategory = null;
@@ -66,7 +66,7 @@ public class ProductCategoryDaoImpl implements ProductCategoryDao{
 
 	@Override
 	public void updateProductCategory(ProductCategory productCategory) {
-		SessionFactory factory = daoManager.initiateSession();
+		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		try {
@@ -88,7 +88,7 @@ public class ProductCategoryDaoImpl implements ProductCategoryDao{
 
 	@Override
 	public void deleteProductCategory(Integer productCategoryId) {
-		SessionFactory factory = daoManager.initiateSession();
+		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		try {

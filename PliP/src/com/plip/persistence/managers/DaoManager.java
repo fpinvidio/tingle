@@ -1,11 +1,12 @@
 package com.plip.persistence.managers;
 
+
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 public class DaoManager {
 	
-	public SessionFactory initiateSession() {
+	public static SessionFactory createSessionFactory() {
 		SessionFactory factory;
 		try {
 			factory = new Configuration().configure().buildSessionFactory();

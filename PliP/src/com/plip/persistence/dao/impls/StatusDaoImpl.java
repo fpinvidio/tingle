@@ -12,17 +12,17 @@ import com.plip.persistence.model.Status;
 
 public class StatusDaoImpl implements StatusDao {
 
-	DaoManager daoManager;
+	
 
-	public StatusDaoImpl(DaoManager daoManager) {
+	public StatusDaoImpl() {
 		super();
-		this.daoManager = daoManager;
+		
 	}
 
 	@Override
 	/* Method to add a new Plip Status */
 	public Integer addStatus(Status status) {
-		SessionFactory factory = daoManager.initiateSession();
+		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		Integer statusID = null;
@@ -43,7 +43,7 @@ public class StatusDaoImpl implements StatusDao {
 	@Override
 	/* Method to GET a Plip System Status */
 	public Status getStatus(int idStatus) {
-		SessionFactory factory = daoManager.initiateSession();
+		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		Status status = null;
@@ -67,7 +67,7 @@ public class StatusDaoImpl implements StatusDao {
 	@Override
 	/* Method to UPDATE a Plip System Status */
 	public void updateStatus(Status status) {
-		SessionFactory factory = daoManager.initiateSession();
+		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		try {
@@ -89,7 +89,7 @@ public class StatusDaoImpl implements StatusDao {
 	@Override
 	/* Method to DELETE a possible system Status */
 	public void deleteStatus(Integer statusId) {
-		SessionFactory factory = daoManager.initiateSession();
+		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		try {

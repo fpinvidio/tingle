@@ -13,16 +13,16 @@ import com.plip.persistence.model.Status;
 
 public class ImageDaoImpl implements ImageDao {
 	
-	DaoManager daoManager;
 
-	public ImageDaoImpl(DaoManager daoManager) {
+
+	public ImageDaoImpl() {
 		super();
-		this.daoManager = daoManager;
+	
 	}
 
 	@Override
 	public Integer addImage(Image image) {
-		SessionFactory factory = daoManager.initiateSession();
+		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		Integer imageID = null;
@@ -42,7 +42,7 @@ public class ImageDaoImpl implements ImageDao {
 
 	@Override
 	public Image getImage(int idImage) {
-		SessionFactory factory = daoManager.initiateSession();
+		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		Image image = null;
@@ -65,7 +65,7 @@ public class ImageDaoImpl implements ImageDao {
 
 	@Override
 	public void updateImage(Image image) {
-		SessionFactory factory = daoManager.initiateSession();
+		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		try {
@@ -90,7 +90,7 @@ public class ImageDaoImpl implements ImageDao {
 
 	@Override
 	public void deleteImage(Integer imageId) {
-		SessionFactory factory = daoManager.initiateSession();
+		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		try {
