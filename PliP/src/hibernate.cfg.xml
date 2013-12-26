@@ -6,9 +6,9 @@
     <session-factory>
     
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="hibernate.connection.password">PLiP</property>
+        <property name="hibernate.connection.password">plip</property>
         <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/plip</property>
-        <property name="hibernate.connection.username">PLiP</property>
+        <property name="hibernate.connection.username">plip</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
        
         <mapping resource="com/plip/persistence/model/TrayProduct.hbm.xml" />

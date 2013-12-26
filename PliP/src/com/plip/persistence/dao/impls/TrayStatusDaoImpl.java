@@ -100,7 +100,7 @@ public class TrayStatusDaoImpl implements TrayStatusDao {
 					trayStatus.getIdTrayStatus());
 			trayStat.setDate(trayStatus.getDate());
 			trayStat.setQuantity(trayStatus.getQuantity());
-			trayStat.setIdProduct(trayStatus.getIdProduct());
+			trayStat.setProduct(trayStatus.getProduct());
 			session.update(trayStat);
 
 			tx.commit();
