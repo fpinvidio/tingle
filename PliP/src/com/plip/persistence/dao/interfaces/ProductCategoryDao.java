@@ -7,7 +7,7 @@ public interface ProductCategoryDao {
 	
 	public Integer addProductCategory(ProductCategory productCategory);
 	
-	public Status getProductCategory(int idProductCategory);
+	public ProductCategory getProductCategory(int idProductCategory);
 	
 	public void updateProductCategory(ProductCategory productCategory);
 	

@@ -50,7 +50,7 @@ public class OrderDaoImpl implements OrderDao {
 		try {
 			tx = session.beginTransaction();
 			Query query = session
-					.createQuery("FROM Order where idOrder = :id");
+					.createQuery("FROM Order where idOrders = :id");
 			query.setParameter("id", idOrder);
 			order = (Order) query.list().get(0);
 			tx.commit();

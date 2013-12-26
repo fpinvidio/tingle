@@ -1,8 +1,15 @@
 package com.plip.persistence.dao.impls;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+
 import com.plip.persistence.dao.interfaces.PlipRoleDao;
 import com.plip.persistence.managers.DaoManager;
 import com.plip.persistence.model.PlipRole;
+import com.plip.persistence.model.Status;
 
 public class PlipRoleDaoImpl implements PlipRoleDao {
 	
@@ -15,25 +22,87 @@ public class PlipRoleDaoImpl implements PlipRoleDao {
 
 	@Override
 	public Integer addRole(PlipRole role) {
-		// TODO Auto-generated method stub
-		return null;
+		SessionFactory factory = daoManager.initiateSession();
+		Session session = factory.openSession();
+		Transaction tx = null;
+		Integer roleID = null;
+		try {
+			tx = session.beginTransaction();
+			roleID = (Integer) session.save(role);
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return roleID;
 	}
 
 	@Override
 	public PlipRole getRole(int idRole) {
-		// TODO Auto-generated method stub
-		return null;
+		SessionFactory factory = daoManager.initiateSession();
+		Session session = factory.openSession();
+		Transaction tx = null;
+		PlipRole plipRole = null;
+		try {
+			tx = session.beginTransaction();
+			Query query = session
+					.createQuery("FROM PlipRole where idPlipRole = :id");
+			query.setParameter("id", idRole);
+			plipRole = (PlipRole) query.list().get(0);
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return plipRole;
 	}
 
 	@Override
 	public void updateRole(PlipRole role) {
-		// TODO Auto-generated method stub
-		
+		SessionFactory factory = daoManager.initiateSession();
+		Session session = factory.openSession();
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			PlipRole plipRole = (PlipRole) session.get(PlipRole.class,
+					role.getIdPlipRole());
+			plipRole.setName(role.getName());
+			plipRole.setPlipUsers(role.getPlipUsers());
+			plipRole.setDescription(role.getDescription());
+			session.update(plipRole);
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}	
 	}
 
 	@Override
 	public void deleteRole(Integer roleId) {
-		// TODO Auto-generated method stub
-		
+		SessionFactory factory = daoManager.initiateSession();
+		Session session = factory.openSession();
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			PlipRole plipRole = (PlipRole) session.get(PlipRole.class, roleId);
+			session.delete(plipRole);
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
 	}
+	
 }
