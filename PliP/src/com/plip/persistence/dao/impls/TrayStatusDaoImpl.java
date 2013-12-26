@@ -8,31 +8,30 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-import com.plip.persistence.dao.interfaces.PageProductDao;
+import com.plip.persistence.dao.interfaces.TrayStatusDao;
 import com.plip.persistence.managers.DaoManager;
-import com.plip.persistence.model.Image;
-import com.plip.persistence.model.Page;
-import com.plip.persistence.model.PageProduct;
-import com.plip.persistence.model.Product;
+import com.plip.persistence.model.Status;
+import com.plip.persistence.model.Tray;
+import com.plip.persistence.model.TrayStatus;
 
-public class PageProductDaoImpl implements PageProductDao {
+public class TrayStatusDaoImpl implements TrayStatusDao {
 
 	DaoManager daoManager;
 
-	public PageProductDaoImpl(DaoManager daoManager) {
+	public TrayStatusDaoImpl(DaoManager daoManager) {
 		super();
 		this.daoManager = daoManager;
 	}
 
 	@Override
-	public Integer addPageProduct(PageProduct pageProduct) {
+	public Integer addTrayStatus(TrayStatus trayStatus) {
 		SessionFactory factory = daoManager.initiateSession();
 		Session session = factory.openSession();
 		Transaction tx = null;
-		Integer pageProductID = null;
+		Integer trayStatusID = null;
 		try {
 			tx = session.beginTransaction();
-			pageProductID = (Integer) session.save(pageProduct);
+			trayStatusID = (Integer) session.save(trayStatus);
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
@@ -41,20 +40,20 @@ public class PageProductDaoImpl implements PageProductDao {
 		} finally {
 			session.close();
 		}
-		return pageProductID;
+		return trayStatusID;
 	}
 
 	@Override
-	public List<Page> getPagesByProduct(int idProduct) {
+	public List<Tray> getTraysByStatus(int idStatus) {
 		SessionFactory factory = daoManager.initiateSession();
 		Session session = factory.openSession();
 		Transaction tx = null;
-		List pageList = null;
+		List trayList = null;
 		try {
 			Query query = session
-					.createQuery("FROM PageProduct where idProduct = :id");
-			query.setParameter("id", idProduct);
-			pageList = query.list();
+					.createQuery("FROM TrayStatus where idStatus = :id");
+			query.setParameter("id", idStatus);
+			trayList = query.list();
 			tx.commit();
 
 		} catch (HibernateException e) {
@@ -64,20 +63,20 @@ public class PageProductDaoImpl implements PageProductDao {
 		} finally {
 			session.close();
 		}
-		return pageList;
+		return trayList;
 	}
 
 	@Override
-	public List<Product> getProductsByPage(int idPage) {
+	public List<Status> getStatusByTray(int idTray) {
 		SessionFactory factory = daoManager.initiateSession();
 		Session session = factory.openSession();
 		Transaction tx = null;
-		List productList = null;
+		List statusList = null;
 		try {
 			Query query = session
-					.createQuery("FROM PageProduct where idPage = :id");
-			query.setParameter("id", idPage);
-			productList = query.list();
+					.createQuery("FROM TrayStatus where idTray = :id");
+			query.setParameter("id", idTray);
+			statusList = query.list();
 			tx.commit();
 
 		} catch (HibernateException e) {
@@ -87,20 +86,23 @@ public class PageProductDaoImpl implements PageProductDao {
 		} finally {
 			session.close();
 		}
-		return productList;
+		return statusList;
 	}
 
 	@Override
-	public void updatePageProduct(PageProduct pageProduct) {
+	public void updateTrayStatus(TrayStatus trayStatus) {
 		SessionFactory factory = daoManager.initiateSession();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			PageProduct pageProd = (PageProduct) session.get(Image.class,
-					pageProduct.getIdPageProduct());
-			pageProd.setQuantity(pageProduct.getQuantity());
-			session.update(pageProd);
+			TrayStatus trayStat = (TrayStatus) session.get(TrayStatus.class,
+					trayStatus.getIdTrayStatus());
+			trayStat.setDate(trayStatus.getDate());
+			trayStat.setQuantity(trayStatus.getQuantity());
+			trayStat.setIdProduct(trayStatus.getIdProduct());
+			session.update(trayStat);
+
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
@@ -112,15 +114,15 @@ public class PageProductDaoImpl implements PageProductDao {
 	}
 
 	@Override
-	public void deletePageProduct(Integer pageProductId) {
+	public void deleteTrayStatus(Integer trayStatusId) {
 		SessionFactory factory = daoManager.initiateSession();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			PageProduct pageProduct = (PageProduct) session.get(
-					PageProduct.class, pageProductId);
-			session.delete(pageProduct);
+			TrayStatus trayStatus = (TrayStatus) session.get(TrayStatus.class,
+					trayStatusId);
+			session.delete(trayStatus);
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
@@ -130,4 +132,5 @@ public class PageProductDaoImpl implements PageProductDao {
 			session.close();
 		}
 	}
+
 }

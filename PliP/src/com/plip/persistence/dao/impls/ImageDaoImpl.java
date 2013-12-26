@@ -74,8 +74,8 @@ public class ImageDaoImpl implements ImageDao {
 			img.setDescriptor(image.getDescriptor());
 			img.setName(image.getName());
 			img.setPath(image.getPath());
-			img.setPosition(image.getPosition());
-			img.setProduct(image.getProduct());
+			img.setIdPosition(image.getIdPosition());
+			img.setIdProduct(image.getIdProduct());
 			img.setTrained(image.isTrained());
 			session.update(img);
 			tx.commit();
