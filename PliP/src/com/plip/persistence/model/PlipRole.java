@@ -22,10 +22,9 @@ public class PlipRole implements java.io.Serializable {
 		this.name = name;
 	}
 
-	public PlipRole(String name, String description, Set plipUsers) {
+	public PlipRole(String name, String description) {
 		this.name = name;
 		this.description = description;
-		this.plipUsers = plipUsers;
 	}
 
 	public Long getIdPlipRole() {

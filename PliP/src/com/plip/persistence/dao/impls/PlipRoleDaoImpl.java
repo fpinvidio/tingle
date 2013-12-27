@@ -38,7 +38,7 @@ public class PlipRoleDaoImpl implements PlipRoleDao {
 	}
 
 	@Override
-	public PlipRole getRole(int idRole) {
+	public PlipRole getRole(Long idRole) {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;

@@ -6,7 +6,7 @@ public interface PlipRoleDao {
 	
 	public Long addRole(PlipRole role) ;
 	
-	public PlipRole getRole(int idRole);
+	public PlipRole getRole(Long idRole);
 	
 	public void updateRole(PlipRole role);
 	
