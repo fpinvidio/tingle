@@ -46,12 +46,12 @@ public class PlipTrainer {
 				}else{
 					pos = getCodePosition(null);
 				}
+				ProductDaoImpl pDao = new ProductDaoImpl();
 				Product product = new Product();
 				product.setName(productName);
 				product.setEnabled(true);
 				product.setLaboratory("");
 				product.setDescription(productName);
-				ProductDaoImpl pDao = new ProductDaoImpl();
 				pDao.addProduct(product);
 				Image image = new Image();
 				image.setPosition(pos);

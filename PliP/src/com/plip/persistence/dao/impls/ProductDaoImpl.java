@@ -92,7 +92,7 @@ public class ProductDaoImpl implements ProductDao{
 	}
 
 	@Override
-	public void deletePosition(Integer productId) {
+	public void deleteProduct(Long productId) {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;

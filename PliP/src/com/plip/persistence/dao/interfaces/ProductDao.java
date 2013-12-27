@@ -10,6 +10,6 @@ public interface ProductDao {
 	
 	public void updateProduct(Product product);
 	
-	public void deletePosition(Integer productId);
+	public void deleteProduct(Long productId);
 
 }
