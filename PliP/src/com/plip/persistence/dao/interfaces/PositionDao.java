@@ -4,7 +4,7 @@ import com.plip.persistence.model.Position;
 
 public interface PositionDao {
 	
-	public Integer addPosition(Position position);
+	public Long addPosition(Position position);
 	
 	public Position getPosition(int idPosition);
 	

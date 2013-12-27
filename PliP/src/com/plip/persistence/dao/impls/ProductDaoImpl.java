@@ -13,11 +13,8 @@ import com.plip.persistence.model.Status;
 
 public class ProductDaoImpl implements ProductDao{
 
-	
-	
 	public ProductDaoImpl() {
-		super();
-		
+		super();		
 	}
 
 	@Override

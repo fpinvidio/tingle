@@ -14,22 +14,19 @@ import com.plip.persistence.model.Status;
 
 public class ProductCategoryDaoImpl implements ProductCategoryDao{
 	
-	
-
 	public ProductCategoryDaoImpl() {
-		super();
-		
+		super();	
 	}
 
 	@Override
-	public Integer addProductCategory(ProductCategory productCategory) {
+	public Long addProductCategory(ProductCategory productCategory) {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
-		Integer productCategoryID = null;
+		Long productCategoryID = null;
 		try {
 			tx = session.beginTransaction();
-			productCategoryID = (Integer) session.save(productCategory);
+			productCategoryID = (Long) session.save(productCategory);
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)

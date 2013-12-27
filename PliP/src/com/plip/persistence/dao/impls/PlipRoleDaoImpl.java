@@ -13,22 +13,19 @@ import com.plip.persistence.model.Status;
 
 public class PlipRoleDaoImpl implements PlipRoleDao {
 	
-	
-
 	public PlipRoleDaoImpl() {
 		super();
-	
 	}
 
 	@Override
-	public Integer addRole(PlipRole role) {
+	public Long addRole(PlipRole role) {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
-		Integer roleID = null;
+		Long roleID = null;
 		try {
 			tx = session.beginTransaction();
-			roleID = (Integer) session.save(role);
+			roleID = (Long) session.save(role);
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)

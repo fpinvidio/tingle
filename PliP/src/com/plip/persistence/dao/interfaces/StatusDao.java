@@ -4,7 +4,7 @@ import com.plip.persistence.model.Status;
 
 public interface StatusDao {
 	
-	public Integer addStatus(Status status);
+	public Long addStatus(Status status);
 	
 	public Status getStatus(int idStatus);
 	

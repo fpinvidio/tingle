@@ -13,22 +13,19 @@ import com.plip.persistence.model.Status;
 
 public class ImageDaoImpl implements ImageDao {
 	
-
-
 	public ImageDaoImpl() {
 		super();
-	
 	}
 
 	@Override
-	public Integer addImage(Image image) {
+	public Long addImage(Image image) {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
-		Integer imageID = null;
+		Long imageID = null;
 		try {
 			tx = session.beginTransaction();
-			imageID = (Integer) session.save(image);
+			imageID = (Long) session.save(image);
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)

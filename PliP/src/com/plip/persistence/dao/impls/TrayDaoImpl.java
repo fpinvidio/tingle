@@ -14,22 +14,19 @@ import com.plip.persistence.model.Tray;
 
 public class TrayDaoImpl implements TrayDao {
 	
-	
-
 	public TrayDaoImpl() {
-		super();
-		
+		super();	
 	}
 
 	@Override
-	public Integer addTray(Tray tray) {
+	public Long addTray(Tray tray) {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
-		Integer trayID = null;
+		Long trayID = null;
 		try {
 			tx = session.beginTransaction();
-			trayID = (Integer) session.save(tray);
+			trayID = (Long) session.save(tray);
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)

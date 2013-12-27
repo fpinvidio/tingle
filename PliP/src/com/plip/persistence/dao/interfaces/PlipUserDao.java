@@ -4,7 +4,7 @@ import com.plip.persistence.model.PlipUser;
 
 public interface PlipUserDao {
 	
-	public Integer addUser(PlipUser user) ;
+	public Long addUser(PlipUser user) ;
 	
 	public PlipUser getUser(int idUser);
 	

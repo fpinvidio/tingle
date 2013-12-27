@@ -14,22 +14,19 @@ import com.plip.persistence.model.Status;
 
 public class OrderDaoImpl implements OrderDao {
 	
-
-
 	public OrderDaoImpl() {
 		super();
-	
 	}
 
 	@Override
-	public Integer addOrder(Order order) {
+	public Long addOrder(Order order) {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
-		Integer orderID = null;
+		Long orderID = null;
 		try {
 			tx = session.beginTransaction();
-			orderID = (Integer) session.save(order);
+			orderID = (Long) session.save(order);
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)

@@ -13,22 +13,19 @@ import com.plip.persistence.model.Status;
 
 public class PlipUserDaoImpl implements PlipUserDao {
 	
-	
-
 	public PlipUserDaoImpl() {
-		super();
-		
+		super();	
 	}
 
 	@Override
-	public Integer addUser(PlipUser user) {
+	public Long addUser(PlipUser user) {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
-		Integer userID = null;
+		Long userID = null;
 		try {
 			tx = session.beginTransaction();
-			userID = (Integer) session.save(user);
+			userID = (Long) session.save(user);
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
