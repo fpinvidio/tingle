@@ -16,22 +16,19 @@ import com.plip.persistence.model.TrayStatus;
 
 public class TrayStatusDaoImpl implements TrayStatusDao {
 
-	
-
 	public TrayStatusDaoImpl() {
-		super();
-		
+		super();		
 	}
 
 	@Override
-	public Integer addTrayStatus(TrayStatus trayStatus) {
+	public Long addTrayStatus(TrayStatus trayStatus) {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
-		Integer trayStatusID = null;
+		Long trayStatusID = null;
 		try {
 			tx = session.beginTransaction();
-			trayStatusID = (Integer) session.save(trayStatus);
+			trayStatusID = (Long) session.save(trayStatus);
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)

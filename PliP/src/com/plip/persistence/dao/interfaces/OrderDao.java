@@ -4,7 +4,7 @@ import com.plip.persistence.model.Order;
 
 public interface OrderDao {
 	
-	public Integer addOrder(Order order) ;
+	public Long addOrder(Order order) ;
 	
 	public Order getOrder(int idOrder);
 	

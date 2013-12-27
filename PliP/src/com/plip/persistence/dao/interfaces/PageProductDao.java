@@ -8,7 +8,7 @@ import com.plip.persistence.model.Product;
 
 public interface PageProductDao {
 	
-	public Integer addPageProduct(PageProduct pageProduct) ;
+	public Long addPageProduct(PageProduct pageProduct) ;
 	
 	public List <Page> getPagesByProduct(int idProduct);
 	

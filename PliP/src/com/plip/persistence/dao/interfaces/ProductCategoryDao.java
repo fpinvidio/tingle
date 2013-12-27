@@ -5,7 +5,7 @@ import com.plip.persistence.model.Status;
 
 public interface ProductCategoryDao {
 	
-	public Integer addProductCategory(ProductCategory productCategory);
+	public Long addProductCategory(ProductCategory productCategory);
 	
 	public ProductCategory getProductCategory(int idProductCategory);
 	

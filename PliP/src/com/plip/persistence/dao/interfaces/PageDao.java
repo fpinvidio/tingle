@@ -4,7 +4,7 @@ import com.plip.persistence.model.Page;
 
 public interface PageDao {
 	
-	public Integer addPage(Page page) ;
+	public Long addPage(Page page) ;
 	
 	public Page getPage(int idPage);
 	

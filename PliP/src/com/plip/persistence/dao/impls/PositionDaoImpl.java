@@ -14,22 +14,19 @@ import com.plip.persistence.model.Status;
 
 public class PositionDaoImpl implements PositionDao {
 
-	
-
 	public PositionDaoImpl() {
-		super();
-		
+		super();		
 	}
 
 	@Override
-	public Integer addPosition(Position position) {
+	public Long addPosition(Position position) {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
-		Integer positionID = null;
+		Long positionID = null;
 		try {
 			tx = session.beginTransaction();
-			positionID = (Integer) session.save(position);
+			positionID = (Long) session.save(position);
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)

@@ -8,7 +8,7 @@ import com.plip.persistence.model.TrayStatus;
 
 public interface TrayStatusDao {
 	
-	public Integer addTrayStatus(TrayStatus trayStatus) ;
+	public Long addTrayStatus(TrayStatus trayStatus) ;
 	
 	public List <Tray> getTraysByStatus(int idStatus);
 	

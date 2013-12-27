@@ -4,7 +4,7 @@ import com.plip.persistence.model.Image;
 
 public interface ImageDao {
 	
-	public Integer addImage(Image image) ;
+	public Long addImage(Image image) ;
 	
 	public Image getImage(int idImage);
 	

@@ -12,23 +12,20 @@ import com.plip.persistence.model.Status;
 
 public class StatusDaoImpl implements StatusDao {
 
-	
-
 	public StatusDaoImpl() {
-		super();
-		
+		super();		
 	}
 
 	@Override
 	/* Method to add a new Plip Status */
-	public Integer addStatus(Status status) {
+	public Long addStatus(Status status) {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
-		Integer statusID = null;
+		Long statusID = null;
 		try {
 			tx = session.beginTransaction();
-			statusID = (Integer) session.save(status);
+			statusID = (Long) session.save(status);
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)

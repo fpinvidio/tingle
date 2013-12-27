@@ -4,7 +4,7 @@ import com.plip.persistence.model.Tray;
 
 public interface TrayDao {
 	
-	public Integer addTray(Tray tray);
+	public Long addTray(Tray tray);
 	
 	public Tray getTray(int idTray);
 	

@@ -17,22 +17,19 @@ import com.plip.persistence.model.Product;
 
 public class PageProductDaoImpl implements PageProductDao {
 
-	
-
 	public PageProductDaoImpl() {
-		super();
-	
+		super();	
 	}
 
 	@Override
-	public Integer addPageProduct(PageProduct pageProduct) {
+	public Long addPageProduct(PageProduct pageProduct) {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
-		Integer pageProductID = null;
+		Long pageProductID = null;
 		try {
 			tx = session.beginTransaction();
-			pageProductID = (Integer) session.save(pageProduct);
+			pageProductID = (Long) session.save(pageProduct);
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)

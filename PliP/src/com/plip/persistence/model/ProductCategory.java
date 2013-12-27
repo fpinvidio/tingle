@@ -17,9 +17,8 @@ public class ProductCategory implements java.io.Serializable {
 	public ProductCategory() {
 	}
 
-	public ProductCategory(String description, Set products) {
+	public ProductCategory(String description) {
 		this.description = description;
-		this.products = products;
 	}
 
 	public Long getIdProductType() {

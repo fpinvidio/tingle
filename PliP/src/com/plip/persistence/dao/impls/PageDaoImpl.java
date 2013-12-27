@@ -12,23 +12,20 @@ import com.plip.persistence.model.Page;
 import com.plip.persistence.model.Status;
 
 public class PageDaoImpl implements PageDao {
-	
-	
 
 	public PageDaoImpl() {
 		super();
-	
 	}
 
 	@Override
-	public Integer addPage(Page page) {
+	public Long addPage(Page page) {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
-		Integer pageID = null;
+		Long pageID = null;
 		try {
 			tx = session.beginTransaction();
-			pageID = (Integer) session.save(page);
+			pageID = (Long) session.save(page);
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
@@ -48,8 +45,7 @@ public class PageDaoImpl implements PageDao {
 		Page page = null;
 		try {
 			tx = session.beginTransaction();
-			Query query = session
-					.createQuery("FROM Page where idPage = :id");
+			Query query = session.createQuery("FROM Page where idPage = :id");
 			query.setParameter("id", idPage);
 			page = (Page) query.list().get(0);
 			tx.commit();
@@ -70,8 +66,7 @@ public class PageDaoImpl implements PageDao {
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			Page pag = (Page) session.get(Status.class,
-					page.getIdPage());
+			Page pag = (Page) session.get(Status.class, page.getIdPage());
 			pag.setOrder(page.getOrder());
 			pag.setPageImage(page.getPageImage());
 			pag.setPageNumber(page.getPageNumber());
@@ -87,7 +82,7 @@ public class PageDaoImpl implements PageDao {
 		} finally {
 			session.close();
 		}
-		
+
 	}
 
 	@Override
@@ -106,6 +101,6 @@ public class PageDaoImpl implements PageDao {
 			e.printStackTrace();
 		} finally {
 			session.close();
-		}		
+		}
 	}
 }
