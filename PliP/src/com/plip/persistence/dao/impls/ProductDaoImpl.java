@@ -7,9 +7,9 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import com.plip.persistence.dao.interfaces.ProductDao;
+import com.plip.persistence.exceptions.ProductNotFoundException;
 import com.plip.persistence.managers.DaoManager;
 import com.plip.persistence.model.Product;
-import com.plip.persistence.model.Status;
 
 public class ProductDaoImpl implements ProductDao{
 
@@ -111,7 +111,7 @@ public class ProductDaoImpl implements ProductDao{
 	}
 
 	@Override
-	public Product getProductByName(String name) {
+	public Product getProductByName(String name) throws ProductNotFoundException{
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
@@ -121,7 +121,11 @@ public class ProductDaoImpl implements ProductDao{
 			Query query = session
 					.createQuery("FROM Product where name = :name");
 			query.setParameter("name", name);
+			if(query.list().size() > 0){
 			product = (Product) query.list().get(0);
+			}else{
+				throw new ProductNotFoundException();
+			}
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)

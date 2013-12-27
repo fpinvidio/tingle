@@ -12,6 +12,7 @@ import com.plip.persistence.dao.impls.ImageDaoImpl;
 import com.plip.persistence.dao.impls.PositionDaoImpl;
 import com.plip.persistence.dao.impls.ProductDaoImpl;
 import com.plip.persistence.dao.interfaces.ProductDao;
+import com.plip.persistence.exceptions.ProductNotFoundException;
 import com.plip.persistence.managers.DaoManager;
 import com.plip.persistence.managers.DataTypeManager;
 import com.plip.persistence.managers.FileSystemManager;
@@ -43,25 +44,27 @@ public class PlipTrainer {
 				if (split.length > 0){
 					productName = split[0];
 				}
-				if (split.length < 1){
+				if (split.length > 1){
 					pos = getCodePosition(split[1]);
 				}else{
 					pos = getCodePosition(null);
 				}
-				
 				Product product = new Product();
-				product.setName(productName);
-				product.setEnabled(true);
-				product.setLaboratory("");
-				product.setDescription(productName);
-				pDao.addProduct(product);
+				try{
+				 product =  pDao.getProductByName(productName);
+				}catch(ProductNotFoundException e){
+				 product.setName(productName);
+			     product.setEnabled(true);
+				 product.setLaboratory("");
+				 product.setDescription(productName);
+				 pDao.addProduct(product);	
+				}
 				Image image = new Image();
 				image.setPosition(pos);
 				image.setProduct(product);
 				image.setDescriptor(DataTypeManager.convertMatToBlob(descriptors));
-				
 				image.setPath(getClass().getResource(
-				"/ProductImages").getPath());
+				"/ProductImages").getPath() +"/"+ productImageListOfFiles[i].getName());
 				iDao.addImage(image);
 			}
 		}

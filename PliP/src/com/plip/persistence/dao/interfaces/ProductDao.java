@@ -1,5 +1,6 @@
 package com.plip.persistence.dao.interfaces;
 
+import com.plip.persistence.exceptions.ProductNotFoundException;
 import com.plip.persistence.model.Product;
 
 public interface ProductDao {
@@ -8,10 +9,10 @@ public interface ProductDao {
 	
 	public Product getProduct(long idProduct);
 	
-	public Product getProductByName(String name);
+	public Product getProductByName(String name) throws ProductNotFoundException;;
 	
 	public void updateProduct(Product product);
 	
-	public void deleteProduct(long productId);
+	public void deleteProduct(long productId) ;
 
 }
