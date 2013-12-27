@@ -27,6 +27,8 @@ public class PlipTrainer {
 		ImageDescriptorExtractor extractor = new ImageDescriptorExtractor(FeatureDetector.ORB, DescriptorExtractor.BRISK);
 		
 		File[] productImageListOfFiles = productImageFolder.listFiles();
+		ProductDaoImpl pDao = new ProductDaoImpl();
+		ImageDaoImpl iDao = new ImageDaoImpl();
 		for (int i = 0; i < productImageListOfFiles.length; i++) {
 			if (productImageListOfFiles[i].isFile()
 					&& !((productImageListOfFiles[i].getName())
@@ -46,7 +48,7 @@ public class PlipTrainer {
 				}else{
 					pos = getCodePosition(null);
 				}
-				ProductDaoImpl pDao = new ProductDaoImpl();
+				
 				Product product = new Product();
 				product.setName(productName);
 				product.setEnabled(true);
@@ -57,7 +59,7 @@ public class PlipTrainer {
 				image.setPosition(pos);
 				image.setProduct(product);
 				image.setDescriptor(DataTypeManager.convertMatToBlob(descriptors));
-				ImageDaoImpl iDao = new ImageDaoImpl();
+				
 				image.setPath(getClass().getResource(
 				"/ProductImages").getPath());
 				iDao.addImage(image);
