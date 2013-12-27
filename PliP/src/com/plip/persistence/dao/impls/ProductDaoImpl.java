@@ -109,4 +109,27 @@ public class ProductDaoImpl implements ProductDao{
 			session.close();
 		}	
 	}
+
+	@Override
+	public Product getProductByName(String name) {
+		SessionFactory factory = DaoManager.createSessionFactory();
+		Session session = factory.openSession();
+		Transaction tx = null;
+		Product product = null;
+		try {
+			tx = session.beginTransaction();
+			Query query = session
+					.createQuery("FROM Product where name = :name");
+			query.setParameter("name", name);
+			product = (Product) query.list().get(0);
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return product;
+	}
 }

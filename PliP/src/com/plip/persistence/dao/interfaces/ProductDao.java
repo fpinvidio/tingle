@@ -8,6 +8,8 @@ public interface ProductDao {
 	
 	public Product getProduct(long idProduct);
 	
+	public Product getProductByName(String name);
+	
 	public void updateProduct(Product product);
 	
 	public void deleteProduct(long productId);
