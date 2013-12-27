@@ -39,7 +39,7 @@ public class PageDaoImpl implements PageDao {
 		}
 		return pageID;
 	}
-
+	
 	@Override
 	public Page getPage(int idPage) {
 		SessionFactory factory = DaoManager.createSessionFactory();

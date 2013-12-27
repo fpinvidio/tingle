@@ -8,11 +8,16 @@ import org.opencv.features2d.FeatureDetector;
 import org.opencv.highgui.Highgui;
 
 import com.plip.imageprocessing.processors.ImageDescriptorExtractor;
+import com.plip.persistence.dao.impls.ImageDaoImpl;
 import com.plip.persistence.dao.impls.PositionDaoImpl;
+import com.plip.persistence.dao.impls.ProductDaoImpl;
+import com.plip.persistence.dao.interfaces.ProductDao;
 import com.plip.persistence.managers.DaoManager;
+import com.plip.persistence.managers.DataTypeManager;
 import com.plip.persistence.managers.FileSystemManager;
 import com.plip.persistence.model.Image;
 import com.plip.persistence.model.Position;
+import com.plip.persistence.model.Product;
 
 public class PlipTrainer {
 
@@ -34,14 +39,28 @@ public class PlipTrainer {
 				String productName = "";
 				Position pos = new Position();
 				if (split.length > 0){
-					productName = split[0]; 
+					productName = split[0];
 				}
 				if (split.length < 1){
 					pos = getCodePosition(split[1]);
+				}else{
+					pos = getCodePosition(null);
 				}
-				
+				Product product = new Product();
+				product.setName(productName);
+				product.setEnabled(true);
+				product.setLaboratory("");
+				product.setDescription(productName);
+				ProductDaoImpl pDao = new ProductDaoImpl();
+				pDao.addProduct(product);
 				Image image = new Image();
-				
+				image.setPosition(pos);
+				image.setProduct(product);
+				image.setDescriptor(DataTypeManager.convertMatToBlob(descriptors));
+				ImageDaoImpl iDao = new ImageDaoImpl();
+				image.setPath(getClass().getResource(
+				"/ProductImages").getPath());
+				iDao.addImage(image);
 			}
 		}
 	}

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Dec 26, 2013 7:09:50 PM by Hibernate Tools 4.0.0 -->
+<!-- Generated Dec 26, 2013 8:22:22 PM by Hibernate Tools 4.0.0 -->
 <hibernate-mapping>
     <class name="com.plip.persistence.model.Position" table="position" catalog="plip">
         <id name="idPosition" type="java.lang.Integer">

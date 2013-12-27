@@ -21,14 +21,14 @@ public class ProductDaoImpl implements ProductDao{
 	}
 
 	@Override
-	public Integer addProduct(Product product) {
+	public Long addProduct(Product product) {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
-		Integer productID = null;
+		Long productID = null;
 		try {
 			tx = session.beginTransaction();
-			productID = (Integer) session.save(product);
+			productID = (Long) session.save(product);
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
