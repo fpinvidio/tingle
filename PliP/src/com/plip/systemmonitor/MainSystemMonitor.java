@@ -19,6 +19,7 @@ import com.plip.imageprocessing.processors.ObjectCounter;
 import com.plip.imageprocessing.processors.TrayProcessor;
 import com.plip.persistence.dao.impls.PlipRoleDaoImpl;
 import com.plip.persistence.dao.interfaces.PlipRoleDao;
+import com.plip.persistence.exceptions.PlipRoleNotFoundException;
 import com.plip.persistence.model.PlipRole;
 import com.plip.uinterfaces.MainMenuFrame;
 
@@ -48,8 +49,14 @@ public class MainSystemMonitor implements GenericEventListener {
 		//PlipTrainer trainer = new PlipTrainer();
 		//trainer.processProductImages();
 		PlipRoleDao roleDao = new PlipRoleDaoImpl();
+		
 		//PlipRole role = new PlipRole("administrador", "Aministra y monitorea el sistema y sus productos"); 
-		roleDao.getRole(new Long(5));
+		try {
+			roleDao.getRole(5);
+		} catch (PlipRoleNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 

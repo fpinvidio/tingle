@@ -5,7 +5,7 @@ import com.plip.persistence.model.PlipRole;
 
 public interface PlipRoleDao {
 	
-	public Long addRole(PlipRole role) ;
+	public Long addRole(PlipRole role);
 	
 	public PlipRole getRole(long idRole) throws PlipRoleNotFoundException;
 	

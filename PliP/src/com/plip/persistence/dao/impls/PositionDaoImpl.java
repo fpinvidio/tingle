@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import com.plip.persistence.dao.interfaces.PositionDao;
+import com.plip.persistence.exceptions.PositionNotFoundException;
 import com.plip.persistence.managers.DaoManager;
 import com.plip.persistence.model.Order;
 import com.plip.persistence.model.Position;
@@ -39,7 +40,7 @@ public class PositionDaoImpl implements PositionDao {
 	}
 
 	@Override
-	public Position getPosition(long idPosition) {
+	public Position getPosition(long idPosition) throws PositionNotFoundException {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
@@ -49,7 +50,11 @@ public class PositionDaoImpl implements PositionDao {
 			Query query = session
 					.createQuery("FROM Position where idPosition = :id");
 			query.setParameter("id", idPosition);
+			if(query.list().size()!=0){
 			position = (Position) query.list().get(0);
+			}else{
+				throw new PositionNotFoundException();
+			}
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
@@ -62,7 +67,7 @@ public class PositionDaoImpl implements PositionDao {
 	}
 
 	@Override
-	public void updatePosition(Position position) {
+	public void updatePosition(Position position) throws PositionNotFoundException {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
@@ -70,10 +75,14 @@ public class PositionDaoImpl implements PositionDao {
 			tx = session.beginTransaction();
 			Position pos = (Position) session.get(Position.class,
 					position.getIdPosition());
+			if(pos!=null){
 			pos.setAngle(position.getAngle());
 			pos.setFace(position.getFace());
 			pos.setImages(position.getImages());
 			session.update(pos);
+			}else{
+				throw new PositionNotFoundException();
+			}
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
@@ -92,7 +101,9 @@ public class PositionDaoImpl implements PositionDao {
 		try {
 			tx = session.beginTransaction();
 			Position position = (Position) session.get(Position.class, positionId);
+			if(position!=null){
 			session.delete(position);
+			}
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)

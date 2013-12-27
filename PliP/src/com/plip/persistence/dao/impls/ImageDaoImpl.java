@@ -8,6 +8,7 @@ import org.hibernate.Transaction;
 
 import com.plip.persistence.dao.interfaces.ImageDao;
 import com.plip.persistence.exceptions.ImageNotFoundException;
+import com.plip.persistence.exceptions.OrderNotFoundException;
 import com.plip.persistence.managers.DaoManager;
 import com.plip.persistence.model.Image;
 import com.plip.persistence.model.Status;
@@ -66,13 +67,14 @@ public class ImageDaoImpl implements ImageDao {
 	}
 
 	@Override
-	public void updateImage(Image image) {
+	public void updateImage(Image image) throws ImageNotFoundException{
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
 			Image img = (Image) session.get(Image.class, image.getIdImage());
+			if(img!=null){
 			img.setDescriptor(image.getDescriptor());
 			img.setName(image.getName());
 			img.setPath(image.getPath());
@@ -80,6 +82,9 @@ public class ImageDaoImpl implements ImageDao {
 			img.setProduct(image.getProduct());
 			img.setTrained(image.isTrained());
 			session.update(img);
+			}else{
+				throw new ImageNotFoundException();
+			}
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
@@ -91,14 +96,16 @@ public class ImageDaoImpl implements ImageDao {
 	}
 
 	@Override
-	public void deleteImage(long imageId) {
+	public void deleteImage(long imageId){
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
 			Image image = (Image) session.get(Image.class, imageId);
+			if(image!=null){
 			session.delete(image);
+			}
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)

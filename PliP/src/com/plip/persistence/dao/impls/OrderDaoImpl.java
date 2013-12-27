@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import com.plip.persistence.dao.interfaces.OrderDao;
+import com.plip.persistence.exceptions.OrderNotFoundException;
 import com.plip.persistence.managers.DaoManager;
 import com.plip.persistence.model.Image;
 import com.plip.persistence.model.Order;
@@ -39,7 +40,7 @@ public class OrderDaoImpl implements OrderDao {
 	}
 
 	@Override
-	public Order getOrder(long idOrder) {
+	public Order getOrder(long idOrder) throws OrderNotFoundException {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
@@ -49,7 +50,11 @@ public class OrderDaoImpl implements OrderDao {
 			Query query = session
 					.createQuery("FROM Order where idOrders = :id");
 			query.setParameter("id", idOrder);
+			if(query.list().size()!=0){
 			order = (Order) query.list().get(0);
+			}else{
+				throw new OrderNotFoundException();
+			}
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
@@ -62,18 +67,22 @@ public class OrderDaoImpl implements OrderDao {
 	}
 
 	@Override
-	public void updateOrder(Order order) {
+	public void updateOrder(Order order) throws OrderNotFoundException {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
 			Order ord = (Order) session.get(Order.class, order.getIdOrders());
+			if(ord!=null){
 			ord.setClient(order.getClient());
 			ord.setCode(order.getCode());
 			ord.setInsertDate(order.getInsertDate());
 			ord.setPages(order.getPages());
 			session.update(ord);
+			}else{
+				throw new OrderNotFoundException();
+			}
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
@@ -93,7 +102,9 @@ public class OrderDaoImpl implements OrderDao {
 		try {
 			tx = session.beginTransaction();
 			Order order = (Order) session.get(Order.class, orderId);
-			session.delete(order);
+			if(order!=null){
+			 session.delete(order);	
+			}
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)

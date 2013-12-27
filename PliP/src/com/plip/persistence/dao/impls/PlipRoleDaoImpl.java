@@ -102,8 +102,7 @@ public class PlipRoleDaoImpl implements PlipRoleDao {
 			PlipRole plipRole = (PlipRole) session.get(PlipRole.class, roleId);
 			if(plipRole!=null){
 			session.delete(plipRole);	
-			}
-			
+			}	
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)

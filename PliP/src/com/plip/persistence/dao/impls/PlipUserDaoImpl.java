@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import com.plip.persistence.dao.interfaces.PlipUserDao;
+import com.plip.persistence.exceptions.PlipUserNotFoundException;
 import com.plip.persistence.managers.DaoManager;
 import com.plip.persistence.model.PlipUser;
 import com.plip.persistence.model.Status;
@@ -38,7 +39,7 @@ public class PlipUserDaoImpl implements PlipUserDao {
 	}
 
 	@Override
-	public PlipUser getUser(long idUser) {
+	public PlipUser getUser(long idUser) throws PlipUserNotFoundException {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
@@ -48,7 +49,11 @@ public class PlipUserDaoImpl implements PlipUserDao {
 			Query query = session
 					.createQuery("FROM PlipUser where idPlipUser = :id");
 			query.setParameter("id", idUser);
+			if(query.list().size()!=0){
 			plipUser = (PlipUser) query.list().get(0);
+			}else{
+				throw new PlipUserNotFoundException();
+			}
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
@@ -61,7 +66,7 @@ public class PlipUserDaoImpl implements PlipUserDao {
 	}
 
 	@Override
-	public void updateUser(PlipUser user) {
+	public void updateUser(PlipUser user) throws PlipUserNotFoundException {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
@@ -69,13 +74,16 @@ public class PlipUserDaoImpl implements PlipUserDao {
 			tx = session.beginTransaction();
 			PlipUser plipUser = (PlipUser) session.get(PlipUser.class,
 					user.getIdPlipUser());
+			if(plipUser!=null){
 			plipUser.setLastName(user.getLastName());
 			plipUser.setName(user.getName());
 			plipUser.setPassword(user.getPassword());
 			plipUser.setPlipRole(user.getPlipRole());
 			plipUser.setUsername(user.getUsername());
-			
 			session.update(plipUser);
+			}else{
+				throw new PlipUserNotFoundException();
+			}
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
@@ -95,7 +103,9 @@ public class PlipUserDaoImpl implements PlipUserDao {
 		try {
 			tx = session.beginTransaction();
 			PlipUser user = (PlipUser) session.get(PlipUser.class, userId);
+			if(user!=null){
 			session.delete(user);
+			}
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)

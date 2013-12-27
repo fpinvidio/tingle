@@ -9,6 +9,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import com.plip.persistence.dao.interfaces.PageProductDao;
+import com.plip.persistence.exceptions.PageProductNotFoundException;
 import com.plip.persistence.managers.DaoManager;
 import com.plip.persistence.model.Image;
 import com.plip.persistence.model.Page;
@@ -42,7 +43,7 @@ public class PageProductDaoImpl implements PageProductDao {
 	}
 
 	@Override
-	public List<Page> getPagesByProduct(long idProduct) {
+	public List<Page> getPagesByProduct(long idProduct) throws PageProductNotFoundException {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
@@ -51,7 +52,11 @@ public class PageProductDaoImpl implements PageProductDao {
 			Query query = session
 					.createQuery("FROM PageProduct where idProduct = :id");
 			query.setParameter("id", idProduct);
+			if(query.list().size()!=0){
 			pageList = query.list();
+			}else{
+				throw new PageProductNotFoundException();
+			}
 			tx.commit();
 
 		} catch (HibernateException e) {
@@ -65,7 +70,7 @@ public class PageProductDaoImpl implements PageProductDao {
 	}
 
 	@Override
-	public List<Product> getProductsByPage(long idPage) {
+	public List<Product> getProductsByPage(long idPage) throws PageProductNotFoundException {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
@@ -74,7 +79,11 @@ public class PageProductDaoImpl implements PageProductDao {
 			Query query = session
 					.createQuery("FROM PageProduct where idPage = :id");
 			query.setParameter("id", idPage);
+			if(query.list().size()!=0){
 			productList = query.list();
+			}else{
+				throw new PageProductNotFoundException();
+			}
 			tx.commit();
 
 		} catch (HibernateException e) {
@@ -117,7 +126,9 @@ public class PageProductDaoImpl implements PageProductDao {
 			tx = session.beginTransaction();
 			PageProduct pageProduct = (PageProduct) session.get(
 					PageProduct.class, pageProductId);
+			if(pageProduct!=null){
 			session.delete(pageProduct);
+			}
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)

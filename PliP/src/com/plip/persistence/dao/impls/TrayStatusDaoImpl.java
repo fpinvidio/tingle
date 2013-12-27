@@ -9,6 +9,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import com.plip.persistence.dao.interfaces.TrayStatusDao;
+import com.plip.persistence.exceptions.TrayStatusNotFoundException;
 import com.plip.persistence.managers.DaoManager;
 import com.plip.persistence.model.Status;
 import com.plip.persistence.model.Tray;
@@ -41,7 +42,7 @@ public class TrayStatusDaoImpl implements TrayStatusDao {
 	}
 
 	@Override
-	public List<Tray> getTraysByStatus(long idStatus) {
+	public List<Tray> getTraysByStatus(long idStatus) throws TrayStatusNotFoundException {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
@@ -50,7 +51,11 @@ public class TrayStatusDaoImpl implements TrayStatusDao {
 			Query query = session
 					.createQuery("FROM TrayStatus where idStatus = :id");
 			query.setParameter("id", idStatus);
+			if(query.list().size()!=0){
 			trayList = query.list();
+			}else{
+				throw new TrayStatusNotFoundException();
+			}
 			tx.commit();
 
 		} catch (HibernateException e) {
@@ -64,7 +69,7 @@ public class TrayStatusDaoImpl implements TrayStatusDao {
 	}
 
 	@Override
-	public List<Status> getStatusByTray(long idTray) {
+	public List<Status> getStatusByTray(long idTray) throws TrayStatusNotFoundException {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
@@ -73,7 +78,11 @@ public class TrayStatusDaoImpl implements TrayStatusDao {
 			Query query = session
 					.createQuery("FROM TrayStatus where idTray = :id");
 			query.setParameter("id", idTray);
+			if(query.list().size()!=0){
 			statusList = query.list();
+			}else{
+				throw new TrayStatusNotFoundException();
+			}
 			tx.commit();
 
 		} catch (HibernateException e) {
@@ -87,7 +96,7 @@ public class TrayStatusDaoImpl implements TrayStatusDao {
 	}
 
 	@Override
-	public void updateTrayStatus(TrayStatus trayStatus) {
+	public void updateTrayStatus(TrayStatus trayStatus) throws TrayStatusNotFoundException {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
@@ -95,11 +104,14 @@ public class TrayStatusDaoImpl implements TrayStatusDao {
 			tx = session.beginTransaction();
 			TrayStatus trayStat = (TrayStatus) session.get(TrayStatus.class,
 					trayStatus.getIdTrayStatus());
+			if(trayStat!=null){
 			trayStat.setDate(trayStatus.getDate());
 			trayStat.setQuantity(trayStatus.getQuantity());
 			trayStat.setProduct(trayStatus.getProduct());
 			session.update(trayStat);
-
+			}else{
+				throw new TrayStatusNotFoundException();
+			}
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
@@ -119,7 +131,9 @@ public class TrayStatusDaoImpl implements TrayStatusDao {
 			tx = session.beginTransaction();
 			TrayStatus trayStatus = (TrayStatus) session.get(TrayStatus.class,
 					trayStatusId);
+			if(trayStatus!=null){
 			session.delete(trayStatus);
+			}
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
@@ -129,5 +143,4 @@ public class TrayStatusDaoImpl implements TrayStatusDao {
 			session.close();
 		}
 	}
-
 }

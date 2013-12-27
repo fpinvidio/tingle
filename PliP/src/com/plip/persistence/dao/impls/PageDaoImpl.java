@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import com.plip.persistence.dao.interfaces.PageDao;
+import com.plip.persistence.exceptions.PageNotFoundException;
 import com.plip.persistence.managers.DaoManager;
 import com.plip.persistence.model.Page;
 import com.plip.persistence.model.Status;
@@ -38,7 +39,7 @@ public class PageDaoImpl implements PageDao {
 	}
 	
 	@Override
-	public Page getPage(long idPage) {
+	public Page getPage(long idPage) throws PageNotFoundException {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
@@ -47,7 +48,11 @@ public class PageDaoImpl implements PageDao {
 			tx = session.beginTransaction();
 			Query query = session.createQuery("FROM Page where idPage = :id");
 			query.setParameter("id", idPage);
+			if(query.list().size()!=0){
 			page = (Page) query.list().get(0);
+			}else{
+				throw new PageNotFoundException();
+			}
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
@@ -60,13 +65,14 @@ public class PageDaoImpl implements PageDao {
 	}
 
 	@Override
-	public void updatePage(Page page) {
+	public void updatePage(Page page) throws PageNotFoundException {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
 			Page pag = (Page) session.get(Status.class, page.getIdPage());
+			if(pag!=null){
 			pag.setOrder(page.getOrder());
 			pag.setPageImage(page.getPageImage());
 			pag.setPageNumber(page.getPageNumber());
@@ -74,6 +80,9 @@ public class PageDaoImpl implements PageDao {
 			pag.setProductQuantity(page.getProductQuantity());
 			pag.setTrays(page.getTrays());
 			session.update(pag);
+			}else{
+				throw new PageNotFoundException();
+			}
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
@@ -93,7 +102,9 @@ public class PageDaoImpl implements PageDao {
 		try {
 			tx = session.beginTransaction();
 			Page page = (Page) session.get(Status.class, pageId);
+			if(page!=null){
 			session.delete(page);
+			}
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)

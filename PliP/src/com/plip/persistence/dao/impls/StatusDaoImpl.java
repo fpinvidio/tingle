@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import com.plip.persistence.dao.interfaces.StatusDao;
+import com.plip.persistence.exceptions.StatusNotFoundException;
 import com.plip.persistence.managers.DaoManager;
 import com.plip.persistence.model.Status;
 
@@ -39,7 +40,7 @@ public class StatusDaoImpl implements StatusDao {
 
 	@Override
 	/* Method to GET a Plip System Status */
-	public Status getStatus(long idStatus) {
+	public Status getStatus(long idStatus) throws StatusNotFoundException {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
@@ -49,7 +50,11 @@ public class StatusDaoImpl implements StatusDao {
 			Query query = session
 					.createQuery("FROM Status where idStatus = :id");
 			query.setParameter("id", idStatus);
+			if(query.list().size()!=0){
 			status = (Status) query.list().get(0);
+			}else{
+				throw new StatusNotFoundException();
+			}
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
@@ -63,7 +68,7 @@ public class StatusDaoImpl implements StatusDao {
 
 	@Override
 	/* Method to UPDATE a Plip System Status */
-	public void updateStatus(Status status) {
+	public void updateStatus(Status status) throws StatusNotFoundException {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
@@ -71,8 +76,12 @@ public class StatusDaoImpl implements StatusDao {
 			tx = session.beginTransaction();
 			Status stat = (Status) session.get(Status.class,
 					status.getIdStatus());
+			if(stat!=null){
 			stat.setDescription(status.getDescription());
 			session.update(stat);
+			}else{
+				throw new StatusNotFoundException();
+			}
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
@@ -92,7 +101,9 @@ public class StatusDaoImpl implements StatusDao {
 		try {
 			tx = session.beginTransaction();
 			Status status = (Status) session.get(Status.class, statusId);
+			if(status!=null){
 			session.delete(status);
+			}
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
