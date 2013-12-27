@@ -7,10 +7,10 @@ public interface ProductCategoryDao {
 	
 	public Long addProductCategory(ProductCategory productCategory);
 	
-	public ProductCategory getProductCategory(int idProductCategory);
+	public ProductCategory getProductCategory(long idProductCategory);
 	
 	public void updateProductCategory(ProductCategory productCategory);
 	
-	public void deleteProductCategory(Integer productCategoryId);
+	public void deleteProductCategory(long productCategoryId);
 
 }

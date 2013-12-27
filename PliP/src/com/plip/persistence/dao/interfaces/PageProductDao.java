@@ -10,12 +10,12 @@ public interface PageProductDao {
 	
 	public Long addPageProduct(PageProduct pageProduct) ;
 	
-	public List <Page> getPagesByProduct(int idProduct);
+	public List <Page> getPagesByProduct(long idProduct);
 	
-	public List <Product> getProductsByPage(int idPage);
+	public List <Product> getProductsByPage(long idPage);
 	
 	public void updatePageProduct(PageProduct pageProduct);
 	
-	public void deletePageProduct(Integer pageProductId);
+	public void deletePageProduct(long pageProductId);
 
 }

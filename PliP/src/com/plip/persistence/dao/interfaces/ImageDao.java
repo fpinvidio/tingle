@@ -6,10 +6,10 @@ public interface ImageDao {
 	
 	public Long addImage(Image image) ;
 	
-	public Image getImage(int idImage);
+	public Image getImage(long idImage);
 	
 	public void updateImage(Image image);
 	
-	public void deleteImage(Integer imageId);
+	public void deleteImage(long imageId);
 
 }

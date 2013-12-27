@@ -6,10 +6,10 @@ public interface PageDao {
 	
 	public Long addPage(Page page) ;
 	
-	public Page getPage(int idPage);
+	public Page getPage(long idPage);
 	
 	public void updatePage(Page page);
 	
-	public void deletePage(Integer pageId);
+	public void deletePage(long pageId);
 
 }

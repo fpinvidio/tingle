@@ -39,7 +39,7 @@ public class ProductCategoryDaoImpl implements ProductCategoryDao{
 	}
 
 	@Override
-	public ProductCategory getProductCategory(int idProductCategory) {
+	public ProductCategory getProductCategory(long idProductCategory) {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
@@ -84,7 +84,7 @@ public class ProductCategoryDaoImpl implements ProductCategoryDao{
 	}
 
 	@Override
-	public void deleteProductCategory(Integer productCategoryId) {
+	public void deleteProductCategory(long productCategoryId) {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;

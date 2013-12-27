@@ -39,7 +39,7 @@ public class TrayDaoImpl implements TrayDao {
 	}
 
 	@Override
-	public Tray getTray(int idTray) {
+	public Tray getTray(long idTray) {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
@@ -84,7 +84,7 @@ public class TrayDaoImpl implements TrayDao {
 	}
 
 	@Override
-	public void deleteTray(Tray trayId) {
+	public void deleteTray(long trayId) {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;

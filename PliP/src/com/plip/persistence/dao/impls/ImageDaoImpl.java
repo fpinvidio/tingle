@@ -38,7 +38,7 @@ public class ImageDaoImpl implements ImageDao {
 	}
 
 	@Override
-	public Image getImage(int idImage) {
+	public Image getImage(long idImage) {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
@@ -86,7 +86,7 @@ public class ImageDaoImpl implements ImageDao {
 	}
 
 	@Override
-	public void deleteImage(Integer imageId) {
+	public void deleteImage(long imageId) {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;

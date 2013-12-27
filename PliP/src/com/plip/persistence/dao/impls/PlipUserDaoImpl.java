@@ -38,7 +38,7 @@ public class PlipUserDaoImpl implements PlipUserDao {
 	}
 
 	@Override
-	public PlipUser getUser(int idUser) {
+	public PlipUser getUser(long idUser) {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
@@ -88,7 +88,7 @@ public class PlipUserDaoImpl implements PlipUserDao {
 	}
 
 	@Override
-	public void deleteUser(Integer userId) {
+	public void deleteUser(long userId) {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;

@@ -38,7 +38,7 @@ public class ProductDaoImpl implements ProductDao{
 	}
 
 	@Override
-	public Product getProduct(int idProduct) {
+	public Product getProduct(long idProduct) {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
@@ -92,7 +92,7 @@ public class ProductDaoImpl implements ProductDao{
 	}
 
 	@Override
-	public void deleteProduct(Long productId) {
+	public void deleteProduct(long productId) {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;

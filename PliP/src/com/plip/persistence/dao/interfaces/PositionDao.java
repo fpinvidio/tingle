@@ -6,10 +6,10 @@ public interface PositionDao {
 	
 	public Long addPosition(Position position);
 	
-	public Position getPosition(int idPosition);
+	public Position getPosition(long idPosition);
 	
 	public void updatePosition(Position position);
 	
-	public void deletePosition(Integer positionId);
+	public void deletePosition(long positionId);
 
 }

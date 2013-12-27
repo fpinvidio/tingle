@@ -10,12 +10,12 @@ public interface TrayStatusDao {
 	
 	public Long addTrayStatus(TrayStatus trayStatus) ;
 	
-	public List <Tray> getTraysByStatus(int idStatus);
+	public List <Tray> getTraysByStatus(long idStatus);
 	
-	public List <Status> getStatusByTray(int idTray);
+	public List <Status> getStatusByTray(long idTray);
 	
 	public void updateTrayStatus(TrayStatus trayStatus);
 	
-	public void deleteTrayStatus(Integer trayStatusId);
+	public void deleteTrayStatus(long trayStatusId);
 
 }

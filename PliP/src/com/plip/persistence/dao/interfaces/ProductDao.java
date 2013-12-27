@@ -6,10 +6,10 @@ public interface ProductDao {
 	
 	public Long addProduct(Product product);
 	
-	public Product getProduct(int idProduct);
+	public Product getProduct(long idProduct);
 	
 	public void updateProduct(Product product);
 	
-	public void deleteProduct(Long productId);
+	public void deleteProduct(long productId);
 
 }

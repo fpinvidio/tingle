@@ -39,7 +39,7 @@ public class StatusDaoImpl implements StatusDao {
 
 	@Override
 	/* Method to GET a Plip System Status */
-	public Status getStatus(int idStatus) {
+	public Status getStatus(long idStatus) {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
@@ -85,7 +85,7 @@ public class StatusDaoImpl implements StatusDao {
 
 	@Override
 	/* Method to DELETE a possible system Status */
-	public void deleteStatus(Integer statusId) {
+	public void deleteStatus(long statusId) {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;

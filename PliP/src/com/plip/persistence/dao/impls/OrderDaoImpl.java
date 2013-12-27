@@ -39,7 +39,7 @@ public class OrderDaoImpl implements OrderDao {
 	}
 
 	@Override
-	public Order getOrder(int idOrder) {
+	public Order getOrder(long idOrder) {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
@@ -86,7 +86,7 @@ public class OrderDaoImpl implements OrderDao {
 	}
 
 	@Override
-	public void deleteOrder(Integer orderId) {
+	public void deleteOrder(long orderId) {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;

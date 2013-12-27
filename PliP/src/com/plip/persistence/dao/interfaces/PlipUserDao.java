@@ -6,9 +6,9 @@ public interface PlipUserDao {
 	
 	public Long addUser(PlipUser user) ;
 	
-	public PlipUser getUser(int idUser);
+	public PlipUser getUser(long idUser);
 	
 	public void updateUser(PlipUser user);
 	
-	public void deleteUser(Integer userId);
+	public void deleteUser(long userId);
 }

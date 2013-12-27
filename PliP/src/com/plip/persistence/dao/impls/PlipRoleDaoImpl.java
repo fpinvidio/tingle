@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import com.plip.persistence.dao.interfaces.PlipRoleDao;
+import com.plip.persistence.exceptions.PlipRoleNotFoundException;
 import com.plip.persistence.managers.DaoManager;
 import com.plip.persistence.model.PlipRole;
 import com.plip.persistence.model.Status;
@@ -38,7 +39,7 @@ public class PlipRoleDaoImpl implements PlipRoleDao {
 	}
 
 	@Override
-	public PlipRole getRole(Long idRole) {
+	public PlipRole getRole(long idRole) throws PlipRoleNotFoundException {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
@@ -48,7 +49,11 @@ public class PlipRoleDaoImpl implements PlipRoleDao {
 			Query query = session
 					.createQuery("FROM PlipRole where idPlipRole = :id");
 			query.setParameter("id", idRole);
-			plipRole = (PlipRole) query.list().get(0);
+			if(query.list().size()!=0){
+			plipRole = (PlipRole) query.list().get(0);	
+			}else{
+				throw new PlipRoleNotFoundException();
+			}
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
@@ -61,7 +66,7 @@ public class PlipRoleDaoImpl implements PlipRoleDao {
 	}
 
 	@Override
-	public void updateRole(PlipRole role) {
+	public void updateRole(PlipRole role) throws PlipRoleNotFoundException {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
@@ -69,10 +74,14 @@ public class PlipRoleDaoImpl implements PlipRoleDao {
 			tx = session.beginTransaction();
 			PlipRole plipRole = (PlipRole) session.get(PlipRole.class,
 					role.getIdPlipRole());
+			if(plipRole!=null){
 			plipRole.setName(role.getName());
 			plipRole.setPlipUsers(role.getPlipUsers());
 			plipRole.setDescription(role.getDescription());
 			session.update(plipRole);
+			}else{
+				throw new PlipRoleNotFoundException();
+			}
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
@@ -84,14 +93,17 @@ public class PlipRoleDaoImpl implements PlipRoleDao {
 	}
 
 	@Override
-	public void deleteRole(Integer roleId) {
+	public void deleteRole(long roleId) {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
 			PlipRole plipRole = (PlipRole) session.get(PlipRole.class, roleId);
-			session.delete(plipRole);
+			if(plipRole!=null){
+			session.delete(plipRole);	
+			}
+			
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)

@@ -42,7 +42,7 @@ public class PageProductDaoImpl implements PageProductDao {
 	}
 
 	@Override
-	public List<Page> getPagesByProduct(int idProduct) {
+	public List<Page> getPagesByProduct(long idProduct) {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
@@ -65,7 +65,7 @@ public class PageProductDaoImpl implements PageProductDao {
 	}
 
 	@Override
-	public List<Product> getProductsByPage(int idPage) {
+	public List<Product> getProductsByPage(long idPage) {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
@@ -109,7 +109,7 @@ public class PageProductDaoImpl implements PageProductDao {
 	}
 
 	@Override
-	public void deletePageProduct(Integer pageProductId) {
+	public void deletePageProduct(long pageProductId) {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;

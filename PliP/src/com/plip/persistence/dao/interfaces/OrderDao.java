@@ -6,10 +6,10 @@ public interface OrderDao {
 	
 	public Long addOrder(Order order) ;
 	
-	public Order getOrder(int idOrder);
+	public Order getOrder(long idOrder);
 	
 	public void updateOrder(Order order);
 	
-	public void deleteOrder(Integer orderId);
+	public void deleteOrder(long orderId);
 
 }

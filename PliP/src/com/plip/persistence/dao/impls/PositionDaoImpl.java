@@ -39,7 +39,7 @@ public class PositionDaoImpl implements PositionDao {
 	}
 
 	@Override
-	public Position getPosition(int idPosition) {
+	public Position getPosition(long idPosition) {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
@@ -85,7 +85,7 @@ public class PositionDaoImpl implements PositionDao {
 	}
 
 	@Override
-	public void deletePosition(Integer positionId) {
+	public void deletePosition(long positionId) {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;

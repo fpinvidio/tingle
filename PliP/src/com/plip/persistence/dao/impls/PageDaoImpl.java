@@ -38,7 +38,7 @@ public class PageDaoImpl implements PageDao {
 	}
 	
 	@Override
-	public Page getPage(int idPage) {
+	public Page getPage(long idPage) {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
@@ -86,7 +86,7 @@ public class PageDaoImpl implements PageDao {
 	}
 
 	@Override
-	public void deletePage(Integer pageId) {
+	public void deletePage(long pageId) {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;

@@ -6,10 +6,10 @@ public interface TrayDao {
 	
 	public Long addTray(Tray tray);
 	
-	public Tray getTray(int idTray);
+	public Tray getTray(long idTray);
 	
 	public void updateTray(Tray tray);
 	
-	public void deleteTray(Tray trayId);
+	public void deleteTray(long trayId);
 
 }
