@@ -10,7 +10,7 @@ import java.util.Set;
  */
 public class PlipRole implements java.io.Serializable {
 
-	private Integer idPlipRole;
+	private Long idPlipRole;
 	private String name;
 	private String description;
 	private Set plipUsers = new HashSet(0);
@@ -28,11 +28,11 @@ public class PlipRole implements java.io.Serializable {
 		this.plipUsers = plipUsers;
 	}
 
-	public Integer getIdPlipRole() {
+	public Long getIdPlipRole() {
 		return this.idPlipRole;
 	}
 
-	public void setIdPlipRole(Integer idPlipRole) {
+	public void setIdPlipRole(Long idPlipRole) {
 		this.idPlipRole = idPlipRole;
 	}
 
