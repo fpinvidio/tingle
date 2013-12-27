@@ -10,7 +10,7 @@ import java.util.Set;
  */
 public class Status implements java.io.Serializable {
 
-	private Integer idStatus;
+	private Long idStatus;
 	private String description;
 	private Set trayStatuses = new HashSet(0);
 
@@ -26,11 +26,11 @@ public class Status implements java.io.Serializable {
 		this.trayStatuses = trayStatuses;
 	}
 
-	public Integer getIdStatus() {
+	public Long getIdStatus() {
 		return this.idStatus;
 	}
 
-	public void setIdStatus(Integer idStatus) {
+	public void setIdStatus(Long idStatus) {
 		this.idStatus = idStatus;
 	}
 

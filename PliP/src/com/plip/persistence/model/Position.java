@@ -10,7 +10,7 @@ import java.util.Set;
  */
 public class Position implements java.io.Serializable {
 
-	private Integer idPosition;
+	private Long idPosition;
 	private int face;
 	private int angle;
 	private Set images = new HashSet(0);
@@ -29,11 +29,11 @@ public class Position implements java.io.Serializable {
 		this.images = images;
 	}
 
-	public Integer getIdPosition() {
+	public Long getIdPosition() {
 		return this.idPosition;
 	}
 
-	public void setIdPosition(Integer idPosition) {
+	public void setIdPosition(Long idPosition) {
 		this.idPosition = idPosition;
 	}
 
