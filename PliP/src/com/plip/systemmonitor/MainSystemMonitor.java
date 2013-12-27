@@ -17,6 +17,7 @@ import com.plip.eventhandlers.handlers.TrayEventHandler;
 import com.plip.eventhandlers.listeners.GenericEventListener;
 import com.plip.imageprocessing.processors.ObjectCounter;
 import com.plip.imageprocessing.processors.TrayProcessor;
+import com.plip.imageprocessing.trainers.PlipTrainer;
 import com.plip.persistence.dao.impls.PositionDaoImpl;
 import com.plip.persistence.model.Position;
 import com.plip.uinterfaces.MainMenuFrame;
@@ -44,11 +45,8 @@ public class MainSystemMonitor implements GenericEventListener {
 //		MainSystemMonitor msm = new MainSystemMonitor();
 //		msm.initializeCapture();
 		
-		PositionDaoImpl dao = new PositionDaoImpl();
-		Position pos = dao.getPosition(1);
-	    System.out.println(pos.getIdPosition());
-	    System.out.println(pos.getAngle());
-	    System.out.println(pos.getFace());
+		PlipTrainer trainer = new PlipTrainer();
+		trainer.processProductImages();
 	}
 
 	/*CvCapture *cap;

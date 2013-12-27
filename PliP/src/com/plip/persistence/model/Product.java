@@ -1,6 +1,6 @@
 package com.plip.persistence.model;
 
-// Generated Dec 26, 2013 7:09:50 PM by Hibernate Tools 4.0.0
+// Generated Dec 26, 2013 8:22:22 PM by Hibernate Tools 4.0.0
 
 import java.util.HashSet;
 import java.util.Set;
@@ -15,7 +15,7 @@ public class Product implements java.io.Serializable {
 	private String name;
 	private Integer weight;
 	private String description;
-	private int code;
+	private Integer code;
 	private String laboratory;
 	private Integer imageNumber;
 	private boolean enabled;
@@ -26,20 +26,18 @@ public class Product implements java.io.Serializable {
 	public Product() {
 	}
 
-	public Product(ProductCategory productCategory, String name,
-			String description, int code, String laboratory, boolean enabled) {
-		this.productCategory = productCategory;
+	public Product(String name, String description, String laboratory,
+			boolean enabled) {
 		this.name = name;
 		this.description = description;
-		this.code = code;
 		this.laboratory = laboratory;
 		this.enabled = enabled;
 	}
 
 	public Product(ProductCategory productCategory, String name,
-			Integer weight, String description, int code, String laboratory,
-			Integer imageNumber, boolean enabled, Set images, Set pageProducts,
-			Set trayStatuses) {
+			Integer weight, String description, Integer code,
+			String laboratory, Integer imageNumber, boolean enabled,
+			Set images, Set pageProducts, Set trayStatuses) {
 		this.productCategory = productCategory;
 		this.name = name;
 		this.weight = weight;
@@ -93,11 +91,11 @@ public class Product implements java.io.Serializable {
 		this.description = description;
 	}
 
-	public int getCode() {
+	public Integer getCode() {
 		return this.code;
 	}
 
-	public void setCode(int code) {
+	public void setCode(Integer code) {
 		this.code = code;
 	}
 
