@@ -41,7 +41,7 @@ public class TrayStatusDaoImpl implements TrayStatusDao {
 	}
 
 	@Override
-	public List<Tray> getTraysByStatus(int idStatus) {
+	public List<Tray> getTraysByStatus(long idStatus) {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
@@ -64,7 +64,7 @@ public class TrayStatusDaoImpl implements TrayStatusDao {
 	}
 
 	@Override
-	public List<Status> getStatusByTray(int idTray) {
+	public List<Status> getStatusByTray(long idTray) {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
@@ -111,7 +111,7 @@ public class TrayStatusDaoImpl implements TrayStatusDao {
 	}
 
 	@Override
-	public void deleteTrayStatus(Integer trayStatusId) {
+	public void deleteTrayStatus(long trayStatusId) {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;

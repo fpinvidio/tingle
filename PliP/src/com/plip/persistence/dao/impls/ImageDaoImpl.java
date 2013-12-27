@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import com.plip.persistence.dao.interfaces.ImageDao;
+import com.plip.persistence.exceptions.ImageNotFoundException;
 import com.plip.persistence.managers.DaoManager;
 import com.plip.persistence.model.Image;
 import com.plip.persistence.model.Status;
@@ -38,7 +39,7 @@ public class ImageDaoImpl implements ImageDao {
 	}
 
 	@Override
-	public Image getImage(long idImage) {
+	public Image getImage(long idImage) throws ImageNotFoundException {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
@@ -48,7 +49,11 @@ public class ImageDaoImpl implements ImageDao {
 			Query query = session
 					.createQuery("FROM Image where idImage = :id");
 			query.setParameter("id", idImage);
+			if(query.list().size()!=0){
 			image = (Image) query.list().get(0);
+			}else{
+				throw new ImageNotFoundException();
+			}
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
