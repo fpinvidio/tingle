@@ -78,7 +78,7 @@ public class TrayStatusDaoImpl implements TrayStatusDao {
 			Query query = session
 					.createQuery("FROM TrayStatus where idTray = :id");
 			query.setParameter("id", idTray);
-			if(query.list().size()!=0){
+			if(query.list().size() > 0){
 			statusList = query.list();
 			}else{
 				throw new TrayStatusNotFoundException();
@@ -104,7 +104,7 @@ public class TrayStatusDaoImpl implements TrayStatusDao {
 			tx = session.beginTransaction();
 			TrayStatus trayStat = (TrayStatus) session.get(TrayStatus.class,
 					trayStatus.getIdTrayStatus());
-			if(trayStat!=null){
+			if(trayStat != null){
 			trayStat.setDate(trayStatus.getDate());
 			trayStat.setQuantity(trayStatus.getQuantity());
 			trayStat.setProduct(trayStatus.getProduct());

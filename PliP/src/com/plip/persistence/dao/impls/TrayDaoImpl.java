@@ -50,7 +50,7 @@ public class TrayDaoImpl implements TrayDao {
 			Query query = session
 					.createQuery("FROM Tray where idTray = :id");
 			query.setParameter("id", idTray);
-			if(query.list().size()!=0){
+			if(query.list().size() > 0){
 			tray = (Tray) query.list().get(0);
 			}else{
 				throw new TrayNotFoundException();
@@ -75,7 +75,7 @@ public class TrayDaoImpl implements TrayDao {
 			tx = session.beginTransaction();
 			Tray tr = (Tray) session.get(Tray.class,
 					tray.getIdTray());
-			if(tr!=null){
+			if(tr != null){
 			tr.setCode(tray.getCode());
 			tr.setPage(tray.getPage());
 			session.update(tr);
@@ -100,7 +100,7 @@ public class TrayDaoImpl implements TrayDao {
 		try {
 			tx = session.beginTransaction();
 			Tray tray = (Tray) session.get(Tray.class, trayId);
-			if(tray!=null){
+			if(tray != null){
 			session.delete(tray);
 			}
 			tx.commit();

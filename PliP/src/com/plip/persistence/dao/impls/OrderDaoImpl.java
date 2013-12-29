@@ -50,7 +50,7 @@ public class OrderDaoImpl implements OrderDao {
 			Query query = session
 					.createQuery("FROM Order where idOrders = :id");
 			query.setParameter("id", idOrder);
-			if(query.list().size()!=0){
+			if(query.list().size() > 0){
 			order = (Order) query.list().get(0);
 			}else{
 				throw new OrderNotFoundException();
@@ -74,7 +74,7 @@ public class OrderDaoImpl implements OrderDao {
 		try {
 			tx = session.beginTransaction();
 			Order ord = (Order) session.get(Order.class, order.getIdOrders());
-			if(ord!=null){
+			if(ord != null){
 			ord.setClient(order.getClient());
 			ord.setCode(order.getCode());
 			ord.setInsertDate(order.getInsertDate());
@@ -102,7 +102,7 @@ public class OrderDaoImpl implements OrderDao {
 		try {
 			tx = session.beginTransaction();
 			Order order = (Order) session.get(Order.class, orderId);
-			if(order!=null){
+			if(order != null){
 			 session.delete(order);	
 			}
 			tx.commit();

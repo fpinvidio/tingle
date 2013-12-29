@@ -2,7 +2,6 @@ package com.plip.persistence.dao.interfaces;
 
 import com.plip.persistence.exceptions.ProductCategoryNotFoundException;
 import com.plip.persistence.model.ProductCategory;
-import com.plip.persistence.model.Status;
 
 public interface ProductCategoryDao {
 	

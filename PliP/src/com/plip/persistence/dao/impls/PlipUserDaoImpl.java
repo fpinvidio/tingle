@@ -49,7 +49,7 @@ public class PlipUserDaoImpl implements PlipUserDao {
 			Query query = session
 					.createQuery("FROM PlipUser where idPlipUser = :id");
 			query.setParameter("id", idUser);
-			if(query.list().size()!=0){
+			if(query.list().size() > 0){
 			plipUser = (PlipUser) query.list().get(0);
 			}else{
 				throw new PlipUserNotFoundException();
@@ -74,7 +74,7 @@ public class PlipUserDaoImpl implements PlipUserDao {
 			tx = session.beginTransaction();
 			PlipUser plipUser = (PlipUser) session.get(PlipUser.class,
 					user.getIdPlipUser());
-			if(plipUser!=null){
+			if(plipUser != null){
 			plipUser.setLastName(user.getLastName());
 			plipUser.setName(user.getName());
 			plipUser.setPassword(user.getPassword());
@@ -103,7 +103,7 @@ public class PlipUserDaoImpl implements PlipUserDao {
 		try {
 			tx = session.beginTransaction();
 			PlipUser user = (PlipUser) session.get(PlipUser.class, userId);
-			if(user!=null){
+			if(user != null){
 			session.delete(user);
 			}
 			tx.commit();

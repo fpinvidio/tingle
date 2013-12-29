@@ -50,7 +50,7 @@ public class ImageDaoImpl implements ImageDao {
 			Query query = session
 					.createQuery("FROM Image where idImage = :id");
 			query.setParameter("id", idImage);
-			if(query.list().size()!=0){
+			if(query.list().size()>0){
 			image = (Image) query.list().get(0);
 			}else{
 				throw new ImageNotFoundException();

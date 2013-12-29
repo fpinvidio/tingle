@@ -15,7 +15,7 @@ public interface PageProductDao {
 	
 	public List <Product> getProductsByPage(long idPage) throws PageProductNotFoundException;
 	
-	public void updatePageProduct(PageProduct pageProduct);
+	public void updatePageProduct(PageProduct pageProduct) throws PageProductNotFoundException;
 	
 	public void deletePageProduct(long pageProductId);
 

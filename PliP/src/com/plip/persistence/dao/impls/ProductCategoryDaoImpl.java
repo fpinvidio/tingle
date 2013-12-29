@@ -9,9 +9,7 @@ import org.hibernate.Transaction;
 import com.plip.persistence.dao.interfaces.ProductCategoryDao;
 import com.plip.persistence.exceptions.ProductCategoryNotFoundException;
 import com.plip.persistence.managers.DaoManager;
-import com.plip.persistence.model.PlipUser;
 import com.plip.persistence.model.ProductCategory;
-import com.plip.persistence.model.Status;
 
 public class ProductCategoryDaoImpl implements ProductCategoryDao{
 	
@@ -50,7 +48,7 @@ public class ProductCategoryDaoImpl implements ProductCategoryDao{
 			Query query = session
 					.createQuery("FROM ProductCategory where idProductType = :id");
 			query.setParameter("id", idProductCategory);
-			if(query.list().size()!=0){
+			if(query.list().size() > 0){
 			productCategory = (ProductCategory) query.list().get(0);
 			}else{
 				throw new ProductCategoryNotFoundException();
@@ -75,7 +73,7 @@ public class ProductCategoryDaoImpl implements ProductCategoryDao{
 			tx = session.beginTransaction();
 			ProductCategory prodCat = (ProductCategory) session.get(ProductCategory.class,
 					productCategory.getIdProductType());
-			if(prodCat!=null){
+			if(prodCat != null){
 			prodCat.setDescription(productCategory.getDescription());
 			prodCat.setProducts(productCategory.getProducts());		
 			session.update(prodCat);
@@ -100,7 +98,7 @@ public class ProductCategoryDaoImpl implements ProductCategoryDao{
 		try {
 			tx = session.beginTransaction();
 			ProductCategory productCategory = (ProductCategory) session.get(ProductCategory.class, productCategoryId);
-			if(productCategory!=null){
+			if(productCategory != null){
 			session.delete(productCategory);
 			}
 			tx.commit();

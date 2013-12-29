@@ -48,7 +48,7 @@ public class PageDaoImpl implements PageDao {
 			tx = session.beginTransaction();
 			Query query = session.createQuery("FROM Page where idPage = :id");
 			query.setParameter("id", idPage);
-			if(query.list().size()!=0){
+			if(query.list().size() > 0){
 			page = (Page) query.list().get(0);
 			}else{
 				throw new PageNotFoundException();
@@ -72,7 +72,7 @@ public class PageDaoImpl implements PageDao {
 		try {
 			tx = session.beginTransaction();
 			Page pag = (Page) session.get(Status.class, page.getIdPage());
-			if(pag!=null){
+			if(pag != null){
 			pag.setOrder(page.getOrder());
 			pag.setPageImage(page.getPageImage());
 			pag.setPageNumber(page.getPageNumber());
@@ -102,7 +102,7 @@ public class PageDaoImpl implements PageDao {
 		try {
 			tx = session.beginTransaction();
 			Page page = (Page) session.get(Status.class, pageId);
-			if(page!=null){
+			if(page != null){
 			session.delete(page);
 			}
 			tx.commit();

@@ -52,7 +52,7 @@ public class PageProductDaoImpl implements PageProductDao {
 			Query query = session
 					.createQuery("FROM PageProduct where idProduct = :id");
 			query.setParameter("id", idProduct);
-			if(query.list().size()!=0){
+			if(query.list().size() > 0){
 			pageList = query.list();
 			}else{
 				throw new PageProductNotFoundException();
@@ -79,7 +79,7 @@ public class PageProductDaoImpl implements PageProductDao {
 			Query query = session
 					.createQuery("FROM PageProduct where idPage = :id");
 			query.setParameter("id", idPage);
-			if(query.list().size()!=0){
+			if(query.list().size() > 0){
 			productList = query.list();
 			}else{
 				throw new PageProductNotFoundException();
@@ -97,7 +97,7 @@ public class PageProductDaoImpl implements PageProductDao {
 	}
 
 	@Override
-	public void updatePageProduct(PageProduct pageProduct) {
+	public void updatePageProduct(PageProduct pageProduct) throws PageProductNotFoundException {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
@@ -105,8 +105,12 @@ public class PageProductDaoImpl implements PageProductDao {
 			tx = session.beginTransaction();
 			PageProduct pageProd = (PageProduct) session.get(Image.class,
 					pageProduct.getIdPageProduct());
+			if(pageProd != null){
 			pageProd.setQuantity(pageProduct.getQuantity());
 			session.update(pageProd);
+			}else{
+				throw new PageProductNotFoundException();
+			}
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
@@ -126,7 +130,7 @@ public class PageProductDaoImpl implements PageProductDao {
 			tx = session.beginTransaction();
 			PageProduct pageProduct = (PageProduct) session.get(
 					PageProduct.class, pageProductId);
-			if(pageProduct!=null){
+			if(pageProduct != null){
 			session.delete(pageProduct);
 			}
 			tx.commit();

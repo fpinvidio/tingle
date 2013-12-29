@@ -49,7 +49,7 @@ public class PlipRoleDaoImpl implements PlipRoleDao {
 			Query query = session
 					.createQuery("FROM PlipRole where idPlipRole = :id");
 			query.setParameter("id", idRole);
-			if(query.list().size()!=0){
+			if(query.list().size() > 0){
 			plipRole = (PlipRole) query.list().get(0);	
 			}else{
 				throw new PlipRoleNotFoundException();
@@ -74,7 +74,7 @@ public class PlipRoleDaoImpl implements PlipRoleDao {
 			tx = session.beginTransaction();
 			PlipRole plipRole = (PlipRole) session.get(PlipRole.class,
 					role.getIdPlipRole());
-			if(plipRole!=null){
+			if(plipRole != null){
 			plipRole.setName(role.getName());
 			plipRole.setPlipUsers(role.getPlipUsers());
 			plipRole.setDescription(role.getDescription());
@@ -100,7 +100,7 @@ public class PlipRoleDaoImpl implements PlipRoleDao {
 		try {
 			tx = session.beginTransaction();
 			PlipRole plipRole = (PlipRole) session.get(PlipRole.class, roleId);
-			if(plipRole!=null){
+			if(plipRole != null){
 			session.delete(plipRole);	
 			}	
 			tx.commit();

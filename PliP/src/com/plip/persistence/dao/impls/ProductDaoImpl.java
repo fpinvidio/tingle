@@ -61,7 +61,7 @@ public class ProductDaoImpl implements ProductDao{
 	}
 
 	@Override
-	public void updateProduct(Product product) {
+	public void updateProduct(Product product) throws ProductNotFoundException {
 		// TODO Auto-generated method stub
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
@@ -70,7 +70,7 @@ public class ProductDaoImpl implements ProductDao{
 			tx = session.beginTransaction();
 			Product prod = (Product) session.get(Product.class,
 					product.getIdProduct());
-			
+			if(prod != null){
 			prod.setCode(product.getCode());
 			prod.setDescription(product.getDescription());
 			prod.setEnabled(product.isEnabled());
@@ -81,6 +81,9 @@ public class ProductDaoImpl implements ProductDao{
 			prod.setWeight(product.getWeight());
 			
 			session.update(product);
+			}else{
+				throw new ProductNotFoundException();
+			}
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
@@ -99,7 +102,9 @@ public class ProductDaoImpl implements ProductDao{
 		try {
 			tx = session.beginTransaction();
 			Product product = (Product) session.get(Product.class, productId);
+			if(product != null){
 			session.delete(product);
+			}
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)

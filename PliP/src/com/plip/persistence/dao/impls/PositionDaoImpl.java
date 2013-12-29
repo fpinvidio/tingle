@@ -50,7 +50,7 @@ public class PositionDaoImpl implements PositionDao {
 			Query query = session
 					.createQuery("FROM Position where idPosition = :id");
 			query.setParameter("id", idPosition);
-			if(query.list().size()!=0){
+			if(query.list().size() > 0){
 			position = (Position) query.list().get(0);
 			}else{
 				throw new PositionNotFoundException();
@@ -75,7 +75,7 @@ public class PositionDaoImpl implements PositionDao {
 			tx = session.beginTransaction();
 			Position pos = (Position) session.get(Position.class,
 					position.getIdPosition());
-			if(pos!=null){
+			if(pos != null){
 			pos.setAngle(position.getAngle());
 			pos.setFace(position.getFace());
 			pos.setImages(position.getImages());
@@ -101,7 +101,7 @@ public class PositionDaoImpl implements PositionDao {
 		try {
 			tx = session.beginTransaction();
 			Position position = (Position) session.get(Position.class, positionId);
-			if(position!=null){
+			if(position != null){
 			session.delete(position);
 			}
 			tx.commit();

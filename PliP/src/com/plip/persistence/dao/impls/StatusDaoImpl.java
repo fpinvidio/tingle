@@ -50,7 +50,7 @@ public class StatusDaoImpl implements StatusDao {
 			Query query = session
 					.createQuery("FROM Status where idStatus = :id");
 			query.setParameter("id", idStatus);
-			if(query.list().size()!=0){
+			if(query.list().size() > 0){
 			status = (Status) query.list().get(0);
 			}else{
 				throw new StatusNotFoundException();
@@ -76,7 +76,7 @@ public class StatusDaoImpl implements StatusDao {
 			tx = session.beginTransaction();
 			Status stat = (Status) session.get(Status.class,
 					status.getIdStatus());
-			if(stat!=null){
+			if(stat != null){
 			stat.setDescription(status.getDescription());
 			session.update(stat);
 			}else{
@@ -101,7 +101,7 @@ public class StatusDaoImpl implements StatusDao {
 		try {
 			tx = session.beginTransaction();
 			Status status = (Status) session.get(Status.class, statusId);
-			if(status!=null){
+			if(status != null){
 			session.delete(status);
 			}
 			tx.commit();
