@@ -26,12 +26,14 @@ public class Product implements java.io.Serializable {
 	public Product() {
 	}
 
-	public Product(String name, String description, String laboratory,
+	public Product(String name, Integer weight,Integer code,String laboratory, ProductCategory productCategory,
 			boolean enabled) {
 		this.name = name;
-		this.description = description;
+		this.weight = weight;
 		this.laboratory = laboratory;
+		this.code = code;
 		this.enabled = enabled;
+		this.productCategory = productCategory;
 	}
 
 	public Product(ProductCategory productCategory, String name,
@@ -50,7 +52,13 @@ public class Product implements java.io.Serializable {
 		this.pageProducts = pageProducts;
 		this.trayStatuses = trayStatuses;
 	}
-
+	
+	public boolean validate(){
+		if(name!=null && code!=null && laboratory!=null){
+			return true;
+		}else return false;
+	}
+	
 	public Long getIdProduct() {
 		return this.idProduct;
 	}

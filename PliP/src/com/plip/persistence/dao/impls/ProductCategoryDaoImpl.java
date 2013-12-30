@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import com.plip.persistence.dao.interfaces.ProductCategoryDao;
+import com.plip.persistence.exceptions.NullModelAttributesException;
 import com.plip.persistence.exceptions.ProductCategoryNotFoundException;
 import com.plip.persistence.managers.DaoManager;
 import com.plip.persistence.model.ProductCategory;
@@ -18,14 +19,16 @@ public class ProductCategoryDaoImpl implements ProductCategoryDao{
 	}
 
 	@Override
-	public Long addProductCategory(ProductCategory productCategory) {
+	public Long addProductCategory(ProductCategory productCategory) throws NullModelAttributesException {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		Long productCategoryID = null;
 		try {
 			tx = session.beginTransaction();
+			if(productCategory.validate()){
 			productCategoryID = (Long) session.save(productCategory);
+			}else throw new NullModelAttributesException();
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
@@ -74,7 +77,7 @@ public class ProductCategoryDaoImpl implements ProductCategoryDao{
 			ProductCategory prodCat = (ProductCategory) session.get(ProductCategory.class,
 					productCategory.getIdProductType());
 			if(prodCat != null){
-			prodCat.setDescription(productCategory.getDescription());
+			prodCat.setName(productCategory.getName());
 			prodCat.setProducts(productCategory.getProducts());		
 			session.update(prodCat);
 			}else{
@@ -109,5 +112,33 @@ public class ProductCategoryDaoImpl implements ProductCategoryDao{
 		} finally {
 			session.close();
 		}
+	}
+
+	@Override
+	public ProductCategory getProductCategoryByName(String name)
+			throws ProductCategoryNotFoundException {
+		SessionFactory factory = DaoManager.createSessionFactory();
+		Session session = factory.openSession();
+		Transaction tx = null;
+		ProductCategory productCategory = null;
+		try {
+			tx = session.beginTransaction();
+			Query query = session
+					.createQuery("FROM ProductCategory where name = :name");
+			query.setParameter("name", name);
+			if(query.list().size() > 0){
+			productCategory = (ProductCategory) query.list().get(0);
+			}else{
+				throw new ProductCategoryNotFoundException();
+			}
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return productCategory;
 	}
 }

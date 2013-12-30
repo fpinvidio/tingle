@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import com.plip.persistence.dao.interfaces.PlipUserDao;
+import com.plip.persistence.exceptions.NullModelAttributesException;
 import com.plip.persistence.exceptions.PlipUserNotFoundException;
 import com.plip.persistence.managers.DaoManager;
 import com.plip.persistence.model.PlipUser;
@@ -19,14 +20,16 @@ public class PlipUserDaoImpl implements PlipUserDao {
 	}
 
 	@Override
-	public Long addUser(PlipUser user) {
+	public Long addUser(PlipUser user) throws NullModelAttributesException {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		Long userID = null;
 		try {
 			tx = session.beginTransaction();
+			if(user.validate()){
 			userID = (Long) session.save(user);
+			}else throw new NullModelAttributesException();
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)

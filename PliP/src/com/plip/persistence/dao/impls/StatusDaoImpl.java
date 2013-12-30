@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import com.plip.persistence.dao.interfaces.StatusDao;
+import com.plip.persistence.exceptions.NullModelAttributesException;
 import com.plip.persistence.exceptions.StatusNotFoundException;
 import com.plip.persistence.managers.DaoManager;
 import com.plip.persistence.model.Status;
@@ -19,14 +20,16 @@ public class StatusDaoImpl implements StatusDao {
 
 	@Override
 	/* Method to add a new Plip Status */
-	public Long addStatus(Status status) {
+	public Long addStatus(Status status) throws NullModelAttributesException {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		Long statusID = null;
 		try {
 			tx = session.beginTransaction();
+			if(status.validate()){
 			statusID = (Long) session.save(status);
+			}else throw new NullModelAttributesException();
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)

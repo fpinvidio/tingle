@@ -6,31 +6,27 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-import com.plip.persistence.dao.interfaces.ImageDao;
-import com.plip.persistence.exceptions.ImageNotFoundException;
+import com.plip.persistence.dao.interfaces.PageImageDao;
 import com.plip.persistence.exceptions.NullModelAttributesException;
-import com.plip.persistence.exceptions.OrderNotFoundException;
+import com.plip.persistence.exceptions.PageImageNotFoundException;
 import com.plip.persistence.managers.DaoManager;
-import com.plip.persistence.model.Image;
+import com.plip.persistence.model.PageImage;
 import com.plip.persistence.model.Status;
 
-public class ImageDaoImpl implements ImageDao {
-	
-	public ImageDaoImpl() {
-		super();
-	}
+public class PageImageDaoImpl implements PageImageDao {
 
 	@Override
-	public Long addImage(Image image) throws NullModelAttributesException {
+	public Long addPageImage(PageImage pageImage)
+			throws NullModelAttributesException {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
-		Long imageID = null;
+		Long pageID = null;
 		try {
 			tx = session.beginTransaction();
-			if(image.validate()){
-			imageID = (Long) session.save(image);
-			}else throw new NullModelAttributesException();		
+			if(pageImage.validate()){
+			pageID = (Long) session.save(pageImage);
+			}else throw new NullModelAttributesException();
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
@@ -39,24 +35,24 @@ public class ImageDaoImpl implements ImageDao {
 		} finally {
 			session.close();
 		}
-		return imageID;
+		return pageID;
 	}
 
 	@Override
-	public Image getImage(long idImage) throws ImageNotFoundException {
+	public PageImage getPageImage(long idPageImage)
+			throws PageImageNotFoundException {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
-		Image image = null;
+		PageImage pageImage = null;
 		try {
 			tx = session.beginTransaction();
-			Query query = session
-					.createQuery("FROM Image where idImage = :id");
-			query.setParameter("id", idImage);
-			if(query.list().size()>0){
-			image = (Image) query.list().get(0);
+			Query query = session.createQuery("FROM page_image where idPageImage = :id");
+			query.setParameter("id", idPageImage);
+			if(query.list().size() > 0){
+			pageImage = (PageImage) query.list().get(0);
 			}else{
-				throw new ImageNotFoundException();
+				throw new PageImageNotFoundException();
 			}
 			tx.commit();
 		} catch (HibernateException e) {
@@ -66,27 +62,23 @@ public class ImageDaoImpl implements ImageDao {
 		} finally {
 			session.close();
 		}
-		return image;
+		return pageImage;
 	}
 
 	@Override
-	public void updateImage(Image image) throws ImageNotFoundException{
+	public void updatePageImage(PageImage pageImage)
+			throws PageImageNotFoundException {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			Image img = (Image) session.get(Image.class, image.getIdImage());
-			if(img!=null){
-			img.setDescriptor(image.getDescriptor());
-			img.setName(image.getName());
-			img.setPath(image.getPath());
-			img.setPosition(image.getPosition());
-			img.setProduct(image.getProduct());
-			img.setTrained(image.isTrained());
-			session.update(img);
+			PageImage page = (PageImage) session.get(PageImage.class, pageImage.getIdPageImage());
+			if(page != null){
+			page.setPath(pageImage.getPath());
+			session.update(page);
 			}else{
-				throw new ImageNotFoundException();
+				throw new PageImageNotFoundException();
 			}
 			tx.commit();
 		} catch (HibernateException e) {
@@ -95,19 +87,19 @@ public class ImageDaoImpl implements ImageDao {
 			e.printStackTrace();
 		} finally {
 			session.close();
-		}		
+		}
 	}
 
 	@Override
-	public void deleteImage(long imageId){
+	public void deletePageImage(long pageImageId) {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			Image image = (Image) session.get(Image.class, imageId);
-			if(image!=null){
-			session.delete(image);
+			PageImage pageImage = (PageImage) session.get(PageImage.class, pageImageId);
+			if(pageImage != null){
+			session.delete(pageImage);
 			}
 			tx.commit();
 		} catch (HibernateException e) {

@@ -28,7 +28,13 @@ public class Position implements java.io.Serializable {
 		this.angle = angle;
 		this.images = images;
 	}
-
+	
+	public boolean validate(){
+		if(face != 0){
+			return true;
+		}else return false;
+	}
+	
 	public Long getIdPosition() {
 		return this.idPosition;
 	}

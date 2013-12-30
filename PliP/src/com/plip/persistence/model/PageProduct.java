@@ -20,6 +20,12 @@ public class PageProduct implements java.io.Serializable {
 		this.page = page;
 		this.quantity = quantity;
 	}
+	
+	public boolean validate(){
+		if(product != null && page != null && quantity!=0){
+			return true;
+		}else return false;
+	}
 
 	public Long getIdPageProduct() {
 		return this.idPageProduct;

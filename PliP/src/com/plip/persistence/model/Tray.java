@@ -28,6 +28,12 @@ public class Tray implements java.io.Serializable {
 		this.code = code;
 		this.trayStatuses = trayStatuses;
 	}
+	
+	public boolean validate(){
+		if(page != null && code != null){
+			return true;
+		}else return false;
+	}
 
 	public Long getIdTray() {
 		return this.idTray;

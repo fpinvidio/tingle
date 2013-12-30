@@ -36,7 +36,13 @@ public class Image implements java.io.Serializable {
 		this.descriptor = descriptor;
 		this.trained = trained;
 	}
-
+	
+	public boolean validate(){
+		if( product!=null && position!=null && path!=null && descriptor!=null){
+			return true;
+		}else return false;
+	}
+	
 	public Long getIdImage() {
 		return this.idImage;
 	}

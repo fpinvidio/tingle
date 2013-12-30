@@ -29,7 +29,9 @@ public class TrayStatusDaoImpl implements TrayStatusDao {
 		Long trayStatusID = null;
 		try {
 			tx = session.beginTransaction();
+			if(trayStatus.validate()){
 			trayStatusID = (Long) session.save(trayStatus);
+			}
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)

@@ -25,6 +25,12 @@ public class PlipUser implements java.io.Serializable {
 		this.username = username;
 		this.password = password;
 	}
+	
+	public boolean validate(){
+		if(name != null && lastName != null && username != null && password != null && plipRole != null){
+			return true;
+		}else return false;
+	}
 
 	public Long getIdPlipUser() {
 		return this.idPlipUser;

@@ -20,10 +20,10 @@
             </column>
         </property>
         <property name="description" type="string">
-            <column name="description" length="2048" not-null="true" />
+            <column name="description" length="2048" />
         </property>
         <property name="code" type="java.lang.Integer">
-            <column name="code" />
+            <column name="code" not-null="true"/>
         </property>
         <property name="laboratory" type="string">
             <column name="laboratory" length="1024" not-null="true" />

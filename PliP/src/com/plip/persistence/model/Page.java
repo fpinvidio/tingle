@@ -14,7 +14,7 @@ public class Page implements java.io.Serializable {
 	private Order order;
 	private PageImage pageImage;
 	private Integer productQuantity;
-	private int pageNumber;
+	private int pageNumber=0;
 	private Set pageProducts = new HashSet(0);
 	private Set trays = new HashSet(0);
 
@@ -35,6 +35,12 @@ public class Page implements java.io.Serializable {
 		this.pageNumber = pageNumber;
 		this.pageProducts = pageProducts;
 		this.trays = trays;
+	}
+	
+	public boolean validate(){
+		if(pageImage!=null && order!=null && pageNumber!=0){
+			return true;
+		}else return false;
 	}
 
 	public Long getIdPage() {

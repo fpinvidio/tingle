@@ -1,11 +1,12 @@
 package com.plip.persistence.dao.interfaces;
 
+import com.plip.persistence.exceptions.NullModelAttributesException;
 import com.plip.persistence.exceptions.StatusNotFoundException;
 import com.plip.persistence.model.Status;
 
 public interface StatusDao {
 	
-	public Long addStatus(Status status);
+	public Long addStatus(Status status) throws NullModelAttributesException;
 	
 	public Status getStatus(long idStatus) throws StatusNotFoundException;
 	

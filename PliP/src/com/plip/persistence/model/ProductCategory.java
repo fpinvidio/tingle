@@ -11,16 +11,22 @@ import java.util.Set;
 public class ProductCategory implements java.io.Serializable {
 
 	private Long idProductType;
-	private String description;
+	private String name;
 	private Set products = new HashSet(0);
 
 	public ProductCategory() {
 	}
 
-	public ProductCategory(String description) {
-		this.description = description;
+	public ProductCategory(String name) {
+		this.name = name;
 	}
-
+	
+	public boolean validate(){
+		if(name != null){
+			return true;
+		}else return false;
+	}
+	
 	public Long getIdProductType() {
 		return this.idProductType;
 	}
@@ -29,12 +35,12 @@ public class ProductCategory implements java.io.Serializable {
 		this.idProductType = idProductType;
 	}
 
-	public String getDescription() {
-		return this.description;
+	public String getName() {
+		return this.name;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public Set getProducts() {

@@ -9,6 +9,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import com.plip.persistence.dao.interfaces.PageProductDao;
+import com.plip.persistence.exceptions.NullModelAttributesException;
 import com.plip.persistence.exceptions.PageProductNotFoundException;
 import com.plip.persistence.managers.DaoManager;
 import com.plip.persistence.model.Image;
@@ -23,14 +24,16 @@ public class PageProductDaoImpl implements PageProductDao {
 	}
 
 	@Override
-	public Long addPageProduct(PageProduct pageProduct) {
+	public Long addPageProduct(PageProduct pageProduct) throws NullModelAttributesException {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		Long pageProductID = null;
 		try {
 			tx = session.beginTransaction();
+			if(pageProduct.validate()){
 			pageProductID = (Long) session.save(pageProduct);
+			}else throw new NullModelAttributesException();
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)

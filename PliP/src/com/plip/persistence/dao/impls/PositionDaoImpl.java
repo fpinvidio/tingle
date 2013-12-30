@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import com.plip.persistence.dao.interfaces.PositionDao;
+import com.plip.persistence.exceptions.NullModelAttributesException;
 import com.plip.persistence.exceptions.PositionNotFoundException;
 import com.plip.persistence.managers.DaoManager;
 import com.plip.persistence.model.Order;
@@ -20,14 +21,16 @@ public class PositionDaoImpl implements PositionDao {
 	}
 
 	@Override
-	public Long addPosition(Position position) {
+	public Long addPosition(Position position) throws NullModelAttributesException {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		Long positionID = null;
 		try {
 			tx = session.beginTransaction();
+			if(position.validate()){
 			positionID = (Long) session.save(position);
+			}else throw new NullModelAttributesException();
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)

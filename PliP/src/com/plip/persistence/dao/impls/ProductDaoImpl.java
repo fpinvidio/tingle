@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import com.plip.persistence.dao.interfaces.ProductDao;
+import com.plip.persistence.exceptions.NullModelAttributesException;
 import com.plip.persistence.exceptions.ProductNotFoundException;
 import com.plip.persistence.managers.DaoManager;
 import com.plip.persistence.model.Product;
@@ -18,14 +19,16 @@ public class ProductDaoImpl implements ProductDao{
 	}
 
 	@Override
-	public Long addProduct(Product product) {
+	public Long addProduct(Product product) throws NullModelAttributesException {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		Long productID = null;
 		try {
 			tx = session.beginTransaction();
+			if(product.validate()){
 			productID = (Long) session.save(product);
+			}else throw new NullModelAttributesException();
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
@@ -62,7 +65,6 @@ public class ProductDaoImpl implements ProductDao{
 
 	@Override
 	public void updateProduct(Product product) throws ProductNotFoundException {
-		// TODO Auto-generated method stub
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;

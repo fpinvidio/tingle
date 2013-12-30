@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import com.plip.persistence.dao.interfaces.OrderDao;
+import com.plip.persistence.exceptions.NullModelAttributesException;
 import com.plip.persistence.exceptions.OrderNotFoundException;
 import com.plip.persistence.managers.DaoManager;
 import com.plip.persistence.model.Image;
@@ -18,16 +19,18 @@ public class OrderDaoImpl implements OrderDao {
 	public OrderDaoImpl() {
 		super();
 	}
-
+	
 	@Override
-	public Long addOrder(Order order) {
+	public Long addOrder(Order order) throws NullModelAttributesException {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		Long orderID = null;
 		try {
 			tx = session.beginTransaction();
+			if(order.validate()){
 			orderID = (Long) session.save(order);
+			}else throw new NullModelAttributesException();
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)

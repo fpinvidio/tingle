@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import com.plip.persistence.dao.interfaces.TrayDao;
+import com.plip.persistence.exceptions.NullModelAttributesException;
 import com.plip.persistence.exceptions.TrayNotFoundException;
 import com.plip.persistence.managers.DaoManager;
 import com.plip.persistence.model.Position;
@@ -20,14 +21,16 @@ public class TrayDaoImpl implements TrayDao {
 	}
 
 	@Override
-	public Long addTray(Tray tray) {
+	public Long addTray(Tray tray) throws NullModelAttributesException {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		Long trayID = null;
 		try {
 			tx = session.beginTransaction();
+			if(tray.validate()){
 			trayID = (Long) session.save(tray);
+			}else throw new NullModelAttributesException();
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)

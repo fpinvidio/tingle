@@ -8,8 +8,8 @@
             <column name="id_product_type" />
             <generator class="identity" />
         </id>
-        <property name="description" type="string">
-            <column name="description" length="2048" />
+        <property name="name" type="string">
+            <column name="name" length="2048" not-null="true"/>
         </property>
         <set name="products" table="product" inverse="true" lazy="true" fetch="select">
             <key>

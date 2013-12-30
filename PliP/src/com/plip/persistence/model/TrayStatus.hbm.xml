@@ -9,7 +9,7 @@
             <generator class="identity" />
         </id>
         <many-to-one name="product" class="com.plip.persistence.model.Product" fetch="select">
-            <column name="id_product" />
+            <column name="id_product" not-null="true"/>
         </many-to-one>
         <many-to-one name="tray" class="com.plip.persistence.model.Tray" fetch="select">
             <column name="id_tray" not-null="true" />
@@ -18,10 +18,10 @@
             <column name="id_status" not-null="true" />
         </many-to-one>
         <property name="quantity" type="java.lang.Integer">
-            <column name="quantity" />
+            <column name="quantity" not-null="true"/>
         </property>
         <property name="date" type="timestamp">
-            <column name="date" length="19" />
+            <column name="date" length="19" not-null="true"/>
         </property>
     </class>
 </hibernate-mapping>

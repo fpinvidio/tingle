@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import com.plip.persistence.dao.interfaces.PlipRoleDao;
+import com.plip.persistence.exceptions.NullModelAttributesException;
 import com.plip.persistence.exceptions.PlipRoleNotFoundException;
 import com.plip.persistence.managers.DaoManager;
 import com.plip.persistence.model.PlipRole;
@@ -19,14 +20,16 @@ public class PlipRoleDaoImpl implements PlipRoleDao {
 	}
 
 	@Override
-	public Long addRole(PlipRole role) {
+	public Long addRole(PlipRole role) throws NullModelAttributesException {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		Long roleID = null;
 		try {
 			tx = session.beginTransaction();
+			if(role.validate()){
 			roleID = (Long) session.save(role);
+			}else throw new NullModelAttributesException();
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)

@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import com.plip.persistence.dao.interfaces.PageDao;
+import com.plip.persistence.exceptions.NullModelAttributesException;
 import com.plip.persistence.exceptions.PageNotFoundException;
 import com.plip.persistence.managers.DaoManager;
 import com.plip.persistence.model.Page;
@@ -19,14 +20,16 @@ public class PageDaoImpl implements PageDao {
 	}
 
 	@Override
-	public Long addPage(Page page) {
+	public Long addPage(Page page) throws NullModelAttributesException {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		Long pageID = null;
 		try {
 			tx = session.beginTransaction();
+			if(page.validate()){
 			pageID = (Long) session.save(page);
+			}else throw new NullModelAttributesException();
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
@@ -71,7 +74,7 @@ public class PageDaoImpl implements PageDao {
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			Page pag = (Page) session.get(Status.class, page.getIdPage());
+			Page pag = (Page) session.get(Page.class, page.getIdPage());
 			if(pag != null){
 			pag.setOrder(page.getOrder());
 			pag.setPageImage(page.getPageImage());
@@ -91,7 +94,6 @@ public class PageDaoImpl implements PageDao {
 		} finally {
 			session.close();
 		}
-
 	}
 
 	@Override
@@ -101,7 +103,7 @@ public class PageDaoImpl implements PageDao {
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			Page page = (Page) session.get(Status.class, pageId);
+			Page page = (Page) session.get(Page.class, pageId);
 			if(page != null){
 			session.delete(page);
 			}

@@ -25,6 +25,12 @@ public class PageImage implements java.io.Serializable {
 		this.path = path;
 		this.pages = pages;
 	}
+	
+	public boolean validate(){
+		if(path!=null){
+			return true;
+		}else return false;
+	}
 
 	public Long getIdPageImage() {
 		return this.idPageImage;

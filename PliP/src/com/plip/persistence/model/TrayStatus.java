@@ -32,6 +32,12 @@ public class TrayStatus implements java.io.Serializable {
 		this.quantity = quantity;
 		this.date = date;
 	}
+	
+	public boolean validate(){
+		if(product != null && tray != null && status != null && quantity != null && date != null){
+			return true;
+		}else return false;
+	}
 
 	public Long getIdTrayStatus() {
 		return this.idTrayStatus;

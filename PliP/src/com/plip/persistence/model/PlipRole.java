@@ -26,6 +26,12 @@ public class PlipRole implements java.io.Serializable {
 		this.name = name;
 		this.description = description;
 	}
+	
+	public boolean validate(){
+		if(name!=null){
+			return true;
+		}else return false;
+	}
 
 	public Long getIdPlipRole() {
 		return this.idPlipRole;
