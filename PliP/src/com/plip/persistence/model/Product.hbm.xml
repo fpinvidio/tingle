@@ -34,7 +34,7 @@
         <property name="enabled" type="boolean">
             <column name="enabled" not-null="true" />
         </property>
-        <set name="images" table="image" inverse="true" lazy="true" fetch="select">
+        <set name="images" table="image" inverse="true" lazy="false" fetch="select">
             <key>
                 <column name="id_product" not-null="true" />
             </key>
