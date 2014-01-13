@@ -76,5 +76,4 @@ public class Order implements java.io.Serializable {
 	public void setPages(Set pages) {
 		this.pages = pages;
 	}
-
 }

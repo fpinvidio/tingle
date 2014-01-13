@@ -21,7 +21,7 @@ public class Page implements java.io.Serializable {
 	public Page() {
 	}
 
-	public Page(Order order, PageImage pageImage, int pageNumber) {
+	public Page(Order order, PageImage pageImage, Integer productQuantity, int pageNumber) {
 		this.order = order;
 		this.pageImage = pageImage;
 		this.pageNumber = pageNumber;

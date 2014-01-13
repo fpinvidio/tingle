@@ -8,7 +8,9 @@ public interface OrderDao {
 	
 	public Long addOrder(Order order) throws NullModelAttributesException ;
 	
-	public Order getOrder(long idOrder) throws OrderNotFoundException;
+	public Order getOrderById(long idOrder) throws OrderNotFoundException;
+	
+	public Order getOrderByCode(String code) throws OrderNotFoundException;
 	
 	public void updateOrder(Order order) throws OrderNotFoundException;
 	

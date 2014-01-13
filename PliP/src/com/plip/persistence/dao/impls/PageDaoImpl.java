@@ -1,5 +1,7 @@
 package com.plip.persistence.dao.impls;
 
+import java.util.ArrayList;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -11,7 +13,6 @@ import com.plip.persistence.exceptions.NullModelAttributesException;
 import com.plip.persistence.exceptions.PageNotFoundException;
 import com.plip.persistence.managers.DaoManager;
 import com.plip.persistence.model.Page;
-import com.plip.persistence.model.Status;
 
 public class PageDaoImpl implements PageDao {
 
@@ -27,9 +28,10 @@ public class PageDaoImpl implements PageDao {
 		Long pageID = null;
 		try {
 			tx = session.beginTransaction();
-			if(page.validate()){
-			pageID = (Long) session.save(page);
-			}else throw new NullModelAttributesException();
+			if (page.validate()) {
+				pageID = (Long) session.save(page);
+			} else
+				throw new NullModelAttributesException();
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
@@ -40,7 +42,7 @@ public class PageDaoImpl implements PageDao {
 		}
 		return pageID;
 	}
-	
+
 	@Override
 	public Page getPage(long idPage) throws PageNotFoundException {
 		SessionFactory factory = DaoManager.createSessionFactory();
@@ -51,9 +53,9 @@ public class PageDaoImpl implements PageDao {
 			tx = session.beginTransaction();
 			Query query = session.createQuery("FROM Page where idPage = :id");
 			query.setParameter("id", idPage);
-			if(query.list().size() > 0){
-			page = (Page) query.list().get(0);
-			}else{
+			if (query.list().size() > 0) {
+				page = (Page) query.list().get(0);
+			} else {
 				throw new PageNotFoundException();
 			}
 			tx.commit();
@@ -75,15 +77,15 @@ public class PageDaoImpl implements PageDao {
 		try {
 			tx = session.beginTransaction();
 			Page pag = (Page) session.get(Page.class, page.getIdPage());
-			if(pag != null){
-			pag.setOrder(page.getOrder());
-			pag.setPageImage(page.getPageImage());
-			pag.setPageNumber(page.getPageNumber());
-			pag.setPageProducts(page.getPageProducts());
-			pag.setProductQuantity(page.getProductQuantity());
-			pag.setTrays(page.getTrays());
-			session.update(pag);
-			}else{
+			if (pag != null) {
+				pag.setOrder(page.getOrder());
+				pag.setPageImage(page.getPageImage());
+				pag.setPageNumber(page.getPageNumber());
+				pag.setPageProducts(page.getPageProducts());
+				pag.setProductQuantity(page.getProductQuantity());
+				pag.setTrays(page.getTrays());
+				session.update(pag);
+			} else {
 				throw new PageNotFoundException();
 			}
 			tx.commit();
@@ -104,8 +106,8 @@ public class PageDaoImpl implements PageDao {
 		try {
 			tx = session.beginTransaction();
 			Page page = (Page) session.get(Page.class, pageId);
-			if(page != null){
-			session.delete(page);
+			if (page != null) {
+				session.delete(page);
 			}
 			tx.commit();
 		} catch (HibernateException e) {
@@ -115,5 +117,33 @@ public class PageDaoImpl implements PageDao {
 		} finally {
 			session.close();
 		}
+	}
+
+	@Override
+	public ArrayList<Page> getPagesByOrderId(long idOrder)
+			throws PageNotFoundException {
+		SessionFactory factory = DaoManager.createSessionFactory();
+		Session session = factory.openSession();
+		Transaction tx = null;
+		ArrayList<Page> pages = null;
+		try {
+			tx = session.beginTransaction();
+			Query query = session
+					.createQuery("FROM Page where id_order= :idOrder");
+			query.setParameter("idOrder", idOrder);
+			if (query.list().size() > 0) {
+				pages = (ArrayList<Page>) query.list();
+			} else {
+				throw new PageNotFoundException();
+			}
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return pages;
 	}
 }

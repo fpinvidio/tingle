@@ -43,7 +43,7 @@ public class OrderDaoImpl implements OrderDao {
 	}
 
 	@Override
-	public Order getOrder(long idOrder) throws OrderNotFoundException {
+	public Order getOrderById(long idOrder) throws OrderNotFoundException {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
@@ -116,6 +116,33 @@ public class OrderDaoImpl implements OrderDao {
 		} finally {
 			session.close();
 		}
+	}
+
+	@Override
+	public Order getOrderByCode(String code) throws OrderNotFoundException {
+		SessionFactory factory = DaoManager.createSessionFactory();
+		Session session = factory.openSession();
+		Transaction tx = null;
+		Order order = null;
+		try {
+			tx = session.beginTransaction();
+			Query query = session
+					.createQuery("FROM Order where code = :code");
+			query.setParameter("code", code);
+			if(query.list().size() > 0){
+			order = (Order) query.list().get(0);
+			}else{
+				throw new OrderNotFoundException();
+			}
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return order;
 	}
 
 }

@@ -1,5 +1,7 @@
 package daos;
 
+import java.util.Set;
+
 import org.junit.Test;
 
 import com.plip.persistence.dao.impls.ProductCategoryDaoImpl;
@@ -16,14 +18,15 @@ public class ProductTest {
 
 	@Test
 	public void addUpdateAndGetProduct() throws NullModelAttributesException, ProductCategoryNotFoundException, ProductNotFoundException {
-		ProductCategoryDao productCategoryDao = new ProductCategoryDaoImpl();
+		/*ProductCategoryDao productCategoryDao = new ProductCategoryDaoImpl();
 		ProductCategory belleza = productCategoryDao.getProductCategoryByName("belleza");
 		
-		Product tolerine = new Product("Tolerine", 100, 122, "Roche Posey", belleza, true);
+		Product tolerine = new Product("Tolerine", 100, 122, "Roche Posey", belleza, true);*/
 		ProductDao productDao = new ProductDaoImpl();
-		productDao.addProduct(tolerine);
+		//productDao.addProduct(tolerine);
 		
-		Product t = productDao.getProductByName("Tolerine");
+		Product t = productDao.getProductByName("");
+			Set images = t.getImages();
 	}		
 	
 	@Test

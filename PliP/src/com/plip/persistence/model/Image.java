@@ -27,7 +27,7 @@ public class Image implements java.io.Serializable {
 		this.trained = trained;
 	}
 
-	public Image(Product product, Position position, String path, String name,
+	public Image(Product product, String path, String name,Position position, 
 			byte[] descriptor, boolean trained) {
 		this.product = product;
 		this.position = position;
@@ -37,6 +37,7 @@ public class Image implements java.io.Serializable {
 		this.trained = trained;
 	}
 	
+
 	public boolean validate(){
 		if( product!=null && position!=null && path!=null && descriptor!=null){
 			return true;
@@ -98,5 +99,21 @@ public class Image implements java.io.Serializable {
 	public void setTrained(boolean trained) {
 		this.trained = trained;
 	}
+	
+	public boolean equals(Object obj) {
+	      if (obj == null) return false;
+	      if (!this.getClass().equals(obj.getClass())) return false;
 
+	      Image obj2 = (Image)obj;
+	      if((this.idImage == obj2.getIdImage()) && (this.name.equals(obj2.getName())))
+	      {
+	         return true;
+	      }
+	      return false;
+	   }
+	   public int hashCode() {
+	      int tmp = 0;
+	      tmp = ( idImage + name ).hashCode();
+	      return tmp;
+	   }
 }
