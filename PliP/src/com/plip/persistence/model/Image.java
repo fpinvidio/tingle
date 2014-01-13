@@ -98,5 +98,23 @@ public class Image implements java.io.Serializable {
 	public void setTrained(boolean trained) {
 		this.trained = trained;
 	}
+	
+	 public boolean equals(Object obj) {
+	      if (obj == null) return false;
+	      if (!this.getClass().equals(obj.getClass())) return false;
+
+	      Image obj2 = (Image)obj;
+	      if((this.path == obj2.getPath()))
+	      {
+	         return true;
+	      }
+	      return false;
+	   }
+	 
+	   public int hashCode() {
+	      int tmp = 0;
+	      tmp = ( path ).hashCode();
+	      return tmp;
+	   }
 
 }

@@ -16,11 +16,12 @@ import com.plip.eventhandlers.handlers.CounterEventHandler;
 import com.plip.eventhandlers.handlers.TrayEventHandler;
 import com.plip.eventhandlers.listeners.GenericEventListener;
 import com.plip.imageprocessing.processors.ObjectCounter;
+import com.plip.imageprocessing.processors.OrbBriskDetector;
 import com.plip.imageprocessing.processors.TrayProcessor;
-import com.plip.persistence.dao.impls.PlipRoleDaoImpl;
-import com.plip.persistence.dao.interfaces.PlipRoleDao;
-import com.plip.persistence.exceptions.PlipRoleNotFoundException;
-import com.plip.persistence.model.PlipRole;
+import com.plip.persistence.dao.impls.PageDaoImpl;
+import com.plip.persistence.dao.interfaces.PageDao;
+import com.plip.persistence.exceptions.PageNotFoundException;
+import com.plip.persistence.model.Page;
 import com.plip.uinterfaces.MainMenuFrame;
 
 
@@ -46,18 +47,38 @@ public class MainSystemMonitor implements GenericEventListener {
 //		MainSystemMonitor msm = new MainSystemMonitor();
 //		msm.initializeCapture();
 		
-		//PlipTrainer trainer = new PlipTrainer();
-		//trainer.processProductImages();
-		PlipRoleDao roleDao = new PlipRoleDaoImpl();
+//		PlipTrainer trainer = new PlipTrainer();
+//		trainer.processProductImages();
+//		PlipRoleDao roleDao = new PlipRoleDaoImpl();
 		
-		//PlipRole role = new PlipRole("administrador", "Aministra y monitorea el sistema y sus productos"); 
+//		//PlipRole role = new PlipRole("administrador", "Aministra y monitorea el sistema y sus productos"); 
+//		try {
+//			roleDao.getRole(5);
+//		} catch (PlipRoleNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		ProductDaoImpl pDao = new ProductDaoImpl();
+//		Product product = pDao.getProduct(1);
+//		Set images =  product.getImages();
+//		Iterator it = images.iterator();
+//		while(it.hasNext()){
+//			Image img = (Image) it.next();
+//			System.out.println(img.getPath());
+//		}
+		ObjectCounter counter = new ObjectCounter();
+		Mat image = Highgui.imread(MainSystemMonitor.class.getResource("/49.jpg").getPath());
+		ArrayList<Mat> foundObjects = counter.count(image);
+		PageDao pageDao = new PageDaoImpl();
+		Page page = new Page();
 		try {
-			roleDao.getRole(5);
-		} catch (PlipRoleNotFoundException e) {
+			page = pageDao.getPage(1);
+		} catch (PageNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		OrbBriskDetector orbBriskDetector = new OrbBriskDetector();
+		orbBriskDetector.recognize(page, foundObjects);
 	}
 
 	/*CvCapture *cap;

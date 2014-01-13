@@ -176,9 +176,9 @@ public class ObjectCounter {
 		boundRect.x -= 15;
 		boundRect.y -= 15;
 		Mat subImage = image.submat(boundRect);
-		/*String filename = getClass().getResource("/FoundObjects").getPath()
-				+ "/bound" + i + ".jpg";*/
-		/*Highgui.imwrite(filename, subImage);*/
+		String filename = getClass().getResource("/FoundObjects").getPath()
+				+ "/bound" + i + ".jpg";
+		Highgui.imwrite(filename, subImage);
 		
 		return subImage;
 	}

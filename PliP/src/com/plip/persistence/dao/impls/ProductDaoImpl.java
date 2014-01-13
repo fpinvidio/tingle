@@ -41,7 +41,7 @@ public class ProductDaoImpl implements ProductDao{
 	}
 
 	@Override
-	public Product getProduct(long idProduct) {
+	public Product getProduct(long idProduct)  throws ProductNotFoundException{
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
@@ -51,7 +51,9 @@ public class ProductDaoImpl implements ProductDao{
 			Query query = session
 					.createQuery("FROM Product where idProduct = :id");
 			query.setParameter("id", idProduct);
+//			inner join Image on Image.idProduct = Product.idProduct
 			product = (Product) query.list().get(0);
+			product.setImages(product.getImages());
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)

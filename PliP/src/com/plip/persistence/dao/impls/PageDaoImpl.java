@@ -53,6 +53,7 @@ public class PageDaoImpl implements PageDao {
 			query.setParameter("id", idPage);
 			if(query.list().size() > 0){
 			page = (Page) query.list().get(0);
+			page.setPageProducts(page.getPageProducts());
 			}else{
 				throw new PageNotFoundException();
 			}
