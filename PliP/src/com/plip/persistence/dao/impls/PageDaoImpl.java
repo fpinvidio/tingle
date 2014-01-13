@@ -13,6 +13,7 @@ import com.plip.persistence.exceptions.NullModelAttributesException;
 import com.plip.persistence.exceptions.PageNotFoundException;
 import com.plip.persistence.managers.DaoManager;
 import com.plip.persistence.model.Page;
+import com.plip.persistence.model.Status;
 
 public class PageDaoImpl implements PageDao {
 
@@ -53,8 +54,9 @@ public class PageDaoImpl implements PageDao {
 			tx = session.beginTransaction();
 			Query query = session.createQuery("FROM Page where idPage = :id");
 			query.setParameter("id", idPage);
-			if (query.list().size() > 0) {
-				page = (Page) query.list().get(0);
+			if(query.list().size() > 0){
+			page = (Page) query.list().get(0);
+			page.setPageProducts(page.getPageProducts());
 			} else {
 				throw new PageNotFoundException();
 			}
@@ -77,15 +79,15 @@ public class PageDaoImpl implements PageDao {
 		try {
 			tx = session.beginTransaction();
 			Page pag = (Page) session.get(Page.class, page.getIdPage());
-			if (pag != null) {
-				pag.setOrder(page.getOrder());
-				pag.setPageImage(page.getPageImage());
-				pag.setPageNumber(page.getPageNumber());
-				pag.setPageProducts(page.getPageProducts());
-				pag.setProductQuantity(page.getProductQuantity());
-				pag.setTrays(page.getTrays());
-				session.update(pag);
-			} else {
+			if(pag != null){
+			pag.setOrder(page.getOrder());
+			pag.setPageImage(page.getPageImage());
+			pag.setPageNumber(page.getPageNumber());
+			pag.setPageProducts(page.getPageProducts());
+			pag.setProductQuantity(page.getProductQuantity());
+			pag.setTrays(page.getTrays());
+			session.update(pag);
+			}else{
 				throw new PageNotFoundException();
 			}
 			tx.commit();

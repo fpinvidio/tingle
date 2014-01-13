@@ -8,7 +8,7 @@ public interface ProductDao {
 	
 	public Long addProduct(Product product) throws NullModelAttributesException;
 	
-	public Product getProduct(long idProduct);
+	public Product getProduct(long idProduct)  throws ProductNotFoundException;
 	
 	public Product getProductByName(String name) throws ProductNotFoundException;;
 	

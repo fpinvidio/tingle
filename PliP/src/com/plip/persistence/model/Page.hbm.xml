@@ -20,7 +20,7 @@
         <property name="pageNumber" type="int">
             <column name="page_number" not-null="true" />
         </property>
-        <set name="pageProducts" table="page_product" inverse="true" lazy="true" fetch="select">
+        <set name="pageProducts" table="page_product" inverse="true" lazy="false" fetch="select">
             <key>
                 <column name="id_page" not-null="true" />
             </key>
