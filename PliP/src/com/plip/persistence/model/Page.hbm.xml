@@ -12,7 +12,7 @@
             <column name="id_order" not-null="true" />
         </many-to-one>
         <many-to-one name="pageImage" class="com.plip.persistence.model.PageImage" fetch="select">
-            <column name="id_page_image" not-null="true" />
+            <column name="id_page_image" />
         </many-to-one>
         <property name="productQuantity" type="java.lang.Integer">
             <column name="product_quantity" />
