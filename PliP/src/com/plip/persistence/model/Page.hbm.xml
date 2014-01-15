@@ -8,10 +8,10 @@
             <column name="id_page" />
             <generator class="identity" />
         </id>
-        <many-to-one name="order" class="com.plip.persistence.model.Order" fetch="select">
+        <many-to-one name="order" class="com.plip.persistence.model.Order" fetch="select" lazy="false">
             <column name="id_order" not-null="true" />
         </many-to-one>
-        <many-to-one name="pageImage" class="com.plip.persistence.model.PageImage" fetch="select">
+        <many-to-one name="pageImage" class="com.plip.persistence.model.PageImage" fetch="select" lazy="false">
             <column name="id_page_image" />
         </many-to-one>
         <property name="productQuantity" type="java.lang.Integer">
@@ -26,7 +26,7 @@
             </key>
             <one-to-many class="com.plip.persistence.model.PageProduct" />
         </set>
-        <set name="trays" table="tray" inverse="true" lazy="true" fetch="select">
+        <set name="trays" table="tray" inverse="true" lazy="false" fetch="select">
             <key>
                 <column name="Page_id_page" not-null="true" />
             </key>

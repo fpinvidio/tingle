@@ -8,10 +8,10 @@
             <column name="id_page_product" />
             <generator class="identity" />
         </id>
-        <many-to-one name="product" class="com.plip.persistence.model.Product" fetch="select">
+        <many-to-one name="product" class="com.plip.persistence.model.Product" lazy="false" fetch="select">
             <column name="id_product" not-null="true" />
         </many-to-one>
-        <many-to-one name="page" class="com.plip.persistence.model.Page" fetch="select">
+        <many-to-one name="page" class="com.plip.persistence.model.Page" lazy="false" fetch="select">
             <column name="id_page" not-null="true" />
         </many-to-one>
         <property name="quantity" type="int">

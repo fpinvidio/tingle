@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.plip.persistence.exceptions.NullModelAttributesException;
 import com.plip.persistence.exceptions.PageNotFoundException;
 import com.plip.persistence.model.Page;
+import com.plip.persistence.model.Product;
 
 public interface PageDao {
 	
@@ -17,5 +18,7 @@ public interface PageDao {
 	public void updatePage(Page page) throws PageNotFoundException;
 	
 	public void deletePage(long pageId);
+	
+	public ArrayList <Product> getPageProductsByOrderId ( Long idOrder );
 
 }

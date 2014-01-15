@@ -5,7 +5,7 @@
 <hibernate-mapping>
     <class name="com.plip.persistence.model.Order" table="order" catalog="plip">
         <id name="idOrders" type="java.lang.Long">
-            <column name="id_orders" />
+            <column name="id_order" />
             <generator class="identity" />
         </id>
         <property name="code" type="string">
@@ -17,7 +17,7 @@
         <property name="client" type="string">
             <column name="client" length="1024" not-null="true" />
         </property>
-        <set name="pages" table="page" inverse="true" lazy="true" fetch="select">
+        <set name="pages" table="page" inverse="true" lazy="false" fetch="select">
             <key>
                 <column name="id_order" not-null="true" />
             </key>

@@ -1,18 +1,22 @@
 package com.plip.persistence.dao.impls;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.junit.Assert;
 
 import com.plip.persistence.dao.interfaces.PageDao;
 import com.plip.persistence.exceptions.NullModelAttributesException;
 import com.plip.persistence.exceptions.PageNotFoundException;
 import com.plip.persistence.managers.DaoManager;
 import com.plip.persistence.model.Page;
+import com.plip.persistence.model.PageProduct;
+import com.plip.persistence.model.Product;
 import com.plip.persistence.model.Status;
 
 public class PageDaoImpl implements PageDao {
@@ -131,8 +135,8 @@ public class PageDaoImpl implements PageDao {
 		try {
 			tx = session.beginTransaction();
 			Query query = session
-					.createQuery("FROM Page where id_order= :idOrder");
-			query.setParameter("idOrder", idOrder);
+					.createQuery("Select p FROM Page p join p.order o where (o.idOrders = :idOrder)");
+			query.setParameter("idOrder", Long.valueOf(idOrder));
 			if (query.list().size() > 0) {
 				pages = (ArrayList<Page>) query.list();
 			} else {
@@ -148,4 +152,22 @@ public class PageDaoImpl implements PageDao {
 		}
 		return pages;
 	}
+	
+	public ArrayList <Product> getPageProductsByOrderId ( Long idOrder ) {
+		ArrayList<Product> products = new ArrayList();
+		try {
+			ArrayList<Page> pageList = getPagesByOrderId(idOrder);
+			for (Page page : pageList){
+				Set<PageProduct> pageProducts = page.getPageProducts();			
+				for (PageProduct next : pageProducts){
+					products.add(next.getProduct());
+				}
+			}
+		} catch (PageNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}			
+		return products; 	
+	}
+	
 }
