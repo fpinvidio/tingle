@@ -12,6 +12,7 @@ import org.opencv.features2d.DescriptorMatcher;
 import org.opencv.features2d.FeatureDetector;
 
 import com.plip.imageprocessing.matchers.MinDistanceMatcher;
+import com.plip.imageprocessing.matchers.exceptions.NoMatchException;
 import com.plip.persistence.dao.impls.ImageDaoImpl;
 import com.plip.persistence.exceptions.ImageNotFoundException;
 import com.plip.persistence.model.Image;
@@ -38,7 +39,7 @@ public class OrbBriskDetector {
 //	}
 	
 	
-	public void recognize(Page page, ArrayList<Mat> foundObjects) {
+	public void recognize(Page page, ArrayList<Mat> foundObjects){
 		computeDescriptors(foundObjects,page);
 		MinDistanceMatcher matcher = new MinDistanceMatcher(DescriptorMatcher.BRUTEFORCE_HAMMING);
 		Product product = new Product();
@@ -46,8 +47,13 @@ public class OrbBriskDetector {
 		Iterator pageProductsIterator = pageProducts.iterator();
 		
 		for (int i = 0; i < foundImagesDescriptors.size(); i++) {
-			
-		Product productMatch =	matcher.match(extractor, foundImagesDescriptors.get(i), page);
+		Product	productMatch = new Product();
+		try{
+		productMatch =	matcher.match(extractor, foundImagesDescriptors.get(i), page);
+		}catch(NoMatchException e){
+			e.printStackTrace();
+			generateNoMatchStatus();
+		}
 		if(productMatch !=null && productMatch.getName() != null){
 			System.out.println (productMatch.getName() + '-' + foundImageNames.get(i));
 		}
@@ -98,6 +104,10 @@ public class OrbBriskDetector {
 			
 			product.setImages(new HashSet<Image>(productImages));
 		}
+	}
+	
+	public void generateNoMatchStatus(){
+		
 	}
 
 }

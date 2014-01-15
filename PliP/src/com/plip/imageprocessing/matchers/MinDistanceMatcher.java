@@ -2,7 +2,6 @@ package com.plip.imageprocessing.matchers;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 import org.opencv.core.Mat;
@@ -10,9 +9,9 @@ import org.opencv.core.MatOfDMatch;
 import org.opencv.features2d.DMatch;
 import org.opencv.features2d.DescriptorMatcher;
 
+import com.plip.imageprocessing.matchers.exceptions.NoMatchException;
 import com.plip.imageprocessing.processors.ImageDescriptorExtractor;
 import com.plip.persistence.dao.impls.ImageDaoImpl;
-import com.plip.persistence.exceptions.ImageNotFoundException;
 import com.plip.persistence.managers.DataTypeManager;
 import com.plip.persistence.model.Image;
 import com.plip.persistence.model.Page;
@@ -60,7 +59,7 @@ public class MinDistanceMatcher implements ImageMatcher {
 	}
 
 	public Product match(ImageDescriptorExtractor extractor, Mat descriptor,
-			Page page) {
+			Page page) throws NoMatchException{
 		Product product = new Product();
 		Set pageProducts = page.getPageProducts();
 		ImageDaoImpl imageDao = new ImageDaoImpl();
@@ -76,6 +75,7 @@ public class MinDistanceMatcher implements ImageMatcher {
 				product = productToCompare;
 			}
 		}
+		System.out.println(minDist);
 //		for (int i = 0; i < orderProducts.size(); i++) {
 //			
 //			Product productToCompare = orderProducts.get(i);
