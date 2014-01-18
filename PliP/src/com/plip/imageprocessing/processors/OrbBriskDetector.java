@@ -40,6 +40,7 @@ public class OrbBriskDetector {
 	
 	
 	public void recognize(Page page, ArrayList<Mat> foundObjects){
+		if(page !=null && foundObjects.size() > 0){
 		computeDescriptors(foundObjects,page);
 		MinDistanceMatcher matcher = new MinDistanceMatcher(DescriptorMatcher.BRUTEFORCE_HAMMING);
 		Product product = new Product();
@@ -67,6 +68,7 @@ public class OrbBriskDetector {
 //				}
 //			}
 //
+		}
 		}
 	}
 	

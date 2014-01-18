@@ -18,6 +18,7 @@ import com.plip.eventhandlers.listeners.GenericEventListener;
 import com.plip.imageprocessing.processors.ObjectCounter;
 import com.plip.imageprocessing.processors.OrbBriskDetector;
 import com.plip.imageprocessing.processors.TrayProcessor;
+import com.plip.imageprocessing.processors.Exceptions.NoImageException;
 import com.plip.persistence.dao.impls.PageDaoImpl;
 import com.plip.persistence.dao.interfaces.PageDao;
 import com.plip.persistence.exceptions.PageNotFoundException;
@@ -68,6 +69,7 @@ public class MainSystemMonitor implements GenericEventListener {
 //		}
 		ObjectCounter counter = new ObjectCounter();
 		Mat image = Highgui.imread(MainSystemMonitor.class.getResource("/49.jpg").getPath());
+		try{
 		ArrayList<Mat> foundObjects = counter.count(image);
 		PageDao pageDao = new PageDaoImpl();
 		Page page = new Page();
@@ -79,6 +81,9 @@ public class MainSystemMonitor implements GenericEventListener {
 		}
 		OrbBriskDetector orbBriskDetector = new OrbBriskDetector();
 		orbBriskDetector.recognize(page, foundObjects);
+		}catch(NoImageException e){
+			e.printStackTrace();
+		}
 	}
 
 	/*CvCapture *cap;
@@ -138,7 +143,12 @@ public class MainSystemMonitor implements GenericEventListener {
 			vcapture.set(Highgui.CV_CAP_PROP_FRAME_HEIGHT, 250);
 			Highgui.imwrite("Tray.jpg", screenshot);
 			TrayArrivalEvent temp = (TrayArrivalEvent) event;
-			ArrayList<Mat> images = ocounter.count(screenshot);
+			ArrayList<Mat> images = new ArrayList<Mat>();
+			try{
+				images = ocounter.count(screenshot);
+			}catch(NoImageException e){
+				e.printStackTrace();
+			}
 			cehandler.addCountedObjects(images);
 		} else if (event instanceof TrayDepartureEvent) {
 			System.out.println("Departure");

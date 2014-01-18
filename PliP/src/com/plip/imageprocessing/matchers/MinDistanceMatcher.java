@@ -70,31 +70,15 @@ public class MinDistanceMatcher implements ImageMatcher {
 			Product productToCompare = next.getProduct();
 			train(productToCompare);
 			double dist = minDist(descriptor);
-			if(dist < minDist && dist < 50){
+			if(dist < minDist && dist < 60){
 				minDist = dist;
 				product = productToCompare;
 			}
 		}
 		System.out.println(minDist);
-//		for (int i = 0; i < orderProducts.size(); i++) {
-//			
-//			Product productToCompare = orderProducts.get(i);
-//			ArrayList<Mat> productToCompareDescriptors = productToCompare
-//					.getProductImageDescriptors();
-//			for (int j = 0; j < productToCompareDescriptors.size(); j++) {
-//				double temp = minDist(imageDescriptors,
-//						productToCompareDescriptors.get(j));
-//				/*
-//				 * 60 is the threshold selected to ensure that an image
-//				 * corresponds to a product
-//				 */
-//				if (temp < dist && temp < 60) {
-//					dist = temp;
-//					product = productToCompare;
-//				}
-//			}
-//
-//		}
+		if(product.getName() == null){
+			throw new NoMatchException();
+		}
 		return product;
 	}
 	
