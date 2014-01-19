@@ -146,7 +146,7 @@ public class MainSystemMonitor implements GenericEventListener {
 			ArrayList<Mat> images = new ArrayList<Mat>();
 			try{
 				images = ocounter.count(screenshot);
-			}catch(NoImageException e){
+				}catch(NoImageException e){
 				e.printStackTrace();
 			}
 			cehandler.addCountedObjects(images);

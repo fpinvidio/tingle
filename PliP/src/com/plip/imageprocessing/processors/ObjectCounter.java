@@ -1,6 +1,7 @@
 package com.plip.imageprocessing.processors;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.opencv.core.Core;
@@ -16,6 +17,11 @@ import org.opencv.highgui.Highgui;
 import org.opencv.imgproc.Imgproc;
 
 import com.plip.imageprocessing.processors.Exceptions.NoImageException;
+import com.plip.persistence.dao.impls.StatusDaoImpl;
+import com.plip.persistence.dao.impls.TrayStatusDaoImpl;
+import com.plip.persistence.exceptions.StatusNotFoundException;
+import com.plip.persistence.model.Status;
+import com.plip.persistence.model.TrayStatus;
 
 public class ObjectCounter {
 
@@ -29,11 +35,23 @@ public class ObjectCounter {
 			Mat detectedObjects = findContours(imageWithEdges);
 			System.out.println("Quantity:" + quantity);
 			System.out.println("Contours size:" + this.contours.size());
+			TrayStatusDaoImpl trayStatusDao = new TrayStatusDaoImpl();
+			TrayStatus trayStatus = new TrayStatus();
+			StatusDaoImpl statusDao = new StatusDaoImpl();
+			Status status = new Status();
+			try{
+				 status = statusDao.getStatus(1);
+			}catch(StatusNotFoundException e){
+				e.printStackTrace();
+			}
+			    trayStatus.setDate(new Date());
+			    trayStatus.setQuantity(quantity);
+			    trayStatus.setStatus(status);
+			    trayStatusDao.addTrayStatus(trayStatus);
 			for (int i = 0; i < this.contours.size(); i++) {
 				Mat productImage = cropContour(image, contours.get(i), i);
 				resultImages.add(productImage);
 			}
-
 			/*
 			 * Falta Eliminar el contorno de la cubeta y aplicar distance
 			 * transform si los productos estan pegados
