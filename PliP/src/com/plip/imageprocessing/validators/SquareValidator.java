@@ -4,7 +4,7 @@ import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc;
 
 public class SquareValidator {
-	private static double[] allowed_areas = { 33000.0, 39000.0 };
+	private static double[] allowed_areas = { 198000, 200000 };
 	private static double allowed_area_tol = 0.08;
 	
 	public static boolean validateSquare(Mat square) {
@@ -14,7 +14,7 @@ public class SquareValidator {
 	private static boolean hasAppropiateArea(Mat square) {
 		boolean result = false;
 		double area = Math.abs(Imgproc.contourArea(square));
-		//System.out.println(area);
+		System.out.println(area);
 		for (double allowed_area : allowed_areas) {
 			double upper_limit = allowed_area * (1 + allowed_area_tol);
 			double lower_limit = allowed_area * (1 - allowed_area_tol);

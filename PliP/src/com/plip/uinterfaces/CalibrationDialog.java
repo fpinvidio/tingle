@@ -300,7 +300,7 @@ public class CalibrationDialog extends JDialog {
 
 	public void initializeVideoCapture() {
 		System.loadLibrary("opencv_java246");
-		vcapture = new VideoCapture(1);
+		vcapture = new VideoCapture(0);
 		vcapture.set(Highgui.CV_CAP_PROP_FRAME_WIDTH, 240);
 		vcapture.set(Highgui.CV_CAP_PROP_FRAME_HEIGHT, 240);
 		iprocessor = new TrayProcessor();

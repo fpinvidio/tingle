@@ -69,7 +69,7 @@ public class MainMenuFrame extends JFrame implements GenericEventListener {
 	 */
 	public MainMenuFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 1000, 600);
 
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -125,8 +125,8 @@ public class MainMenuFrame extends JFrame implements GenericEventListener {
 		JPanel westPanel = new JPanel();
 		westPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		westPanel.setMinimumSize(new Dimension(200, 10));
-		westPanel.setPreferredSize(new Dimension(200, 10));
-		westPanel.setSize(new Dimension(200, 0));
+		westPanel.setPreferredSize(new Dimension(640, 480));
+		westPanel.setSize(new Dimension(640, 480));
 		contentPane.add(westPanel, BorderLayout.WEST);
 		westPanel.setLayout(new BoxLayout(westPanel, BoxLayout.X_AXIS));
 
