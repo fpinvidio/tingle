@@ -32,32 +32,36 @@ public class ObjectCounter {
 		if (image != null) {
 			ArrayList<Mat> resultImages = new ArrayList<Mat>();
 
-			// Pre process image to enhance contours
+			/* Pre process image to enhance contours */
 			Mat imageWithEdges = edgeDetector(image);
 
-			// Removes detected tray contour
+			/* Removes detected tray contour */
 			Mat noTray = removeTray(imageWithEdges);
 
-			// Find contours and validates quadrilateral forms
+			/* Find contours and validates quadrilateral forms */
 			Mat detectedObjects = findContours(noTray);
 
-			// Applies distanceTransform to separate products
+			/* Applies distanceTransform to separate products */
 			imageDistanceTransformer(detectedObjects);
 
 			System.out.println("Quantity:" + quantity);
 			System.out.println("Contours size:" + this.contours.size());
 
-			// Reports to TrayStatus to determinate the quantity of found
-			// products
+			/*
+			 * Reports to TrayStatus to determinate the quantity of found
+			 * products
+			 */
 			TrayStatusDaoImpl trayStatusDao = new TrayStatusDaoImpl();
 			TrayStatus trayStatus = new TrayStatus();
 			StatusDaoImpl statusDao = new StatusDaoImpl();
 			Status status = new Status();
+
 			try {
 				status = statusDao.getStatus(1);
 			} catch (StatusNotFoundException e) {
 				e.printStackTrace();
 			}
+
 			trayStatus.setDate(new Date());
 			trayStatus.setQuantity(quantity);
 			trayStatus.setStatus(status);
@@ -74,10 +78,14 @@ public class ObjectCounter {
 	}
 
 	/**
+	 * This method improves the original image for contours detection. It is in
+	 * charge of smoothing, filtering and enhancing edges.
 	 * 
-	 * @param Mat image - Detected Tray Screenshot
+	 * @param Mat
+	 *            image - Detected Tray Screenshot
 	 * @return Mat - Pre processed filtered image with enhanced edges.
-	 * @throws NoImageException - if Screenshot is null
+	 * @throws NoImageException
+	 *             - if Screenshot is null
 	 */
 	public Mat edgeDetector(Mat image) throws NoImageException {
 		if (image != null) {
@@ -86,27 +94,29 @@ public class ObjectCounter {
 			Mat cannyBilateral = new Mat();
 			Mat binary = new Mat();
 
-			// Filter Create binary image from source image
-			/* Transform Image from BGR To RGB */
-			// Imgproc.cvtColor(image, binary, Imgproc.COLOR_BGR2RGB);
+			/* Filter Create binary image from source image */
 			binary = image;
+
 			/* Apply median blur to smooth image */
 			Imgproc.medianBlur(binary, medianBlur, 7);
+
 			/* Apply bilateral filter to smooth image but maintaining edges */
 			Imgproc.bilateralFilter(medianBlur, bilateral, 5, 230, 5, 1);
 			// Highgui.imwrite("bilateral.jpg", bilateral);
+
 			/* Apply edge detector detect medicine edges and contours */
 			Imgproc.Canny(bilateral, cannyBilateral, 35, 85);
 			// Highgui.imwrite("CannybilateralFilter.jpg", cannyBilateral);
+
 			/*
 			 * Dilate image to complete contours and highlight lines for a
 			 * better performance of findCountours
 			 */
 			Imgproc.dilate(cannyBilateral, cannyBilateral, new Mat(),
 					new Point(-1, -1), 3);
+
 			// Highgui.imwrite("Median.jpg", medianBlur);
-			// Highgui.imwrite("CannybilateralFilterDilated.jpg",
-			// cannyBilateral);
+			// Highgui.imwrite("CannybilateralFilterDilated.jpg",cannyBilateral);
 
 			return cannyBilateral;
 		} else {
@@ -115,9 +125,12 @@ public class ObjectCounter {
 	}
 
 	/**
+	 * This method removes the detected tray contour from the pre processed
+	 * image.
 	 * 
 	 * @param image
-	 * @return
+	 *            - Pre processed image.
+	 * @return Mat image - Pre processed image without tray.
 	 */
 	public Mat removeTray(Mat image) {
 		if (image != null) {
@@ -127,9 +140,7 @@ public class ObjectCounter {
 			List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
 			MatOfPoint trayFloorContour = new MatOfPoint();
 			boolean initialized = false;
-			MatOfPoint2f approx = new MatOfPoint2f();
 			MatOfPoint2f mMOP2f1 = new MatOfPoint2f();
-			MatOfPoint mMOP = new MatOfPoint();
 			Scalar s1 = new Scalar(255, 0, 0);
 
 			Imgproc.findContours(image, contours, new Mat(),
@@ -174,10 +185,14 @@ public class ObjectCounter {
 	}
 
 	/**
+	 * This method search's for contours and validates their quadrilateral
+	 * shape.
 	 * 
-	 * @param filteredImage - Image without tray
-	 * @return Mat - Returns detected quadrilateral products
-	 * @throws NoImageException - If filteredImage is null
+	 * @param filteredImage
+	 *            - Image without tra.y
+	 * @return Mat - Returns detected quadrilateral products.
+	 * @throws NoImageException
+	 *             - If filteredImage is null.
 	 */
 	public Mat findContours(Mat filteredImage) throws NoImageException {
 
@@ -185,19 +200,17 @@ public class ObjectCounter {
 			quantity = 0;
 			this.contours.clear();
 			List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
-			MatOfPoint2f approx = new MatOfPoint2f();
 			MatOfPoint2f mMOP2f1 = new MatOfPoint2f();
-			MatOfPoint mMOP = new MatOfPoint();
 			Scalar s1 = new Scalar(255, 0, 0);
-			int count = 0;
 
 			Highgui.imwrite("noTray.jpg", filteredImage);
 
 			Imgproc.Canny(filteredImage, filteredImage, 35, 85);
 			Highgui.imwrite("canny.jpg", filteredImage);
+
 			/*
 			 * Dilate image to complete contours and highlight lines for a
-			 * better performance of findCountours
+			 * better performance.
 			 */
 			Imgproc.dilate(filteredImage, filteredImage, new Mat(), new Point(
 					-1, -1), 1);
@@ -230,23 +243,33 @@ public class ObjectCounter {
 					Highgui.imwrite("contour" + i + ".jpg", filteredImage);
 					quantity++;
 				}
-
 			}
 			Highgui.imwrite("contoursfilled.jpg", filteredImage);
 			return filteredImage;
+
 		} else {
 			throw new NoImageException();
 		}
 	}
 
+	/**
+	 * This method applies a distance transform function which separates the
+	 * detected objects.
+	 * 
+	 * @param detectedObjects
+	 *            - The detected objects.
+	 * @throws NoImageException
+	 *             - If the detected object image is null.
+	 */
 	public void imageDistanceTransformer(Mat detectedObjects)
 			throws NoImageException {
-		/* Distance transform to separate objects */
+
 		if (detectedObjects != null) {
 			Mat thres = new Mat();
 			Mat normalize = new Mat();
 			Mat transform = new Mat();
 
+			/* Distance transform to separate objects */
 			Imgproc.distanceTransform(detectedObjects, transform,
 					Imgproc.CV_DIST_L1, 0);
 			// Highgui.imwrite("transform.jpg", transform);
@@ -256,71 +279,93 @@ public class ObjectCounter {
 
 			/* Threshold to recount the objects */
 			Imgproc.threshold(normalize, thres, 64, 255, Imgproc.THRESH_BINARY);
-			// Highgui.imwrite("thres.jpg", thres);
+			Highgui.imwrite("thres.jpg", thres);
+
 			Imgproc.dilate(thres, thres, new Mat(), new Point(-1, -1), 10);
 			Highgui.imwrite("thresd.jpg", thres);
 
 			thres.convertTo(thres, CvType.CV_8UC1);
 
-			findContoursAfterDistance(thres);
+			/* Called to recount the objects */
+			findContoursAfterDistanceTransform(thres);
+
 		} else {
 			throw new NoImageException();
 		}
 	}
 
-	public Mat cropContour(Mat image, MatOfPoint contour, int i) {
-		if (image != null && contour != null) {
+	/**
+	 * This method recounts objects after distance transform.
+	 * 
+	 * @param distanceTransformedImage
+	 *            - Image with separate objects.
+	 * @return detectedObjectsAfterDistance - detected distance transformed
+	 *         objects.
+	 */
+	public Mat findContoursAfterDistanceTransform(Mat distanceTransformedImage) {
+		quantity = 0;
+		List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
+		Mat detectedObjectsAfterDistance = new Mat();
+		Scalar s1 = new Scalar(255, 0, 0);
+
+		/* Finds contours in the image and saves contours to contours object */
+		Imgproc.findContours(distanceTransformedImage, contours, new Mat(),
+				Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_NONE);
+
+		quantity = contours.size();
+
+		this.contours = contours;
+
+		// Highgui.imwrite("contoursT.jpg", filteredImage);
+
+		Imgproc.drawContours(detectedObjectsAfterDistance, contours, -1, s1, -1);
+
+		Highgui.imwrite("contoursfilledT.jpg", detectedObjectsAfterDistance);
+
+		return detectedObjectsAfterDistance;
+	}
+
+	/**
+	 * This method crops objects from the detected Objects Image.
+	 * 
+	 * @param detectedObjects
+	 *            - Detected objects image.
+	 * @param contour
+	 *            - Detected object contour
+	 * @param i
+	 *            - Detected object index
+	 * @return subImage - Object image.
+	 */
+	public Mat cropContour(Mat detectedObjects, MatOfPoint contour, int i) {
+		if (detectedObjects != null && contour != null) {
+
 			Rect boundRect = Imgproc.boundingRect(contour);
-			// boundRect.height += 30;
-			// boundRect.width += 30;
-			// boundRect.x -= 15;
-			// boundRect.y -= 15;
-			// boundRect.height -= 30;
-			// boundRect.width -= 30;
-			// boundRect.x += 15;
-			// boundRect.y += 15;
+
 			if (boundRect.x < 0) {
 				boundRect.x = 0;
 			}
 			if (boundRect.y < 0) {
 				boundRect.y = 0;
 			}
-			if (boundRect.width + boundRect.x > image.cols()) {
-				boundRect.width = Math.abs(image.cols() - boundRect.x);
+			if (boundRect.width + boundRect.x > detectedObjects.cols()) {
+				boundRect.width = Math
+						.abs(detectedObjects.cols() - boundRect.x);
 			}
-			if (boundRect.height + boundRect.y > image.rows()) {
-				boundRect.height = Math.abs(image.rows() - boundRect.y);
+			if (boundRect.height + boundRect.y > detectedObjects.rows()) {
+				boundRect.height = Math.abs(detectedObjects.rows()
+						- boundRect.y);
 			}
 
-			Mat subImage = image.submat(boundRect);
+			Mat subImage = detectedObjects.submat(boundRect);
 			// String filename =
 			// getClass().getResource("/FoundObjects").getPath()
 			// + "/bound" + i + ".jpg";
-			// Highgui.imwrite(filename, subImage);
 
+			// Highgui.imwrite(filename, subImage);
 			return subImage;
 		} else {
 			return new Mat();
 		}
-	}
-
-	public Mat findContoursAfterDistance(Mat filteredImage) {
-		quantity = 0;
-		List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
-		MatOfPoint2f approx = new MatOfPoint2f();
-		MatOfPoint2f mMOP2f1 = new MatOfPoint2f();
-		MatOfPoint mMOP = new MatOfPoint();
-		Scalar s1 = new Scalar(255, 0, 0);
-		int count = 0;
-		/* Finds contours in the image and saves contours to contours object */
-		Imgproc.findContours(filteredImage, contours, new Mat(),
-				Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_NONE);
-		quantity = contours.size();
-		this.contours = contours;
-		// Highgui.imwrite("contoursT.jpg", filteredImage);
-		Imgproc.drawContours(filteredImage, contours, -1, s1, -1);
-		Highgui.imwrite("contoursfilledT.jpg", filteredImage);
-		return filteredImage;
 	}
 
 }
