@@ -14,7 +14,7 @@ public class SquareValidator {
 	private static boolean hasAppropiateArea(Mat square) {
 		boolean result = false;
 		double area = Math.abs(Imgproc.contourArea(square));
-		System.out.println(area);
+		//System.out.println(area);
 		for (double allowed_area : allowed_areas) {
 			double upper_limit = allowed_area * (1 + allowed_area_tol);
 			double lower_limit = allowed_area * (1 - allowed_area_tol);
