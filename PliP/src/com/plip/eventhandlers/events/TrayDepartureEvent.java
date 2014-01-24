@@ -3,7 +3,6 @@ package com.plip.eventhandlers.events;
 import java.util.Date;
 import java.util.EventObject;
 
-
 public class TrayDepartureEvent extends EventObject {
 
 	private static final long serialVersionUID = 5506707119943266359L;
@@ -21,5 +20,5 @@ public class TrayDepartureEvent extends EventObject {
 	public Date getDeparture_date() {
 		return departure_date;
 	}
-	
+
 }

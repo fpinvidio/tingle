@@ -10,12 +10,13 @@ import org.opencv.core.Mat;
 
 import com.plip.eventhandlers.events.TrayArrivalEvent;
 import com.plip.eventhandlers.listeners.GenericEventListener;
-
+import com.plip.persistence.model.Page;
 
 public class TrayEventHandler extends GenericEventHandler {
 	private final int BUFFER_SIZE = 2;
 	private final float tol = 0.99f;
 	private List<Mat> tray_buffer = new ArrayList<Mat>();
+	private Page page;
 
 	@Override
 	protected synchronized void fireEvent(String type) {
@@ -31,6 +32,14 @@ public class TrayEventHandler extends GenericEventHandler {
 
 	private void setLastEvent(EventObject event) {
 		this.lastEvent = event;
+	}
+
+	public Page getPage() {
+		return page;
+	}
+
+	public void setPage(Page page) {
+		this.page = page;
 	}
 
 	private boolean isBufferFull() {

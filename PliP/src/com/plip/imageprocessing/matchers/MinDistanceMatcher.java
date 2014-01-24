@@ -60,7 +60,7 @@ public class MinDistanceMatcher implements ImageMatcher {
 
 	public Product match(ImageDescriptorExtractor extractor, Mat descriptor,
 			Page page) throws NoMatchException{
-		Product product = new Product();
+		Product product = null;
 		Set pageProducts = page.getPageProducts();
 		ImageDaoImpl imageDao = new ImageDaoImpl();
 		double minDist = 100;
@@ -76,7 +76,7 @@ public class MinDistanceMatcher implements ImageMatcher {
 			}
 		}
 		System.out.println(minDist);
-		if(product.getName() == null){
+		if(product == null){
 			throw new NoMatchException();
 		}
 		return product;

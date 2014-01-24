@@ -4,10 +4,9 @@ import java.util.EventObject;
 
 public class FinishCounterEvent extends EventObject {
 
-	private static final long serialVersionUID = 272855349758957367L;
+	private static final long serialVersionUID = 1137289429612506218L;
 
 	public FinishCounterEvent(Object source) {
 		super(source);
 	}
-
 }

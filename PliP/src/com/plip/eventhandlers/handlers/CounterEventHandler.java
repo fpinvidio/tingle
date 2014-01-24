@@ -15,7 +15,7 @@ public class CounterEventHandler extends GenericEventHandler {
 
 	@Override
 	protected synchronized void fireEvent(String type) {
-//		Mat[] tempArray = (Mat[]) countedObjects.toArray();
+		// Mat[] tempArray = (Mat[]) countedObjects.toArray();
 		Mat[] tempArray = null;
 		EventObject event = EventFactory.generateEvent(type, this, new Date(),
 				tempArray);
@@ -28,5 +28,13 @@ public class CounterEventHandler extends GenericEventHandler {
 	public void addCountedObjects(ArrayList<Mat> countedObjects) {
 		this.countedObjects = countedObjects;
 		this.fireEvent(EventFactory.FINISHED_COUNT_EVENT);
+	}
+
+	public ArrayList<Mat> getCountedObjects() {
+		return countedObjects;
+	}
+
+	public void setCountedObjects(ArrayList<Mat> countedObjects) {
+		this.countedObjects = countedObjects;
 	}
 }

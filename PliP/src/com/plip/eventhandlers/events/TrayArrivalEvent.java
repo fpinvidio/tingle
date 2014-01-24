@@ -28,5 +28,4 @@ public class TrayArrivalEvent extends EventObject {
 	public Mat[] getTray_images() {
 		return tray_images;
 	}
-	
 }

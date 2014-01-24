@@ -8,8 +8,6 @@ import java.util.List;
 
 import com.plip.eventhandlers.listeners.GenericEventListener;
 
-
-
 public abstract class GenericEventHandler {
 
 	protected List<GenericEventListener> listeners = new ArrayList<GenericEventListener>();
@@ -36,5 +34,4 @@ public abstract class GenericEventHandler {
 	private void setLastEvent(EventObject event) {
 		this.lastEvent = event;
 	}
-
 }

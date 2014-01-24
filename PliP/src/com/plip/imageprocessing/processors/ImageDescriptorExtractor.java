@@ -98,8 +98,6 @@ public class ImageDescriptorExtractor {
 			}
 			return descriptors;   
 		}
-		
-
 	}
 
 
