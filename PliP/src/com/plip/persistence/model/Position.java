@@ -1,6 +1,6 @@
 package com.plip.persistence.model;
 
-// Generated Dec 26, 2013 8:22:22 PM by Hibernate Tools 4.0.0
+// Generated Jan 25, 2014 5:33:45 PM by Hibernate Tools 4.0.0
 
 import java.util.HashSet;
 import java.util.Set;
@@ -28,13 +28,7 @@ public class Position implements java.io.Serializable {
 		this.angle = angle;
 		this.images = images;
 	}
-	
-	public boolean validate(){
-		if(face != 0){
-			return true;
-		}else return false;
-	}
-	
+
 	public Long getIdPosition() {
 		return this.idPosition;
 	}
@@ -66,5 +60,13 @@ public class Position implements java.io.Serializable {
 	public void setImages(Set images) {
 		this.images = images;
 	}
+	
+	
+	public boolean validate(){
+		if(face != 0){
+			return true;
+		}else return false;
+	}
+
 
 }

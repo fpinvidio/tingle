@@ -1,17 +1,17 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Dec 26, 2013 8:22:22 PM by Hibernate Tools 4.0.0 -->
+<!-- Generated Jan 25, 2014 5:33:45 PM by Hibernate Tools 4.0.0 -->
 <hibernate-mapping>
     <class name="com.plip.persistence.model.PageProduct" table="page_product" catalog="plip">
         <id name="idPageProduct" type="java.lang.Long">
             <column name="id_page_product" />
             <generator class="identity" />
         </id>
-        <many-to-one name="product" class="com.plip.persistence.model.Product" lazy="false" fetch="select">
+        <many-to-one name="product" class="com.plip.persistence.model.Product" fetch="select" lazy="false">
             <column name="id_product" not-null="true" />
         </many-to-one>
-        <many-to-one name="page" class="com.plip.persistence.model.Page" lazy="false" fetch="select">
+        <many-to-one name="page" class="com.plip.persistence.model.Page" fetch="select" lazy="false">
             <column name="id_page" not-null="true" />
         </many-to-one>
         <property name="quantity" type="int">

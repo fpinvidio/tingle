@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Dec 26, 2013 8:22:22 PM by Hibernate Tools 4.0.0 -->
+<!-- Generated Jan 25, 2014 5:33:45 PM by Hibernate Tools 4.0.0 -->
 <hibernate-mapping>
     <class name="com.plip.persistence.model.Order" table="order" catalog="plip">
-        <id name="idOrders" type="java.lang.Long">
+        <id name="idOrder" type="java.lang.Long">
             <column name="id_order" />
             <generator class="identity" />
         </id>
@@ -17,7 +17,7 @@
         <property name="client" type="string">
             <column name="client" length="1024" not-null="true" />
         </property>
-        <set name="pages" table="page" inverse="true" lazy="false" fetch="select">
+        <set name="pages" table="page" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="id_order" not-null="true" />
             </key>

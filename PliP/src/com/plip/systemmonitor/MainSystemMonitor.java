@@ -46,8 +46,8 @@ public class MainSystemMonitor implements GenericEventListener {
 
 	public MainSystemMonitor() {
 		super();
-		// mmf = new MainMenuFrame(this);
-		// mmf.setVisible(true);
+		 mmf = new MainMenuFrame(this);
+		 mmf.setVisible(true);
 	}
 
 	public static void main(String arg[]) {
@@ -101,7 +101,7 @@ public class MainSystemMonitor implements GenericEventListener {
 
 	public void initializeCapture() {
 
-		vcapture = new VideoCapture(0);
+		vcapture = new VideoCapture(1);
 		vcapture.set(Highgui.CV_CAP_PROP_FRAME_WIDTH, 640);
 		vcapture.set(Highgui.CV_CAP_PROP_FRAME_HEIGHT, 480);
 		
@@ -153,6 +153,7 @@ public class MainSystemMonitor implements GenericEventListener {
 			} catch (PageNotFoundException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
+				System.out.println("se fue todo al joraca");
 			}
 			tehandler.setPage(page);
 

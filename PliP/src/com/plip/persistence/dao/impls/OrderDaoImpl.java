@@ -76,7 +76,7 @@ public class OrderDaoImpl implements OrderDao {
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			Order ord = (Order) session.get(Order.class, order.getIdOrders());
+			Order ord = (Order) session.get(Order.class, order.getIdOrder());
 			if(ord != null){
 			ord.setClient(order.getClient());
 			ord.setCode(order.getCode());

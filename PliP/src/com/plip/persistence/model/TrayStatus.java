@@ -1,6 +1,6 @@
 package com.plip.persistence.model;
 
-// Generated Dec 26, 2013 8:22:22 PM by Hibernate Tools 4.0.0
+// Generated Jan 25, 2014 5:33:45 PM by Hibernate Tools 4.0.0
 
 import java.util.Date;
 
@@ -19,9 +19,10 @@ public class TrayStatus implements java.io.Serializable {
 	public TrayStatus() {
 	}
 
-	public TrayStatus(Tray tray, Status status) {
+	public TrayStatus(Tray tray, Status status, Date date) {
 		this.tray = tray;
 		this.status = status;
+		this.date = date;
 	}
 
 	public TrayStatus(Product product, Tray tray, Status status,
@@ -31,12 +32,6 @@ public class TrayStatus implements java.io.Serializable {
 		this.status = status;
 		this.quantity = quantity;
 		this.date = date;
-	}
-	
-	public boolean validate(){
-		if(product != null && tray != null && status != null && quantity != null && date != null){
-			return true;
-		}else return false;
 	}
 
 	public Long getIdTrayStatus() {
@@ -86,5 +81,12 @@ public class TrayStatus implements java.io.Serializable {
 	public void setDate(Date date) {
 		this.date = date;
 	}
+	
+	public boolean validate(){
+		if(tray != null && status != null && date != null){
+			return true;
+		}else return false;
+	}
+
 
 }

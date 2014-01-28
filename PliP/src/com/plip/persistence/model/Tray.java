@@ -1,6 +1,6 @@
 package com.plip.persistence.model;
 
-// Generated Dec 26, 2013 8:22:22 PM by Hibernate Tools 4.0.0
+// Generated Jan 25, 2014 5:33:45 PM by Hibernate Tools 4.0.0
 
 import java.util.HashSet;
 import java.util.Set;
@@ -27,12 +27,6 @@ public class Tray implements java.io.Serializable {
 		this.page = page;
 		this.code = code;
 		this.trayStatuses = trayStatuses;
-	}
-	
-	public boolean validate(){
-		if(page != null && code != null){
-			return true;
-		}else return false;
 	}
 
 	public Long getIdTray() {
@@ -66,5 +60,12 @@ public class Tray implements java.io.Serializable {
 	public void setTrayStatuses(Set trayStatuses) {
 		this.trayStatuses = trayStatuses;
 	}
+	
+	public boolean validate(){
+		if(page != null && code != null){
+			return true;
+		}else return false;
+	}
+
 
 }

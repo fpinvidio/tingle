@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Dec 26, 2013 8:22:22 PM by Hibernate Tools 4.0.0 -->
+<!-- Generated Jan 25, 2014 5:33:45 PM by Hibernate Tools 4.0.0 -->
 <hibernate-mapping>
     <class name="com.plip.persistence.model.PageImage" table="page_image" catalog="plip">
         <id name="idPageImage" type="java.lang.Long">
@@ -13,7 +13,7 @@
         </property>
         <set name="pages" table="page" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="id_page_image" not-null="true" />
+                <column name="id_page_image" />
             </key>
             <one-to-many class="com.plip.persistence.model.Page" />
         </set>
