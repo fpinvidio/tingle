@@ -27,14 +27,15 @@ public class ObjectCounter {
 
 	private int quantity;
 	private List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
+	private Mat image = new Mat();
 
 	public ArrayList<Mat> count(Mat image) throws NoImageException {
 		if (image != null) {
-
+			this.image=image;
 			ArrayList<Mat> resultImages = new ArrayList<Mat>();
 
 			/* Pre process image to enhance contours */
-			Mat imageWithEdges = edgeDetector(image);
+			Mat imageWithEdges = edgeDetector(this.image);
 
 			/* Removes detected tray contour */
 			Mat noTray = removeTray(imageWithEdges);
@@ -65,8 +66,9 @@ public class ObjectCounter {
 			trayStatus.setQuantity(quantity);
 			trayStatus.setStatus(status);
 			trayStatusDao.addTrayStatus(trayStatus);
-			for (int i = 0; i < this.contours.size(); i++) {
-				Mat productImage = cropContour(image, contours.get(i), i);
+			for (int i = 0; i < this.contours.size(); i++){
+				Mat productImage = cropContour(this.image, contours.get(i), i);
+//				Highgui.imwrite("bound"+i+".jpg",productImage);
 				resultImages.add(productImage);
 			}
 
@@ -173,6 +175,9 @@ public class ObjectCounter {
 			}
 			if (initialized) {
 				image = cropContour(image, trayFloorContour, 1);
+				if(this.image!=null){
+				this.image = cropContour(this.image, trayFloorContour, 1);
+				}
 			}
 			Imgproc.threshold(image, image, 100, 255, Imgproc.THRESH_BINARY);
 			return image;
@@ -362,7 +367,10 @@ public class ObjectCounter {
 			}
 
 			Mat subImage = detectedObjects.submat(boundRect);
-
+			
+			String filename = getClass().getResource("/FoundObjects").getPath()
+					+ "/bound" + i + ".jpg";
+			Highgui.imwrite(filename, subImage);
 			return subImage;
 		} else {
 			return new Mat();
