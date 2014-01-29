@@ -108,9 +108,8 @@ public class TestObjectRecognizer {
 		computeDescriptors(foundObjects,page);
 		
 		for (int i = 0; i < foundImagesDescriptors.size(); i++) {
-		
+			recognizedObjects = new ArrayList <Product>();
 			Product	productMatch = new Product();
-		
 			try{
 				productMatch =	matcher.match(extractor, foundImagesDescriptors.get(i), page);
 				rehandler.validRecognitionEvent();
