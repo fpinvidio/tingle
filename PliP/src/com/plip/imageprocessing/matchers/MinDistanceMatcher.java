@@ -21,9 +21,7 @@ import com.plip.persistence.model.Product;
 public class MinDistanceMatcher implements ImageMatcher {
 
 	private DescriptorMatcher matcher;
-
 	
-
 	public MinDistanceMatcher(int descriptorMatcher) {
 		super();
 		this.matcher = DescriptorMatcher.create(descriptorMatcher);
@@ -58,22 +56,24 @@ public class MinDistanceMatcher implements ImageMatcher {
 		return min_dist;
 	}
 
-	public Product match(ImageDescriptorExtractor extractor, Mat descriptor,
+	public Product match(Mat descriptor,
 			Page page) throws NoMatchException{
 		Product product = null;
 		Set pageProducts = page.getPageProducts();
-		ImageDaoImpl imageDao = new ImageDaoImpl();
-		double minDist = 100;
-		Iterator<PageProduct> pageProductIterator =  pageProducts.iterator(); 
+		
+		double minDist = 300;
+		Iterator<PageProduct> pageProductIterator = pageProducts.iterator(); 
 		while(pageProductIterator.hasNext()){
 			PageProduct next = pageProductIterator.next();
 			Product productToCompare = next.getProduct();
+			
 			train(productToCompare);
+			
 			double dist = minDist(descriptor);
-			if(dist < minDist && dist < 60){
-				minDist = dist;
-				product = productToCompare;
-			}
+				if(dist < minDist && dist < 300){
+					minDist = dist;
+					product = productToCompare;
+				}
 		}
 		System.out.println(minDist);
 		if(product == null){
@@ -109,7 +109,7 @@ public class MinDistanceMatcher implements ImageMatcher {
 			MatOfDMatch matches = new MatOfDMatch();
 			matcher.match(objectDescriptor, matches);
 			double max_dist = 0;
-			min_dist = 100;
+			min_dist = 300;
 			// matches = matchesList.get(0);
 			// -- Quick calculation of max and min distances between keypoints
 

@@ -103,15 +103,13 @@ public class TestObjectRecognizer {
 		ArrayList<Product> recognizedObjects = null;
 		if(page !=null && foundObjects.size() > 0){
 		
-		rehandler.startRecognitionEvent(foundObjects);	
-		
 		computeDescriptors(foundObjects,page);
 		
 		for (int i = 0; i < foundImagesDescriptors.size(); i++) {
 			recognizedObjects = new ArrayList <Product>();
 			Product	productMatch = new Product();
 			try{
-				productMatch =	matcher.match(extractor, foundImagesDescriptors.get(i), page);
+				productMatch =	matcher.match(foundImagesDescriptors.get(i), page);
 				rehandler.validRecognitionEvent();
 				recognizedObjects.add(productMatch);	
 			}catch(NoMatchException e){
@@ -124,7 +122,6 @@ public class TestObjectRecognizer {
 				System.out.println (productMatch.getName() + '-' + foundImageNames.get(i));
 			}
 		}
-		rehandler.finishRecognitionEvent();
 		return recognizedObjects;
 		}else return null;
 	}

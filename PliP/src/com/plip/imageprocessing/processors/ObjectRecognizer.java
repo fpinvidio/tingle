@@ -113,7 +113,7 @@ public class ObjectRecognizer {
 		Product	productMatch = new Product();
 		//try{
 		//productMatch =	matcher.match(extractor, foundImagesDescriptors.get(i), page);
-		productMatch = matcher.match(extractor, foundImageDescriptor, page)	;
+		productMatch = matcher.match(foundImageDescriptor, page)	;
 		
 		//}catch(NoMatchException e){
 		//	e.printStackTrace();

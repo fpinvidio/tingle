@@ -10,6 +10,6 @@ import com.plip.persistence.model.Product;
 
 public interface ImageMatcher {
 
-	public Product match(ImageDescriptorExtractor extractor, Mat image, Page page) throws NoMatchException;
+	public Product match(Mat image, Page page) throws NoMatchException;
 		
 }
