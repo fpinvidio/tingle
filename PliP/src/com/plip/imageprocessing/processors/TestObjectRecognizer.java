@@ -101,23 +101,22 @@ public class TestObjectRecognizer {
 	 */
 	public ArrayList <Product> recognize(Page page, ArrayList<Mat> foundObjects, RecognizerEventHandler rehandler ){
 		ArrayList<Product> recognizedObjects = null;
+		
 		if(page !=null && foundObjects.size() > 0){
+		recognizedObjects = new ArrayList <Product>();
 		
 		computeDescriptors(foundObjects,page);
 		
 		for (int i = 0; i < foundImagesDescriptors.size(); i++) {
-			recognizedObjects = new ArrayList <Product>();
 			Product	productMatch = new Product();
 			try{
 				productMatch =	matcher.match(foundImagesDescriptors.get(i), page);
-				rehandler.validRecognitionEvent();
 				recognizedObjects.add(productMatch);	
+				rehandler.validRecognitionEvent();
 			}catch(NoMatchException e){
-				e.printStackTrace();
 				rehandler.falseRecognitionEvent();
 				//generateNoMatchStatus();
-			}
-			
+			}		
 			if(productMatch !=null && productMatch.getName() != null){
 				System.out.println (productMatch.getName() + '-' + foundImageNames.get(i));
 			}

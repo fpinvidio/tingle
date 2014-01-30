@@ -58,38 +58,6 @@ public class MainSystemMonitor implements GenericEventListener {
 		// PlipTrainer trainer = new PlipTrainer();
 		// trainer.processProductImages();
 		// PlipRoleDao roleDao = new PlipRoleDaoImpl();
-
-		// //PlipRole role = new PlipRole("administrador",
-		// "Aministra y monitorea el sistema y sus productos");
-		// try {
-		// roleDao.getRole(5);
-		// } catch (PlipRoleNotFoundException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-		// ProductDaoImpl pDao = new ProductDaoImpl();
-		// Product product = pDao.getProduct(1);
-		// Set images = product.getImages();
-		// Iterator it = images.iterator();
-		// while(it.hasNext()){
-		// Image img = (Image) it.next();
-		// System.out.println(img.getPath());
-		// }
-
-		// ArrayList<Mat> foundObjects = counter.count(image);
-		// PageDao pageDao = new PageDaoImpl();
-		// Page page = new Page();
-		// try {
-		// page = pageDao.getPage(1);
-		// } catch (PageNotFoundException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-		// OrbBriskDetector orbBriskDetector = new OrbBriskDetector();
-		// orbBriskDetector.recognize(page, foundObjects);
-		// }catch(NoImageException e){
-		// e.printStackTrace();
-		// }
 	}
 
 	/*
@@ -101,9 +69,9 @@ public class MainSystemMonitor implements GenericEventListener {
 
 	public void initializeCapture() {
 
-		vcapture = new VideoCapture(1);
-		vcapture.set(Highgui.CV_CAP_PROP_FRAME_WIDTH, 640);
-		vcapture.set(Highgui.CV_CAP_PROP_FRAME_HEIGHT, 480);
+		vcapture = new VideoCapture(0);
+		vcapture.set(Highgui.CV_CAP_PROP_FRAME_WIDTH, 850);
+		vcapture.set(Highgui.CV_CAP_PROP_FRAME_HEIGHT, 650);
 		
 		/*PLiP processors*/
 		tprocessor = new TrayProcessor();
@@ -160,11 +128,11 @@ public class MainSystemMonitor implements GenericEventListener {
 			// Pensar como vamos a saber la page correspondiente a la tray en
 			// ese momento!
 
-			vcapture.set(Highgui.CV_CAP_PROP_FRAME_WIDTH, 1620);
-			vcapture.set(Highgui.CV_CAP_PROP_FRAME_HEIGHT, 1080);
+			vcapture.set(Highgui.CV_CAP_PROP_FRAME_WIDTH, 2048);
+			vcapture.set(Highgui.CV_CAP_PROP_FRAME_HEIGHT, 1366);
 
 			try {
-				Thread.sleep(400);
+				Thread.sleep(500);
 			} catch (InterruptedException ex) {
 				Thread.currentThread().interrupt();
 			}
@@ -174,8 +142,8 @@ public class MainSystemMonitor implements GenericEventListener {
 
 			Highgui.imwrite("Tray.jpg", screenshot);
 
-			vcapture.set(Highgui.CV_CAP_PROP_FRAME_WIDTH, 640);
-			vcapture.set(Highgui.CV_CAP_PROP_FRAME_HEIGHT, 480);
+			vcapture.set(Highgui.CV_CAP_PROP_FRAME_WIDTH, 850);
+			vcapture.set(Highgui.CV_CAP_PROP_FRAME_HEIGHT, 650);
 
 			ArrayList<Mat> images = new ArrayList<Mat>();
 
