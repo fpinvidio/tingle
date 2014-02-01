@@ -136,7 +136,7 @@ public class MainSystemMonitor implements GenericEventListener {
 			// Pensar como vamos a saber la page correspondiente a la tray en
 			// ese momento!
 
-			vcapture.set(Highgui.CV_CAP_PROP_FRAME_WIDTH, 2700);
+			vcapture.set(Highgui.CV_CAP_PROP_FRAME_WIDTH, 3292);
 			vcapture.set(Highgui.CV_CAP_PROP_FRAME_HEIGHT, 1936);
 
 			try {
