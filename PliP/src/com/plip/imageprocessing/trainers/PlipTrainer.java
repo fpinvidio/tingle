@@ -78,6 +78,7 @@ public class PlipTrainer {
 				image.setDescriptor(DataTypeManager.convertMatToBlob(descriptors));
 				image.setPath(getClass().getResource(
 				"/ProductImages").getPath() +"/"+ productImageListOfFiles[i].getName());
+				image.setTrained(true);
 				images.add(image);
 				product.setImages(images);
 				 try {

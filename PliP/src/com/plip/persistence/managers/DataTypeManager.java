@@ -2,6 +2,7 @@ package com.plip.persistence.managers;
 
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
+import org.opencv.core.Size;
 import org.opencv.highgui.Highgui;
 
 public abstract class DataTypeManager {
@@ -17,8 +18,8 @@ public abstract class DataTypeManager {
 	}
 	
 	public static byte[] convertMatToBlob(Mat image){
-		MatOfByte buffer = new MatOfByte(); 
-		if(!image.empty()){ 
+		MatOfByte buffer = new MatOfByte();
+		if(!image.empty()){
 		   String extension = ".bmp";
 		   Highgui.imencode(extension, image, buffer);
 		 }

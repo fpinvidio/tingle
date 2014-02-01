@@ -67,7 +67,7 @@ public class ObjectCounter {
 			trayStatus.setStatus(status);
 			trayStatusDao.addTrayStatus(trayStatus);
 			for (int i = 0; i < this.contours.size(); i++){
-				Mat productImage = cropContour(this.image, contours.get(i), i);
+				Mat productImage = cropContour(this.image, contours.get(i), i, false);
 //				Highgui.imwrite("bound"+i+".jpg",productImage);
 				resultImages.add(productImage);
 			}
@@ -174,9 +174,9 @@ public class ObjectCounter {
 				}
 			}
 			if (initialized) {
-				image = cropContour(image, trayFloorContour, 1);
+				image = cropContour(image, trayFloorContour, 1, true);
 				if(this.image!=null){
-				this.image = cropContour(this.image, trayFloorContour, 1);
+				this.image = cropContour(this.image, trayFloorContour, 1,true);
 				}
 			}
 			Imgproc.threshold(image, image, 100, 255, Imgproc.THRESH_BINARY);
@@ -346,11 +346,16 @@ public class ObjectCounter {
 	 *            - Detected object index
 	 * @return subImage - Object image.
 	 */
-	public Mat cropContour(Mat detectedObjects, MatOfPoint contour, int i) {
+	public Mat cropContour(Mat detectedObjects, MatOfPoint contour, int i, boolean tray) {
 		if (detectedObjects != null && contour != null) {
 
 			Rect boundRect = Imgproc.boundingRect(contour);
-
+			if(!tray){
+				boundRect.x +=10;
+				boundRect.y -=10;
+				boundRect.height += 30;
+				boundRect.width += 30;
+			}
 			if (boundRect.x < 0) {
 				boundRect.x = 0;
 			}
