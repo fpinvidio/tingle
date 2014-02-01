@@ -70,8 +70,10 @@ public class MainSystemMonitor implements GenericEventListener {
 	public void initializeCapture() {
 
 		vcapture = new VideoCapture(0);
-		vcapture.set(Highgui.CV_CAP_PROP_FRAME_WIDTH, 850);
+		vcapture.set(Highgui.CV_CAP_PROP_FRAME_WIDTH, 950);
 		vcapture.set(Highgui.CV_CAP_PROP_FRAME_HEIGHT, 650);
+		
+		setCamara();
 		
 		/*PLiP processors*/
 		tprocessor = new TrayProcessor();
@@ -88,6 +90,12 @@ public class MainSystemMonitor implements GenericEventListener {
 		tehandler.addEventListener(this);
 		cehandler.addEventListener(this);
 		rehandler.addEventListener(this);
+	}
+	
+	public void setCamara(){
+		vcapture.set(Highgui.CV_CAP_PROP_FOCUS, 28);
+		vcapture.set(Highgui.CV_CAP_PROP_BACKLIGHT,1000);
+		vcapture.set(Highgui.CV_CAP_PROP_AUTOGRAB, 1024);
 	}
 
 	public Mat captureVideoFrame() {
@@ -117,7 +125,7 @@ public class MainSystemMonitor implements GenericEventListener {
 			PageDaoImpl pageDao = new PageDaoImpl();
 			Page page = null;
 			try {
-				page = pageDao.getPage(1);
+				page = pageDao.getPage(Long.valueOf(1));
 			} catch (PageNotFoundException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -128,8 +136,8 @@ public class MainSystemMonitor implements GenericEventListener {
 			// Pensar como vamos a saber la page correspondiente a la tray en
 			// ese momento!
 
-			vcapture.set(Highgui.CV_CAP_PROP_FRAME_WIDTH, 2048);
-			vcapture.set(Highgui.CV_CAP_PROP_FRAME_HEIGHT, 1366);
+			vcapture.set(Highgui.CV_CAP_PROP_FRAME_WIDTH, 2700);
+			vcapture.set(Highgui.CV_CAP_PROP_FRAME_HEIGHT, 1936);
 
 			try {
 				Thread.sleep(500);
@@ -142,7 +150,7 @@ public class MainSystemMonitor implements GenericEventListener {
 
 			Highgui.imwrite("Tray.jpg", screenshot);
 
-			vcapture.set(Highgui.CV_CAP_PROP_FRAME_WIDTH, 850);
+			vcapture.set(Highgui.CV_CAP_PROP_FRAME_WIDTH, 950);
 			vcapture.set(Highgui.CV_CAP_PROP_FRAME_HEIGHT, 650);
 
 			ArrayList<Mat> images = new ArrayList<Mat>();
