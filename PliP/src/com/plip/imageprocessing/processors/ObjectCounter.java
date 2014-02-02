@@ -48,7 +48,7 @@ public class ObjectCounter {
 			Mat imageWithEdges = edgeDetector(this.image);
 
 			/* Removes detected tray contour */
-			Mat noTray = removeTray(imageWithEdges);
+			Mat noTray = removeTrayAlternative(imageWithEdges);
 
 			/* Find contours and validates quadrilateral forms */
 			Mat detectedObjects = findContours(noTray);
@@ -189,6 +189,64 @@ public class ObjectCounter {
 				image = cropContour(image, trayFloorContour, 1, true);
 				if(this.image!=null){
 				this.image = cropContour(this.image, trayFloorContour, 1,true);
+				}
+			}
+			Imgproc.threshold(image, image, 100, 255, Imgproc.THRESH_BINARY);
+			return image;
+		}
+		return new Mat();
+	}
+	
+	public Mat removeTrayAlternative(Mat image){
+		if (image != null) {
+
+			Highgui.imwrite("noCrop.jpg", image);
+
+			List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
+			MatOfPoint trayFloorContour = new MatOfPoint();
+			boolean initialized = false;
+			MatOfPoint2f mMOP2f1 = new MatOfPoint2f();
+			Scalar s1 = new Scalar(255, 0, 0);
+
+			Imgproc.findContours(image, contours, new Mat(),
+					Imgproc.RETR_CCOMP, Imgproc.CHAIN_APPROX_NONE);
+
+			for (int i = 0; i < contours.size(); i++) {
+
+				contours.get(i).convertTo(mMOP2f1, CvType.CV_32FC2);
+				RotatedRect rotated = Imgproc.minAreaRect(mMOP2f1);
+				Point[] vertices = new Point[4];
+				rotated.points(vertices);
+				MatOfPoint2f verticesMat = new MatOfPoint2f();
+				verticesMat.fromArray(vertices);
+
+				if (Imgproc.contourArea(verticesMat) > maxAreaThreshold) {
+
+					Imgproc.drawContours(image, contours, i, new Scalar(0), 2);
+
+					if (!initialized) {
+						trayFloorContour = contours.get(i);
+						initialized = true;
+					} else {
+						Rect boundRect = Imgproc.boundingRect(contours.get(i));
+						Rect floor = Imgproc.boundingRect(trayFloorContour);
+						if (boundRect.x < floor.x && boundRect.y >= floor.y) {
+							trayFloorContour = contours.get(i);
+						}
+					}
+				} else {
+					Imgproc.drawContours(image, contours, i, s1, 2);
+				}
+			}
+			if (initialized) {
+				Rect trayFloorRect = Imgproc.boundingRect(trayFloorContour);
+				trayFloorRect.x += 270;
+				trayFloorRect.y -= 190;
+				trayFloorRect.height= 1000;
+				trayFloorRect.width= 1600;
+				image = image.submat(trayFloorRect);
+				if(this.image!=null){
+				this.image = this.image.submat(trayFloorRect);
 				}
 			}
 			Imgproc.threshold(image, image, 100, 255, Imgproc.THRESH_BINARY);
