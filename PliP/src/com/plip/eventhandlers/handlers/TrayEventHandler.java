@@ -17,19 +17,16 @@ public class TrayEventHandler extends GenericEventHandler {
 	private final float tol = 0.99f;
 	private List<Mat> tray_buffer = new ArrayList<Mat>();
 	private Page page;
-
-	@Override
-	protected synchronized void fireEvent(String type) {
-		Mat[] tempArray = trayBufferArray();
-		EventObject event = EventFactory.generateEvent(type, this, new Date(),
-				tempArray);
-		Iterator<GenericEventListener> iterator = listeners.iterator();
-		setLastEvent(event);
-		while (iterator.hasNext()) {
-			((GenericEventListener) iterator.next()).handleEvent(event);
-		}
+	private int pageProductQuantity = 0;
+	
+	public int getPageProductQuantity() {
+		return pageProductQuantity;
 	}
-
+	
+	public void setPageProductQuantity(int pageProductQuantity) {
+		this.pageProductQuantity = pageProductQuantity;
+	}
+	
 	private void setLastEvent(EventObject event) {
 		this.lastEvent = event;
 	}
@@ -44,6 +41,18 @@ public class TrayEventHandler extends GenericEventHandler {
 
 	private boolean isBufferFull() {
 		return tray_buffer.size() == BUFFER_SIZE;
+	}
+
+	@Override
+	protected synchronized void fireEvent(String type) {
+		Mat[] tempArray = trayBufferArray();
+		EventObject event = EventFactory.generateEvent(type, this, new Date(),
+				tempArray);
+		Iterator<GenericEventListener> iterator = listeners.iterator();
+		setLastEvent(event);
+		while (iterator.hasNext()) {
+			((GenericEventListener) iterator.next()).handleEvent(event);
+		}
 	}
 
 	public void addTray(Mat tray) {

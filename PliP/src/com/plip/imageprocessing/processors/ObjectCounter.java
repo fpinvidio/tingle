@@ -34,8 +34,12 @@ public class ObjectCounter {
 	private Mat image = new Mat();
 	private static int minAreaThreshold = 0;
 	private static int maxAreaThreshold = 1000000;
+	
+	public ObjectCounter(){
+		loadParams();
+	}
 
-	public ArrayList<Mat> count(Mat image) throws NoImageException {
+	public ArrayList<Mat> count(Mat image, int pageQuantity) throws NoImageException {
 		if (image != null) {
 			this.image=image;
 			ArrayList<Mat> resultImages = new ArrayList<Mat>();
@@ -48,13 +52,15 @@ public class ObjectCounter {
 
 			/* Find contours and validates quadrilateral forms */
 			Mat detectedObjects = findContours(noTray);
-
-			/* Applies distanceTransform to separate products */
-			imageDistanceTransformer(detectedObjects);
-
-			System.out.println("Quantity:" + quantity);
-			System.out.println("Contours size:" + this.contours.size());
-
+			
+			if(quantity != pageQuantity){
+				/* Applies distanceTransform to separate products */
+				imageDistanceTransformer(detectedObjects);
+			}
+			
+			System.out.println("Detected Products:" + quantity);
+			System.out.println("Page quantity:" + pageQuantity);
+			
 			/*
 			 * Reports to TrayStatus to determinate the quantity of found
 			 * products
@@ -357,8 +363,8 @@ public class ObjectCounter {
 
 			Rect boundRect = Imgproc.boundingRect(contour);
 			if(!tray){
-				boundRect.x +=10;
-				boundRect.y -=10;
+				boundRect.x +=0;
+				boundRect.y -=15;
 				boundRect.height += 30;
 				boundRect.width += 30;
 			}

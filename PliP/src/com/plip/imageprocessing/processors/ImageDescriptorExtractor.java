@@ -72,8 +72,8 @@ public class ImageDescriptorExtractor {
 			if (image != null) {
 				Mat greyscale_image = new Mat();
 				Imgproc.cvtColor(image, greyscale_image, Imgproc.COLOR_BGR2GRAY);
-				Imgproc.GaussianBlur(greyscale_image, greyscale_image, new Size(5,
-						5), 2.2, 2);
+//				Imgproc.GaussianBlur(greyscale_image, greyscale_image, new Size(5,
+//						5), 2.2, 2);
 				MatOfKeyPoint keypoints = new MatOfKeyPoint();
 				detector.detect(greyscale_image, keypoints);
 				extractor.compute(greyscale_image, keypoints, descriptors);

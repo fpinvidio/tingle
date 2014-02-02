@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 
 import org.opencv.core.Mat;
 import org.opencv.highgui.Highgui;
@@ -26,7 +27,10 @@ import com.plip.imageprocessing.processors.ObjectCounter;
 import com.plip.imageprocessing.processors.ObjectRecognizer;
 import com.plip.imageprocessing.processors.TrayProcessor;
 import com.plip.imageprocessing.processors.Exceptions.NoImageException;
+import com.plip.imageprocessing.trainers.PlipTrainer;
 import com.plip.persistence.dao.impls.PageDaoImpl;
+import com.plip.persistence.dao.impls.PlipRoleDaoImpl;
+import com.plip.persistence.dao.interfaces.PlipRoleDao;
 import com.plip.persistence.exceptions.PageNotFoundException;
 import com.plip.persistence.model.Page;
 import com.plip.persistence.model.Product;
@@ -65,9 +69,9 @@ public class MainSystemMonitor implements GenericEventListener {
 		MainSystemMonitor msm = new MainSystemMonitor();
 		msm.initializeCapture();
 
-		// PlipTrainer trainer = new PlipTrainer();
-		// trainer.processProductImages();
-		// PlipRoleDao roleDao = new PlipRoleDaoImpl();
+//		 PlipTrainer trainer = new PlipTrainer();
+//		 trainer.processProductImages();
+//		 PlipRoleDao roleDao = new PlipRoleDaoImpl();
 	}
 
 	/*
@@ -80,8 +84,8 @@ public class MainSystemMonitor implements GenericEventListener {
 	public void initializeCapture() {
 
 		vcapture = new VideoCapture(0);
-		vcapture.set(Highgui.CV_CAP_PROP_FRAME_WIDTH, 950);
-		vcapture.set(Highgui.CV_CAP_PROP_FRAME_HEIGHT, 650);
+		vcapture.set(Highgui.CV_CAP_PROP_FRAME_WIDTH, captureResolutionWidth);
+		vcapture.set(Highgui.CV_CAP_PROP_FRAME_HEIGHT, captureResolutionHeight);
 		
 		setCamara();
 		
@@ -135,7 +139,10 @@ public class MainSystemMonitor implements GenericEventListener {
 			PageDaoImpl pageDao = new PageDaoImpl();
 			Page page = null;
 			try {
-				page = pageDao.getPage(Long.valueOf(1));
+				page = pageDao.getPage(Long.valueOf(5));
+				Set pageProducts = page.getPageProducts();
+				tehandler.setPageProductQuantity(pageProducts.size());
+
 			} catch (PageNotFoundException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -158,7 +165,7 @@ public class MainSystemMonitor implements GenericEventListener {
 			Mat screenshot = new Mat();
 			vcapture.read(screenshot);
 
-			Highgui.imwrite("Tray.jpg", screenshot);
+			Highgui.imwrite("tray.jpg", screenshot);
 
 			vcapture.set(Highgui.CV_CAP_PROP_FRAME_WIDTH, captureResolutionWidth);
 			vcapture.set(Highgui.CV_CAP_PROP_FRAME_HEIGHT, captureResolutionHeight);
@@ -166,7 +173,7 @@ public class MainSystemMonitor implements GenericEventListener {
 			ArrayList<Mat> images = new ArrayList<Mat>();
 
 			try {
-				images = ocounter.count(screenshot);
+				images = ocounter.count(screenshot, tehandler.getPageProductQuantity());
 			} catch (NoImageException e) {
 				e.printStackTrace();
 			}
@@ -237,7 +244,7 @@ public class MainSystemMonitor implements GenericEventListener {
 		}
 		imageResolutionWidth = new Integer(props.getProperty("imageResolutionWidth"));
 		imageResolutionHeight = new Integer(props.getProperty("imageResolutionHeight"));
-		captureResolutionWidth = new Integer(props.getProperty("captureResolutionWidht"));
+		captureResolutionWidth = new Integer(props.getProperty("captureResolutionWidth"));
 		captureResolutionHeight = new Integer(props.getProperty("captureResolutionHeight"));
 		}
 }
