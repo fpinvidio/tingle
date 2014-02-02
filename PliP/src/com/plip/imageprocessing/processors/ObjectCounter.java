@@ -52,6 +52,7 @@ public class ObjectCounter {
 
 			/* Find contours and validates quadrilateral forms */
 			Mat detectedObjects = findContours(noTray);
+			Highgui.imwrite("noTrayColor.jpg", this.image);
 			
 			if(quantity != pageQuantity){
 				/* Applies distanceTransform to separate products */
@@ -240,8 +241,8 @@ public class ObjectCounter {
 			}
 			if (initialized) {
 				Rect trayFloorRect = Imgproc.boundingRect(trayFloorContour);
-				trayFloorRect.x += 270;
-				trayFloorRect.y -= 190;
+//				trayFloorRect.x += 270;
+//				trayFloorRect.y -= 190;
 				trayFloorRect.height= 1000;
 				trayFloorRect.width= 1600;
 				image = image.submat(trayFloorRect);
