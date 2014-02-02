@@ -1,8 +1,12 @@
 package com.plip.systemmonitor;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.List;
+import java.util.Properties;
 
 import org.opencv.core.Mat;
 import org.opencv.highgui.Highgui;
@@ -43,9 +47,15 @@ public class MainSystemMonitor implements GenericEventListener {
 	private RecognizerEventHandler rehandler;
 
 	private MainMenuFrame mmf;
+	
+	private static int imageResolutionWidth = 800;
+	private static int imageResolutionHeight = 600;
+	private static int captureResolutionWidth = 800;
+	private static int captureResolutionHeight = 600;
 
 	public MainSystemMonitor() {
 		super();
+		 loadParams();
 		 mmf = new MainMenuFrame(this);
 		 mmf.setVisible(true);
 	}
@@ -136,8 +146,8 @@ public class MainSystemMonitor implements GenericEventListener {
 			// Pensar como vamos a saber la page correspondiente a la tray en
 			// ese momento!
 
-			vcapture.set(Highgui.CV_CAP_PROP_FRAME_WIDTH, 3292);
-			vcapture.set(Highgui.CV_CAP_PROP_FRAME_HEIGHT, 1936);
+			vcapture.set(Highgui.CV_CAP_PROP_FRAME_WIDTH, imageResolutionWidth);
+			vcapture.set(Highgui.CV_CAP_PROP_FRAME_HEIGHT, imageResolutionHeight);
 
 			try {
 				Thread.sleep(500);
@@ -150,8 +160,8 @@ public class MainSystemMonitor implements GenericEventListener {
 
 			Highgui.imwrite("Tray.jpg", screenshot);
 
-			vcapture.set(Highgui.CV_CAP_PROP_FRAME_WIDTH, 950);
-			vcapture.set(Highgui.CV_CAP_PROP_FRAME_HEIGHT, 650);
+			vcapture.set(Highgui.CV_CAP_PROP_FRAME_WIDTH, captureResolutionWidth);
+			vcapture.set(Highgui.CV_CAP_PROP_FRAME_HEIGHT, captureResolutionHeight);
 
 			ArrayList<Mat> images = new ArrayList<Mat>();
 
@@ -206,4 +216,28 @@ public class MainSystemMonitor implements GenericEventListener {
 			System.out.println("Finish Recognition Event");
 		}
 	}
+	
+	public void loadParams() {
+		Properties props = new Properties();
+		InputStream is = null;
+		try {
+			File f = new File("./res/config.properties");
+			is = new FileInputStream(f);
+		} catch (Exception e) {
+			is = null;
+		}
+
+		try {
+			if (is == null) {
+				is = getClass().getResourceAsStream("./res/config.properties");
+			}
+
+			props.load(is);
+		} catch (Exception e) {
+		}
+		imageResolutionWidth = new Integer(props.getProperty("imageResolutionWidth"));
+		imageResolutionHeight = new Integer(props.getProperty("imageResolutionHeight"));
+		captureResolutionWidth = new Integer(props.getProperty("captureResolutionWidht"));
+		captureResolutionHeight = new Integer(props.getProperty("captureResolutionHeight"));
+		}
 }

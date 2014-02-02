@@ -1,8 +1,12 @@
 package com.plip.imageprocessing.processors;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
@@ -28,6 +32,8 @@ public class ObjectCounter {
 	private int quantity;
 	private List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
 	private Mat image = new Mat();
+	private static int minAreaThreshold = 0;
+	private static int maxAreaThreshold = 1000000;
 
 	public ArrayList<Mat> count(Mat image) throws NoImageException {
 		if (image != null) {
@@ -155,7 +161,7 @@ public class ObjectCounter {
 				MatOfPoint2f verticesMat = new MatOfPoint2f();
 				verticesMat.fromArray(vertices);
 
-				if (Imgproc.contourArea(verticesMat) > 450000) {
+				if (Imgproc.contourArea(verticesMat) > maxAreaThreshold) {
 
 					Imgproc.drawContours(image, contours, i, new Scalar(0), 2);
 
@@ -242,8 +248,8 @@ public class ObjectCounter {
 				 * Draw contours between an estimated area, to avoid to big or
 				 * to small objects
 				 */
-				if (Imgproc.contourArea(verticesMat) > 15000
-						&& Imgproc.contourArea(verticesMat) < 450000) {
+				if (Imgproc.contourArea(verticesMat) > minAreaThreshold
+						&& Imgproc.contourArea(verticesMat) < maxAreaThreshold) {
 
 					/* System.out.println(Imgproc.contourArea(verticesMat)); */
 
@@ -381,4 +387,26 @@ public class ObjectCounter {
 			return new Mat();
 		}
 	}
+	
+	public void loadParams() {
+		Properties props = new Properties();
+		InputStream is = null;
+		try {
+			File f = new File("./res/config.properties");
+			is = new FileInputStream(f);
+		} catch (Exception e) {
+			is = null;
+		}
+
+		try {
+			if (is == null) {
+				is = getClass().getResourceAsStream("./res/config.properties");
+			}
+
+			props.load(is);
+		} catch (Exception e) {
+		}
+		minAreaThreshold = new Integer(props.getProperty("minAreaThreshold"));
+		maxAreaThreshold = new Integer(props.getProperty("maxAreaThreshold"));
+		}
 }
