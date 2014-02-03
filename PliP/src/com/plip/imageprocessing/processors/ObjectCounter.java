@@ -240,14 +240,9 @@ public class ObjectCounter {
 				}
 			}
 			if (initialized) {
-				Rect trayFloorRect = Imgproc.boundingRect(trayFloorContour);
-//				trayFloorRect.x += 270;
-//				trayFloorRect.y -= 190;
-				trayFloorRect.height= 1000;
-				trayFloorRect.width= 1600;
-				image = image.submat(trayFloorRect);
+				image = cropContour(image, trayFloorContour, 1, true);
 				if(this.image!=null){
-				this.image = this.image.submat(trayFloorRect);
+				this.image = cropContour(this.image, trayFloorContour, 1,true);
 				}
 			}
 			Imgproc.threshold(image, image, 100, 255, Imgproc.THRESH_BINARY);
@@ -426,6 +421,9 @@ public class ObjectCounter {
 				boundRect.y -=15;
 				boundRect.height += 30;
 				boundRect.width += 30;
+			}else{
+				boundRect.height=1000;
+				boundRect.width=1600;
 			}
 			if (boundRect.x < 0) {
 				boundRect.x = 0;
