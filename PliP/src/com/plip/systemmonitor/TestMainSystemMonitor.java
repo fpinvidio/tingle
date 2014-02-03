@@ -20,14 +20,12 @@ import com.plip.eventhandlers.handlers.TrayEventHandler;
 import com.plip.eventhandlers.listeners.GenericEventListener;
 import com.plip.imageprocessing.processors.ObjectCounter;
 import com.plip.imageprocessing.processors.ObjectRecognizer;
-import com.plip.imageprocessing.processors.TestObjectRecognizer;
 import com.plip.imageprocessing.processors.TrayProcessor;
 import com.plip.imageprocessing.processors.Exceptions.NoImageException;
+import com.plip.imageprocessing.trainers.PlipTrainer;
 import com.plip.persistence.dao.impls.PageDaoImpl;
-import com.plip.persistence.dao.interfaces.PageDao;
 import com.plip.persistence.exceptions.PageNotFoundException;
 import com.plip.persistence.model.Page;
-import com.plip.persistence.model.Product;
 import com.plip.uinterfaces.MainMenuFrame;
 
 // Queda pendiente organizar handlers para todos los eventos 
@@ -119,10 +117,10 @@ public class TestMainSystemMonitor implements GenericEventListener {
 	public static void main(String arg[]) {
 		System.loadLibrary("opencv_java246");
 
-		// PlipTrainer trainer = new PlipTrainer();
-		// trainer.processProductImages();
+		 PlipTrainer trainer = new PlipTrainer();
+		 trainer.processProductImages();
 		 
-		TestMainSystemMonitor tmsm = new TestMainSystemMonitor();
+		/*TestMainSystemMonitor tmsm = new TestMainSystemMonitor();
 		tmsm.initialize();
 		
 		ObjectCounter ocounter = new ObjectCounter();	
@@ -130,7 +128,7 @@ public class TestMainSystemMonitor implements GenericEventListener {
 		ArrayList<Mat> foundObjects = null;
 		
 		try {
-			foundObjects = ocounter.count(image);
+			foundObjects = ocounter.count(image , );
 			tmsm.getCehandler().addCountedObjects(foundObjects);
 		} catch (NoImageException e) {
 			e.printStackTrace();
@@ -150,7 +148,7 @@ public class TestMainSystemMonitor implements GenericEventListener {
 		
 		System.out.println("Quantity Recognized:" + recognizedObjects.size());
 		
-		tmsm.getRehandler().finishRecognitionEvent();
+		tmsm.getRehandler().finishRecognitionEvent();*/
 		
 	}
 	
@@ -223,11 +221,11 @@ public class TestMainSystemMonitor implements GenericEventListener {
 
 			ArrayList<Mat> images = new ArrayList<Mat>();
 
-			try {
-				images = ocounter.count(screenshot);
-			} catch (NoImageException e) {
-				e.printStackTrace();
-			}
+		//	try {
+				//images = ocounter.count(screenshot);
+			//} catch (NoImageException e) {
+			//	e.printStackTrace();
+		//	}
 			cehandler.addCountedObjects(images);
 		} else if (event instanceof TrayDepartureEvent) {
 			System.out.println("Tray Departure");
