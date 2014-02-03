@@ -1,12 +1,7 @@
 package com.plip.imageprocessing.processors;
 
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
@@ -24,44 +19,17 @@ public class TrayProcessor {
 
 	private static Mat possibleTray = null;
 	public static int threshold = 2;
-	public static int thr1 = 0;
-	public static int thr2 = 102;
-	public static int thr3 = 0;
-	public static int thr4 = 90;
-	public static int thr5 = 500;
-	public static int thr6 = 500;
+	public static double thr1;
+	public static double thr2;
+	public static double thr3;
+	public static double thr4;
+	public static double thr5;
+	public static double thr6;
 	public static Mat background = null;
 	public static boolean hasRun = false;
 
 	public TrayProcessor() {
 		super();
-		loadParams();
-	}
-
-	public void loadParams() {
-		Properties props = new Properties();
-		InputStream is = null;
-		try {
-			File f = new File("./res/config.properties");
-			is = new FileInputStream(f);
-		} catch (Exception e) {
-			is = null;
-		}
-
-		try {
-			if (is == null) {
-				is = getClass().getResourceAsStream("./res/config.properties");
-			}
-
-			props.load(is);
-		} catch (Exception e) {
-		}
-		thr1 = new Integer(props.getProperty("minHueThreshold", "0"));
-		thr2 = new Integer(props.getProperty("minSatThreshold", "108"));
-		thr3 = new Integer(props.getProperty("minValueThreshold", "0"));
-		thr4 = new Integer(props.getProperty("maxHueThreshold", "90"));
-		thr5 = new Integer(props.getProperty("maxSatThreshold", "500"));
-		thr6 = new Integer(props.getProperty("maxValueThreshold", "500"));
 	}
 
 	public double angle(Point pt1, Point pt2, Point pt0) {
@@ -86,9 +54,9 @@ public class TrayProcessor {
 		MatOfPoint mMOP = new MatOfPoint();
 
 		Imgproc.cvtColor(mRGB, mHSV, Imgproc.COLOR_RGB2HSV);
-		Core.inRange(mHSV, new Scalar((double) thr1, (double) thr2,
-				(double) thr3), new Scalar((double) thr4, (double) thr5,
-				(double) thr6), gray);
+		Core.inRange(mHSV, new Scalar( thr1,  thr2,
+				thr3), new Scalar( thr4,  thr5,
+				thr6), gray);
 
 		Imgproc.Canny(gray, gray, 20, 30);
 		Imgproc.dilate(gray, gray, Mat.ones(new Size(3, 3), 0));

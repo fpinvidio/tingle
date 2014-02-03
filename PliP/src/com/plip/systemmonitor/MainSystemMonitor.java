@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.List;
 import java.util.Properties;
-import java.util.Set;
 
 import org.opencv.core.Mat;
 import org.opencv.highgui.Highgui;
@@ -22,16 +21,14 @@ import com.plip.eventhandlers.handlers.CounterEventHandler;
 import com.plip.eventhandlers.handlers.RecognizerEventHandler;
 import com.plip.eventhandlers.handlers.TrayEventHandler;
 import com.plip.eventhandlers.listeners.GenericEventListener;
+import com.plip.imageprocessing.matchers.MinDistanceMatcher;
 import com.plip.imageprocessing.matchers.exceptions.NoMatchException;
 import com.plip.imageprocessing.processors.ObjectCounter;
 import com.plip.imageprocessing.processors.ObjectRecognizer;
 import com.plip.imageprocessing.processors.TrayProcessor;
 import com.plip.imageprocessing.processors.Exceptions.NoImageException;
-import com.plip.imageprocessing.trainers.PlipTrainer;
-import com.plip.persistence.dao.impls.PageDaoImpl;
 import com.plip.persistence.dao.impls.TrayDaoImpl;
 import com.plip.persistence.exceptions.NullModelAttributesException;
-import com.plip.persistence.exceptions.PageNotFoundException;
 import com.plip.persistence.managers.LocalPageManager;
 import com.plip.persistence.managers.PageManager;
 import com.plip.persistence.managers.exceptions.NoPageRecievedException;
@@ -61,6 +58,8 @@ public class MainSystemMonitor implements GenericEventListener {
 	private static int captureResolutionWidth = 800;
 	private static int captureResolutionHeight = 600;
 
+	public static int cameraInput;
+
 	public MainSystemMonitor() {
 		super();
 		 loadParams();
@@ -87,7 +86,7 @@ public class MainSystemMonitor implements GenericEventListener {
 
 	public void initializeCapture() {
 
-		vcapture = new VideoCapture(0);
+		vcapture = new VideoCapture(cameraInput);
 		vcapture.set(Highgui.CV_CAP_PROP_FRAME_WIDTH, captureResolutionWidth);
 		vcapture.set(Highgui.CV_CAP_PROP_FRAME_HEIGHT, captureResolutionHeight);
 		
@@ -177,7 +176,7 @@ public class MainSystemMonitor implements GenericEventListener {
 			ArrayList<Mat> images = new ArrayList<Mat>();
 
 			try {
-				images = ocounter.count(screenshot, tehandler.getPageProductQuantity());
+				images = ocounter.count(screenshot, tehandler.getPage().getProductQuantity());
 			} catch (NoImageException e) {
 				e.printStackTrace();
 			}
@@ -250,5 +249,22 @@ public class MainSystemMonitor implements GenericEventListener {
 		imageResolutionHeight = new Integer(props.getProperty("imageResolutionHeight"));
 		captureResolutionWidth = new Integer(props.getProperty("captureResolutionWidth"));
 		captureResolutionHeight = new Integer(props.getProperty("captureResolutionHeight"));
+		
+		
+		cameraInput = new Integer(props.getProperty("cameraInput"));
+		
+		ObjectCounter.minAreaThreshold = new Integer(props.getProperty("minAreaThreshold"));
+		ObjectCounter.maxAreaThreshold = new Integer(props.getProperty("maxAreaThreshold"));
+		
+		MinDistanceMatcher.minDistanceThreshold = new Double(props.getProperty("minMatchingDistance"));
+		
+		TrayProcessor.thr1 = new Double(props.getProperty("minHueThreshold"));
+		TrayProcessor.thr2 = new Double(props.getProperty("minSatThreshold"));
+		TrayProcessor.thr3 = new Double(props.getProperty("minValueThreshold"));
+		TrayProcessor.thr4 = new Double(props.getProperty("maxHueThreshold"));
+		TrayProcessor.thr5 = new Double(props.getProperty("maxSatThreshold"));
+		TrayProcessor.thr6 = new Double(props.getProperty("maxValueThreshold"));
+		
+
 		}
 }

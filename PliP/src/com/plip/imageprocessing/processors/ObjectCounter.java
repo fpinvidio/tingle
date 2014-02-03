@@ -32,11 +32,11 @@ public class ObjectCounter {
 	private int quantity;
 	private List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
 	private Mat image = new Mat();
-	private static int minAreaThreshold = 0;
-	private static int maxAreaThreshold = 1000000;
+	public static int minAreaThreshold = 0;
+	public static int maxAreaThreshold = 1000000;
 	
 	public ObjectCounter(){
-		loadParams();
+		super();
 	}
 
 	public ArrayList<Mat> count(Mat image, int pageQuantity) throws NoImageException {
@@ -452,26 +452,4 @@ public class ObjectCounter {
 			return new Mat();
 		}
 	}
-	
-	public void loadParams() {
-		Properties props = new Properties();
-		InputStream is = null;
-		try {
-			File f = new File("./res/config.properties");
-			is = new FileInputStream(f);
-		} catch (Exception e) {
-			is = null;
-		}
-
-		try {
-			if (is == null) {
-				is = getClass().getResourceAsStream("./res/config.properties");
-			}
-
-			props.load(is);
-		} catch (Exception e) {
-		}
-		minAreaThreshold = new Integer(props.getProperty("minAreaThreshold"));
-		maxAreaThreshold = new Integer(props.getProperty("maxAreaThreshold"));
-		}
 }

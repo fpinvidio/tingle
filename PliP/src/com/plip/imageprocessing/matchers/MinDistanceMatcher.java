@@ -10,8 +10,6 @@ import org.opencv.features2d.DMatch;
 import org.opencv.features2d.DescriptorMatcher;
 
 import com.plip.imageprocessing.matchers.exceptions.NoMatchException;
-import com.plip.imageprocessing.processors.ImageDescriptorExtractor;
-import com.plip.persistence.dao.impls.ImageDaoImpl;
 import com.plip.persistence.managers.DataTypeManager;
 import com.plip.persistence.model.Image;
 import com.plip.persistence.model.Page;
@@ -21,6 +19,7 @@ import com.plip.persistence.model.Product;
 public class MinDistanceMatcher implements ImageMatcher {
 
 	private DescriptorMatcher matcher;
+	public static double minDistanceThreshold = 70;
 	
 	public MinDistanceMatcher(int descriptorMatcher) {
 		super();
@@ -70,7 +69,7 @@ public class MinDistanceMatcher implements ImageMatcher {
 			train(productToCompare);
 			
 			double dist = minDist(descriptor);
-				if(dist < minDist && dist < 300){
+				if(dist < minDist && dist < minDistanceThreshold){
 					minDist = dist;
 					product = productToCompare;
 				}
