@@ -11,12 +11,22 @@ import org.opencv.core.Mat;
 import com.plip.eventhandlers.events.TrayArrivalEvent;
 import com.plip.eventhandlers.listeners.GenericEventListener;
 import com.plip.persistence.model.Page;
+import com.plip.persistence.model.Tray;
 
 public class TrayEventHandler extends GenericEventHandler {
 	private final int BUFFER_SIZE = 2;
 	private final float tol = 0.99f;
 	private List<Mat> tray_buffer = new ArrayList<Mat>();
-	private Page page;
+//	 private Page page;
+	private Tray tray;
+
+	public Tray getTray() {
+		return tray;
+	}
+
+	public void setTray(Tray tray) {
+		this.tray = tray;
+	}
 
 	@Override
 	protected synchronized void fireEvent(String type) {
@@ -34,13 +44,16 @@ public class TrayEventHandler extends GenericEventHandler {
 		this.lastEvent = event;
 	}
 
-	public Page getPage() {
-		return page;
-	}
-
-	public void setPage(Page page) {
-		this.page = page;
-	}
+	 public Page getPage() {
+	 if(tray.getPage()!=null) {
+	 return this.tray.getPage();
+	 }else		 
+	 return null;	 
+	 }
+	
+//	 public void setPage(Page page) {
+//	 this.page = page;
+//	 }
 
 	private boolean isBufferFull() {
 		return tray_buffer.size() == BUFFER_SIZE;

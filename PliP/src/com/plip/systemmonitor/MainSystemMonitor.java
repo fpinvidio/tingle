@@ -27,9 +27,15 @@ import com.plip.imageprocessing.processors.ObjectRecognizer;
 import com.plip.imageprocessing.processors.TrayProcessor;
 import com.plip.imageprocessing.processors.Exceptions.NoImageException;
 import com.plip.persistence.dao.impls.PageDaoImpl;
+import com.plip.persistence.dao.impls.TrayDaoImpl;
+import com.plip.persistence.exceptions.NullModelAttributesException;
 import com.plip.persistence.exceptions.PageNotFoundException;
+import com.plip.persistence.managers.LocalPageManager;
+import com.plip.persistence.managers.PageManager;
+import com.plip.persistence.managers.exceptions.NoPageRecievedException;
 import com.plip.persistence.model.Page;
 import com.plip.persistence.model.Product;
+import com.plip.persistence.model.Tray;
 import com.plip.uinterfaces.MainMenuFrame;
 
 // Queda pendiente organizar handlers para todos los eventos 
@@ -80,8 +86,8 @@ public class MainSystemMonitor implements GenericEventListener {
 	public void initializeCapture() {
 
 		vcapture = new VideoCapture(0);
-		vcapture.set(Highgui.CV_CAP_PROP_FRAME_WIDTH, 950);
-		vcapture.set(Highgui.CV_CAP_PROP_FRAME_HEIGHT, 650);
+		vcapture.set(Highgui.CV_CAP_PROP_FRAME_WIDTH, captureResolutionWidth);
+		vcapture.set(Highgui.CV_CAP_PROP_FRAME_HEIGHT, captureResolutionHeight);
 		
 		setCamara();
 		
@@ -132,16 +138,19 @@ public class MainSystemMonitor implements GenericEventListener {
 			System.out.println("Tray Arrival");
 
 			/* Get Tray Page from Database */
-			PageDaoImpl pageDao = new PageDaoImpl();
-			Page page = null;
+			Tray tray = new Tray();
+			PageManager pageManager = new LocalPageManager();
+			TrayDaoImpl trayDao = new TrayDaoImpl();
 			try {
-				page = pageDao.getPage(Long.valueOf(1));
-			} catch (PageNotFoundException e1) {
+				Page page = pageManager.getLastPage();
+				tray.setPage(page);
+				tray.setCode(page.getOrder().getCode());
+				trayDao.addTray(tray);
+			} catch (NoPageRecievedException | NullModelAttributesException e) {
 				// TODO Auto-generated catch block
-				e1.printStackTrace();
-				System.out.println("se fue todo al joraca");
+				e.printStackTrace();
 			}
-			tehandler.setPage(page);
+			tehandler.setTray(tray);
 
 			// Pensar como vamos a saber la page correspondiente a la tray en
 			// ese momento!
