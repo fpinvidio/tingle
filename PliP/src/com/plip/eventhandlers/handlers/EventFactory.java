@@ -12,6 +12,7 @@ import com.plip.eventhandlers.events.StartRecognitionEvent;
 import com.plip.eventhandlers.events.TrayArrivalEvent;
 import com.plip.eventhandlers.events.TrayDepartureEvent;
 import com.plip.eventhandlers.events.TrueMatcherEvent;
+import com.plip.eventhandlers.events.UnSupportedTrayEvent;
 
 public class EventFactory {
 	public static final String TRAY_ARRIVAL_EVENT = "TrayArrivalEvent";
@@ -21,6 +22,7 @@ public class EventFactory {
 	public static final String FALSE_MATCHER_EVENT = "FalseMatcherEvent";
 	public static final String START_RECOGNITION_EVENT = "StartRecognitionEvent";
 	public static final String FINISHED_RECOGNITION_EVENT = "FinishedRecognitionEvent";
+	public static final String UNSUPPORTED_TRAY_EVENT = "The number of products exceeds the system capacity ";
 
 	public static EventObject generateEvent(String type, Object source,
 			Date date, Mat[] images) {
@@ -46,6 +48,9 @@ public class EventFactory {
 			break;
 		case FINISHED_RECOGNITION_EVENT:
 			event = new FinishRecognitionEvent(source);
+			break;
+		case UNSUPPORTED_TRAY_EVENT:
+			event = new UnSupportedTrayEvent(source);
 			break;
 		}
 		return event;

@@ -17,7 +17,6 @@ public class TrayEventHandler extends GenericEventHandler {
 	private final int BUFFER_SIZE = 2;
 	private final float tol = 0.99f;
 	private List<Mat> tray_buffer = new ArrayList<Mat>();
-//	 private Page page;
 	private Tray tray;
 
 	public Tray getTray() {
@@ -50,10 +49,6 @@ public class TrayEventHandler extends GenericEventHandler {
 	 }else		 
 	 return null;	 
 	 }
-	
-//	 public void setPage(Page page) {
-//	 this.page = page;
-//	 }
 
 	private boolean isBufferFull() {
 		return tray_buffer.size() == BUFFER_SIZE;
@@ -74,6 +69,10 @@ public class TrayEventHandler extends GenericEventHandler {
 			}
 			tray_buffer.clear();
 		}
+	}
+	
+	public void unSupportedTrayEvent(){
+		fireEvent(EventFactory.UNSUPPORTED_TRAY_EVENT);
 	}
 
 	private boolean isBufferFullOfTrays() {
