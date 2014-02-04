@@ -197,7 +197,7 @@ public class TestMainSystemMonitor implements GenericEventListener {
 			} catch (PageNotFoundException e1) {
 				e1.printStackTrace();
 			}
-			tehandler.setPage(page);
+			//tehandler.setPage(page);
 
 			// Pensar como vamos a saber la page correspondiente a la tray en
 			// ese momento!

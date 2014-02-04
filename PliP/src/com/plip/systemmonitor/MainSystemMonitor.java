@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.EventObject;
 import java.util.List;
 import java.util.Properties;
@@ -27,14 +28,22 @@ import com.plip.imageprocessing.processors.ObjectCounter;
 import com.plip.imageprocessing.processors.ObjectRecognizer;
 import com.plip.imageprocessing.processors.TrayProcessor;
 import com.plip.imageprocessing.processors.Exceptions.NoImageException;
+import com.plip.imageprocessing.trainers.PlipTrainer;
+import com.plip.persistence.dao.impls.PlipRoleDaoImpl;
+import com.plip.persistence.dao.impls.StatusDaoImpl;
 import com.plip.persistence.dao.impls.TrayDaoImpl;
+import com.plip.persistence.dao.impls.TrayStatusDaoImpl;
+import com.plip.persistence.dao.interfaces.PlipRoleDao;
 import com.plip.persistence.exceptions.NullModelAttributesException;
+import com.plip.persistence.exceptions.StatusNotFoundException;
 import com.plip.persistence.managers.LocalPageManager;
 import com.plip.persistence.managers.PageManager;
 import com.plip.persistence.managers.exceptions.NoPageRecievedException;
 import com.plip.persistence.model.Page;
 import com.plip.persistence.model.Product;
+import com.plip.persistence.model.Status;
 import com.plip.persistence.model.Tray;
+import com.plip.persistence.model.TrayStatus;
 import com.plip.uinterfaces.MainMenuFrame;
 
 // Queda pendiente organizar handlers para todos los eventos 
@@ -57,7 +66,18 @@ public class MainSystemMonitor implements GenericEventListener {
 	private static int imageResolutionHeight = 600;
 	private static int captureResolutionWidth = 800;
 	private static int captureResolutionHeight = 600;
-
+    
+	public final static int STATUS_TRAY_ARRAIVAL = 1;
+	public final static int STATUS_TRAY_QUANTITY_EXCEEDED = 2;
+	public final static int STATUS_TRAY_COUNTED = 3;
+	public final static int STATUS_VALID_QUANTITY = 4;
+	public final static int STATUS_INVALID_QUANTITY = 5;
+	public final static int STATUS_PRODUCT_RECOGNIZED = 6;
+	public final static int STATUS_PRODUCT_NOT_RECOGNIZED = 7;
+	public final static int STATUS_VALID_TRAY = 8;
+	public final static int STATUS_INVALID_TRAY = 9;
+	
+	
 	public static int cameraInput;
 
 	public MainSystemMonitor() {
@@ -190,6 +210,39 @@ public class MainSystemMonitor implements GenericEventListener {
 		} else if (event instanceof FinishCounterEvent) {
 
 			System.out.println("Finish Counter");
+			/*
+			 * Reports to TrayStatus to determinate the quantity of found
+			 * products
+			 */
+			TrayStatusDaoImpl trayStatusDao = new TrayStatusDaoImpl();
+			TrayStatus countedTrayStatus = new TrayStatus();
+			TrayStatus quantityResultTrayStatus = new TrayStatus();
+			StatusDaoImpl statusDao = new StatusDaoImpl();
+			try {
+				Status countedStatus = statusDao.getStatus(STATUS_TRAY_COUNTED);
+				Status quantityStatus;
+				if(tehandler.getPage().getProductQuantity() == cehandler.getCountedObjects().size()){
+				 quantityStatus = statusDao.getStatus(STATUS_VALID_QUANTITY);	
+				 System.out.println("STATUS_VALID_QUANTITY");
+				}else{
+				 quantityStatus = statusDao.getStatus(STATUS_INVALID_QUANTITY);
+				 System.out.println("STATUS_INVALID_QUANTITY");
+				}
+				countedTrayStatus.setDate(new Date());
+				countedTrayStatus.setQuantity(cehandler.getCountedObjects().size());
+				countedTrayStatus.setStatus(countedStatus);
+				countedTrayStatus.setTray(tehandler.getTray());
+				trayStatusDao.addTrayStatus(countedTrayStatus);
+				quantityResultTrayStatus.setDate(new Date());
+				quantityResultTrayStatus.setQuantity(tehandler.getPage().getProductQuantity() - cehandler.getCountedObjects().size());
+				quantityResultTrayStatus.setStatus(quantityStatus);
+				quantityResultTrayStatus.setTray(tehandler.getTray());
+				trayStatusDao.addTrayStatus(quantityResultTrayStatus);
+			} catch (StatusNotFoundException e) {
+				e.printStackTrace();
+			}
+			
+			
 			rehandler.startRecognitionEvent(cehandler.getCountedObjects());
 
 		} else if (event instanceof StartRecognitionEvent) {

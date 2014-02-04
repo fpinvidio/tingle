@@ -62,23 +62,7 @@ public class ObjectCounter {
 			System.out.println("Detected Products:" + quantity);
 			System.out.println("Page quantity:" + pageQuantity);
 			
-			/*
-			 * Reports to TrayStatus to determinate the quantity of found
-			 * products
-			 */
-			TrayStatusDaoImpl trayStatusDao = new TrayStatusDaoImpl();
-			TrayStatus trayStatus = new TrayStatus();
-			StatusDaoImpl statusDao = new StatusDaoImpl();
-			Status status = new Status();
-			try {
-				status = statusDao.getStatus(1);
-			} catch (StatusNotFoundException e) {
-				e.printStackTrace();
-			}
-			trayStatus.setDate(new Date());
-			trayStatus.setQuantity(quantity);
-			trayStatus.setStatus(status);
-			trayStatusDao.addTrayStatus(trayStatus);
+			
 			for (int i = 0; i < this.contours.size(); i++){
 				Mat productImage = cropContour(this.image, contours.get(i), i, false);
 //				Highgui.imwrite("bound"+i+".jpg",productImage);
