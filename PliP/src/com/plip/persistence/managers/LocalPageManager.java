@@ -13,14 +13,12 @@ public class LocalPageManager implements PageManager{
 		PageDaoImpl pageDao = new PageDaoImpl();
 		Page page = new Page();
 		try {
-			page = pageDao.getPage(Long.valueOf(1));
+			page = pageDao.getPage(Long.valueOf(10));
 		} catch (PageNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			//e1.printStackTrace();
+			System.out.println("Page not found");
 			throw new NoPageRecievedException();
 		}
 		return page;
 	}
-
-	
 }

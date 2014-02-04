@@ -21,7 +21,6 @@ import com.plip.eventhandlers.listeners.GenericEventListener;
 import com.plip.imageprocessing.processors.ObjectCounter;
 import com.plip.imageprocessing.processors.ObjectRecognizer;
 import com.plip.imageprocessing.processors.TrayProcessor;
-import com.plip.imageprocessing.processors.Exceptions.NoImageException;
 import com.plip.imageprocessing.trainers.PlipTrainer;
 import com.plip.persistence.dao.impls.PageDaoImpl;
 import com.plip.persistence.exceptions.PageNotFoundException;
