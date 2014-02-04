@@ -148,11 +148,12 @@ public class MainSystemMonitor implements GenericEventListener {
 				tray.setCode(page.getOrder().getCode());
 				trayDao.addTray(tray);
 			} catch (NoPageRecievedException | NullModelAttributesException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println("Tray could not be identified");
+				return;
 			}
+			
 			tehandler.setTray(tray);
-
+			
 			// Pensar como vamos a saber la page correspondiente a la tray en
 			// ese momento!
 
@@ -172,17 +173,25 @@ public class MainSystemMonitor implements GenericEventListener {
 
 			vcapture.set(Highgui.CV_CAP_PROP_FRAME_WIDTH, captureResolutionWidth);
 			vcapture.set(Highgui.CV_CAP_PROP_FRAME_HEIGHT, captureResolutionHeight);
+			
+			int pageQuantity = tehandler.getPage().getProductQuantity();
+			
+			if( pageQuantity < 10){
+		
+				ArrayList<Mat> images = new ArrayList<Mat>();
 
-			ArrayList<Mat> images = new ArrayList<Mat>();
-
-			try {
-				images = ocounter.count(screenshot, tehandler.getPage().getProductQuantity());
-			} catch (NoImageException e) {
-				e.printStackTrace();
+				try {
+					images = ocounter.count(screenshot, tehandler.getPage().getProductQuantity());
+				} catch (NoImageException e) {
+					e.printStackTrace();
+				}
+				cehandler.addCountedObjects(images);
+			}else{
+				tehandler.unSupportedTrayEvent();
+				System.out.println("The quantity of products exceeds the system capacity");
+				return;
 			}
-
-			cehandler.addCountedObjects(images);
-
+			
 		} else if (event instanceof TrayDepartureEvent) {
 
 			System.out.println("Tray Departure");
