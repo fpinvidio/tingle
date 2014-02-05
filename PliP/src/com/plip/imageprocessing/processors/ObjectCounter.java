@@ -192,7 +192,7 @@ public class ObjectCounter {
 			boolean initialized = false;
 			MatOfPoint2f mMOP2f1 = new MatOfPoint2f();
 			Scalar s1 = new Scalar(255, 0, 0);
-
+			Mat originalImage = image.clone();
 			Imgproc.findContours(image, contours, new Mat(),
 					Imgproc.RETR_CCOMP, Imgproc.CHAIN_APPROX_NONE);
 
@@ -207,7 +207,7 @@ public class ObjectCounter {
 
 				if (Imgproc.contourArea(verticesMat) > maxAreaThreshold) {
 
-					Imgproc.drawContours(image, contours, i, new Scalar(0), 2);
+					Imgproc.drawContours(originalImage, contours, i, new Scalar(0), 2);
 
 					if (!initialized) {
 						trayFloorContour = contours.get(i);
@@ -224,13 +224,13 @@ public class ObjectCounter {
 				}
 			}
 			if (initialized) {
-				image = cropContour(image, trayFloorContour, 1, true);
+				image = cropContour(originalImage, trayFloorContour, 1, true);
 				if(this.image!=null){
 				this.image = cropContour(this.image, trayFloorContour, 1,true);
 				}
 			}
 			Imgproc.threshold(image, image, 100, 255, Imgproc.THRESH_BINARY);
-			return image;
+			return originalImage;
 		}
 		return new Mat();
 	}
