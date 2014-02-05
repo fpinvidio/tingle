@@ -10,8 +10,13 @@ import org.opencv.core.Mat;
 
 import com.plip.eventhandlers.events.TrayArrivalEvent;
 import com.plip.eventhandlers.listeners.GenericEventListener;
+import com.plip.persistence.dao.impls.StatusDaoImpl;
+import com.plip.persistence.dao.impls.TrayStatusDaoImpl;
+import com.plip.persistence.exceptions.StatusNotFoundException;
 import com.plip.persistence.model.Page;
+import com.plip.persistence.model.Status;
 import com.plip.persistence.model.Tray;
+import com.plip.persistence.model.TrayStatus;
 
 public class TrayEventHandler extends GenericEventHandler {
 	private final int BUFFER_SIZE = 2;
@@ -104,5 +109,23 @@ public class TrayEventHandler extends GenericEventHandler {
 			array[i] = mat;
 		}
 		return array;
+	}
+	
+	public void saveTrayArraivalStatus(){
+		/*Save Status when tray arrives*/
+		TrayStatusDaoImpl trayStatusDao = new TrayStatusDaoImpl();
+		TrayStatus trayDetected = new TrayStatus();
+		StatusDaoImpl statusDao = new StatusDaoImpl();
+		if(this.tray != null){
+		try {
+			Status trayDetectedStatus = statusDao.getStatus(Status.STATUS_TRAY_ARRAIVAL);
+			trayDetected.setDate(new Date());
+			trayDetected.setStatus(trayDetectedStatus);
+			trayDetected.setTray(this.tray);
+			trayStatusDao.addTrayStatus(trayDetected);
+		} catch (StatusNotFoundException e) {
+			e.printStackTrace();
+		}
+		}
 	}
 }

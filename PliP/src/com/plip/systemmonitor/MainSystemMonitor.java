@@ -68,16 +68,6 @@ public class MainSystemMonitor implements GenericEventListener {
 	public static int captureResolutionWidth = 800;
 	public static int captureResolutionHeight = 600;
     
-	public final static int STATUS_TRAY_ARRAIVAL = 1;
-	public final static int STATUS_TRAY_QUANTITY_EXCEEDED = 2;
-	public final static int STATUS_TRAY_COUNTED = 3;
-	public final static int STATUS_VALID_QUANTITY = 4;
-	public final static int STATUS_INVALID_QUANTITY = 5;
-	public final static int STATUS_PRODUCT_RECOGNIZED = 6;
-	public final static int STATUS_PRODUCT_NOT_RECOGNIZED = 7;
-	public final static int STATUS_VALID_TRAY = 8;
-	public final static int STATUS_INVALID_TRAY = 9;
-	
 	
 	public static int cameraInput;
 
@@ -174,7 +164,7 @@ public class MainSystemMonitor implements GenericEventListener {
 			}
 			
 			tehandler.setTray(tray);
-
+			tehandler.saveTrayArraivalStatus();
 			vcapture.set(Highgui.CV_CAP_PROP_FRAME_WIDTH, imageResolutionWidth);
 			vcapture.set(Highgui.CV_CAP_PROP_FRAME_HEIGHT, imageResolutionHeight);
 
@@ -217,39 +207,7 @@ public class MainSystemMonitor implements GenericEventListener {
 		} else if (event instanceof FinishCounterEvent) {
 
 			System.out.println("Finish Counter");
-			/*
-			 * Reports to TrayStatus to determinate the quantity of found
-			 * products
-			 */
-			TrayStatusDaoImpl trayStatusDao = new TrayStatusDaoImpl();
-			TrayStatus countedTrayStatus = new TrayStatus();
-			TrayStatus quantityResultTrayStatus = new TrayStatus();
-			StatusDaoImpl statusDao = new StatusDaoImpl();
-			try {
-				Status countedStatus = statusDao.getStatus(STATUS_TRAY_COUNTED);
-				Status quantityStatus;
-				if(tehandler.getPage().getProductQuantity() == cehandler.getCountedObjects().size()){
-				 quantityStatus = statusDao.getStatus(STATUS_VALID_QUANTITY);	
-				 System.out.println("STATUS_VALID_QUANTITY");
-				}else{
-				 quantityStatus = statusDao.getStatus(STATUS_INVALID_QUANTITY);
-				 System.out.println("STATUS_INVALID_QUANTITY");
-				}
-				countedTrayStatus.setDate(new Date());
-				countedTrayStatus.setQuantity(cehandler.getCountedObjects().size());
-				countedTrayStatus.setStatus(countedStatus);
-				countedTrayStatus.setTray(tehandler.getTray());
-				trayStatusDao.addTrayStatus(countedTrayStatus);
-				quantityResultTrayStatus.setDate(new Date());
-				quantityResultTrayStatus.setQuantity(tehandler.getPage().getProductQuantity() - cehandler.getCountedObjects().size());
-				quantityResultTrayStatus.setStatus(quantityStatus);
-				quantityResultTrayStatus.setTray(tehandler.getTray());
-				trayStatusDao.addTrayStatus(quantityResultTrayStatus);
-			} catch (StatusNotFoundException e) {
-				e.printStackTrace();
-			}
-			
-			
+			cehandler.saveFinishedCounterStatus(tehandler.getTray());
 			rehandler.startRecognitionEvent(cehandler.getCountedObjects());
 
 		} else if (event instanceof StartRecognitionEvent) {
@@ -274,9 +232,11 @@ public class MainSystemMonitor implements GenericEventListener {
 								+ orecognizer.getFoundImageNames().get(
 										foundImagesDescriptors.indexOf(image)));
 					}
+					rehandler.saveProductRecognizedStatus(tehandler.getTray(), productMatch);
 					rehandler.validRecognitionEvent();
 					System.out.println("True Matcher Event");
 				} catch (NoMatchException e) {
+					rehandler.saveProductNotRecognizedStatus(tehandler.getTray());
 					rehandler.falseRecognitionEvent();
 					System.out.println("False Matcher Event");
 				} finally {
