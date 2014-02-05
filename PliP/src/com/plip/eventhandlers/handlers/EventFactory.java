@@ -22,7 +22,7 @@ public class EventFactory {
 	public static final String FALSE_MATCHER_EVENT = "FalseMatcherEvent";
 	public static final String START_RECOGNITION_EVENT = "StartRecognitionEvent";
 	public static final String FINISHED_RECOGNITION_EVENT = "FinishedRecognitionEvent";
-	public static final String UNSUPPORTED_TRAY_EVENT = "The number of products exceeds the system capacity ";
+	public static final String UNSUPPORTED_TRAY_EVENT = "The number of products exceeds the system capacity";
 
 	public static EventObject generateEvent(String type, Object source,
 			Date date, Mat[] images) {

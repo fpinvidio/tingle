@@ -11,6 +11,7 @@ import org.opencv.features2d.DescriptorExtractor;
 import org.opencv.features2d.DescriptorMatcher;
 import org.opencv.features2d.FeatureDetector;
 
+import com.plip.eventhandlers.handlers.RecognizerEventHandler;
 import com.plip.imageprocessing.matchers.ImageMatcher;
 import com.plip.imageprocessing.matchers.MinDistanceMatcher;
 import com.plip.imageprocessing.matchers.exceptions.NoMatchException;
@@ -175,7 +176,8 @@ public class ObjectRecognizer {
 			try {
 				productImages = imageDao.getImagesByProductId(product.getIdProduct());
 			} catch (ImageNotFoundException e) {
-				e.printStackTrace();
+				System.out.println("No trained images in Database");
+				break;
 			}
 			
 			product.setImages(new HashSet<Image>(productImages));

@@ -29,6 +29,7 @@ import com.plip.imageprocessing.processors.ObjectRecognizer;
 import com.plip.imageprocessing.processors.TrayProcessor;
 import com.plip.imageprocessing.processors.Exceptions.NoImageException;
 import com.plip.imageprocessing.trainers.PlipTrainer;
+import com.plip.imageprocessing.trainers.SystemUtils;
 import com.plip.persistence.dao.impls.PlipRoleDaoImpl;
 import com.plip.persistence.dao.impls.StatusDaoImpl;
 import com.plip.persistence.dao.impls.TrayDaoImpl;
@@ -62,10 +63,10 @@ public class MainSystemMonitor implements GenericEventListener {
 
 	private MainMenuFrame mmf;
 	
-	private static int imageResolutionWidth = 800;
-	private static int imageResolutionHeight = 600;
-	private static int captureResolutionWidth = 800;
-	private static int captureResolutionHeight = 600;
+	public static int imageResolutionWidth = 800;
+	public static int imageResolutionHeight = 600;
+	public static int captureResolutionWidth = 800;
+	public static int captureResolutionHeight = 600;
     
 	public final static int STATUS_TRAY_ARRAIVAL = 1;
 	public final static int STATUS_TRAY_QUANTITY_EXCEEDED = 2;
@@ -82,7 +83,7 @@ public class MainSystemMonitor implements GenericEventListener {
 
 	public MainSystemMonitor() {
 		super();
-		 loadParams();
+		 SystemUtils utils = new SystemUtils();
 		 mmf = new MainMenuFrame(this);
 		 mmf.setVisible(true);
 	}
@@ -173,9 +174,6 @@ public class MainSystemMonitor implements GenericEventListener {
 			}
 			
 			tehandler.setTray(tray);
-			
-			// Pensar como vamos a saber la page correspondiente a la tray en
-			// ese momento!
 
 			vcapture.set(Highgui.CV_CAP_PROP_FRAME_WIDTH, imageResolutionWidth);
 			vcapture.set(Highgui.CV_CAP_PROP_FRAME_HEIGHT, imageResolutionHeight);
@@ -257,11 +255,14 @@ public class MainSystemMonitor implements GenericEventListener {
 		} else if (event instanceof StartRecognitionEvent) {
 
 			System.out.println("Start Recognition Event");
+			
 			orecognizer.computeDescriptors(cehandler.getCountedObjects(),
 					tehandler.getPage());
+			
 			List<Mat> foundImagesDescriptors = orecognizer
 					.getFoundImagesDescriptors();
-
+			
+			if(foundImagesDescriptors.size() > 0){
 			for (Mat image : foundImagesDescriptors) {
 				try {
 					Product productMatch = orecognizer.recognize(
@@ -273,10 +274,8 @@ public class MainSystemMonitor implements GenericEventListener {
 								+ orecognizer.getFoundImageNames().get(
 										foundImagesDescriptors.indexOf(image)));
 					}
-
 					rehandler.validRecognitionEvent();
 					System.out.println("True Matcher Event");
-
 				} catch (NoMatchException e) {
 					rehandler.falseRecognitionEvent();
 					System.out.println("False Matcher Event");
@@ -284,49 +283,12 @@ public class MainSystemMonitor implements GenericEventListener {
 					rehandler.finishRecognitionEvent();
 				}
 			}
+			}else{
+				rehandler.finishRecognitionEvent();
+				System.out.println("Finish Recognition Event");
+			}
 		} else if (event instanceof FinishRecognitionEvent) {
 			System.out.println("Finish Recognition Event");
 		}
 	}
-	
-	public void loadParams() {
-		Properties props = new Properties();
-		InputStream is = null;
-		try {
-			File f = new File("./res/config.properties");
-			is = new FileInputStream(f);
-		} catch (Exception e) {
-			is = null;
-		}
-
-		try {
-			if (is == null) {
-				is = getClass().getResourceAsStream("./res/config.properties");
-			}
-
-			props.load(is);
-		} catch (Exception e) {
-		}
-		imageResolutionWidth = new Integer(props.getProperty("imageResolutionWidth"));
-		imageResolutionHeight = new Integer(props.getProperty("imageResolutionHeight"));
-		captureResolutionWidth = new Integer(props.getProperty("captureResolutionWidth"));
-		captureResolutionHeight = new Integer(props.getProperty("captureResolutionHeight"));
-		
-		
-		cameraInput = new Integer(props.getProperty("cameraInput"));
-		
-		ObjectCounter.minAreaThreshold = new Integer(props.getProperty("minAreaThreshold"));
-		ObjectCounter.maxAreaThreshold = new Integer(props.getProperty("maxAreaThreshold"));
-		
-		MinDistanceMatcher.minDistanceThreshold = new Double(props.getProperty("minMatchingDistance"));
-		
-		TrayProcessor.thr1 = new Double(props.getProperty("minHueThreshold"));
-		TrayProcessor.thr2 = new Double(props.getProperty("minSatThreshold"));
-		TrayProcessor.thr3 = new Double(props.getProperty("minValueThreshold"));
-		TrayProcessor.thr4 = new Double(props.getProperty("maxHueThreshold"));
-		TrayProcessor.thr5 = new Double(props.getProperty("maxSatThreshold"));
-		TrayProcessor.thr6 = new Double(props.getProperty("maxValueThreshold"));
-		
-
-		}
 }

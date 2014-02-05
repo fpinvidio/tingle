@@ -10,6 +10,7 @@ import org.opencv.features2d.DMatch;
 import org.opencv.features2d.DescriptorMatcher;
 
 import com.plip.imageprocessing.matchers.exceptions.NoMatchException;
+import com.plip.imageprocessing.processors.Exceptions.NoImageException;
 import com.plip.persistence.managers.DataTypeManager;
 import com.plip.persistence.model.Image;
 import com.plip.persistence.model.Page;
@@ -65,14 +66,16 @@ public class MinDistanceMatcher implements ImageMatcher {
 		while(pageProductIterator.hasNext()){
 			PageProduct next = pageProductIterator.next();
 			Product productToCompare = next.getProduct();
-			
-			train(productToCompare);
-			
-			double dist = minDist(descriptor);
+			try {
+				train(productToCompare);
+				double dist = minDist(descriptor);
 				if(dist < minDist && dist < minDistanceThreshold){
 					minDist = dist;
 					product = productToCompare;
 				}
+			} catch (NoImageException e) {
+				break;
+			}
 		}
 		System.out.println(minDist);
 		if(product == null){
@@ -81,10 +84,10 @@ public class MinDistanceMatcher implements ImageMatcher {
 		return product;
 	}
 	
-	public void train(Product product){
+	public void train(Product product) throws NoImageException{
 	       if(product != null){
 	    	   Set images = product.getImages();
-	    	   if (images != null){
+	    	   if (images != null && images.size() > 0){
 	    	   Iterator imagesIterator = images.iterator();
 	    	   ArrayList<Mat> descriptors = new ArrayList<Mat>();
 	    	   matcher.clear();
@@ -96,6 +99,8 @@ public class MinDistanceMatcher implements ImageMatcher {
 	    	   }
 	    	   matcher.add(descriptors);
 	    	   matcher.train();
+	    	   }else{
+	    		   throw new NoImageException();
 	    	   }
 	       }
 	}
