@@ -13,6 +13,16 @@ public class Status implements java.io.Serializable {
 	private Long idStatus;
 	private String description;
 	private Set trayStatuses = new HashSet(0);
+	
+	public final static int STATUS_TRAY_ARRAIVAL = 1;
+	public final static int STATUS_TRAY_QUANTITY_EXCEEDED = 2;
+	public final static int STATUS_TRAY_COUNTED = 3;
+	public final static int STATUS_VALID_QUANTITY = 4;
+	public final static int STATUS_INVALID_QUANTITY = 5;
+	public final static int STATUS_PRODUCT_RECOGNIZED = 6;
+	public final static int STATUS_PRODUCT_NOT_RECOGNIZED = 7;
+	public final static int STATUS_VALID_TRAY = 8;
+	public final static int STATUS_INVALID_TRAY = 9;
 
 	public Status() {
 	}
