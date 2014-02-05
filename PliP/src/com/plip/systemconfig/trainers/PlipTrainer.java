@@ -1,4 +1,4 @@
-package com.plip.imageprocessing.trainers;
+package com.plip.systemconfig.trainers;
 
 import java.io.File;
 import java.util.HashSet;

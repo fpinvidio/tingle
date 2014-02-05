@@ -1,13 +1,9 @@
 package com.plip.systemmonitor;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.EventObject;
 import java.util.List;
-import java.util.Properties;
 
 import org.opencv.core.Mat;
 import org.opencv.highgui.Highgui;
@@ -22,19 +18,14 @@ import com.plip.eventhandlers.handlers.CounterEventHandler;
 import com.plip.eventhandlers.handlers.RecognizerEventHandler;
 import com.plip.eventhandlers.handlers.TrayEventHandler;
 import com.plip.eventhandlers.listeners.GenericEventListener;
-import com.plip.imageprocessing.matchers.MinDistanceMatcher;
 import com.plip.imageprocessing.matchers.exceptions.NoMatchException;
 import com.plip.imageprocessing.processors.ObjectCounter;
 import com.plip.imageprocessing.processors.ObjectRecognizer;
 import com.plip.imageprocessing.processors.TrayProcessor;
 import com.plip.imageprocessing.processors.Exceptions.NoImageException;
-import com.plip.imageprocessing.trainers.PlipTrainer;
-import com.plip.imageprocessing.trainers.SystemUtils;
-import com.plip.persistence.dao.impls.PlipRoleDaoImpl;
 import com.plip.persistence.dao.impls.StatusDaoImpl;
 import com.plip.persistence.dao.impls.TrayDaoImpl;
 import com.plip.persistence.dao.impls.TrayStatusDaoImpl;
-import com.plip.persistence.dao.interfaces.PlipRoleDao;
 import com.plip.persistence.exceptions.NullModelAttributesException;
 import com.plip.persistence.exceptions.StatusNotFoundException;
 import com.plip.persistence.managers.LocalPageManager;
@@ -45,6 +36,7 @@ import com.plip.persistence.model.Product;
 import com.plip.persistence.model.Status;
 import com.plip.persistence.model.Tray;
 import com.plip.persistence.model.TrayStatus;
+import com.plip.systemconfig.SystemUtils;
 import com.plip.uinterfaces.MainMenuFrame;
 
 // Queda pendiente organizar handlers para todos los eventos 
