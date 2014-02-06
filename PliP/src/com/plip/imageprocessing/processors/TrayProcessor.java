@@ -9,6 +9,7 @@ import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.Point;
+import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
@@ -103,8 +104,8 @@ public class TrayProcessor {
 
 				Scalar s1 = new Scalar(255);
 				Imgproc.drawContours(canvas, squares, idx, s1, 1);
-
-				possibleTray = canvas;
+				Rect boundRect = Imgproc.boundingRect(squares.get(idx));
+				possibleTray = canvas.submat(boundRect);
 				// possibleTray = inputFrame;
 			}
 		}
