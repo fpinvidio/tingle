@@ -13,6 +13,7 @@ import com.plip.imageprocessing.processors.ImageDescriptorExtractor;
 import com.plip.persistence.dao.impls.ImageDaoImpl;
 import com.plip.persistence.dao.impls.PositionDaoImpl;
 import com.plip.persistence.dao.impls.ProductDaoImpl;
+import com.plip.persistence.exceptions.ImageNotFoundException;
 import com.plip.persistence.exceptions.NullModelAttributesException;
 import com.plip.persistence.exceptions.PositionNotFoundException;
 import com.plip.persistence.exceptions.ProductNotFoundException;
@@ -71,22 +72,30 @@ public class PlipTrainer {
 				Set images =  product.getImages();
 				if(images == null){
 					images = new HashSet<Image>();
-				}
+				}			
 				Image image = new Image();
-				image.setPosition(pos);
-				image.setProduct(product);
-				image.setDescriptor(DataTypeManager.convertMatToBlob(descriptors));
-				image.setPath(getClass().getResource(
-				"/ProductImages").getPath() +"/"+ productImageListOfFiles[i].getName());
-				image.setTrained(true);
+				
+				try{
+					image = iDao.getImageByProductIdAndPositio(product.getIdProduct(), pos.getIdPosition());
+					iDao.updateImage(image);
+						
+				}catch(ImageNotFoundException e){
+					image.setPosition(pos);
+					image.setProduct(product);
+					image.setDescriptor(DataTypeManager.convertMatToBlob(descriptors));
+					image.setPath(getClass().getResource(
+					"/ProductImages").getPath() +"/"+ productImageListOfFiles[i].getName());
+					image.setTrained(true);
+					try {
+							iDao.addImage(image);
+							}catch (NullModelAttributesException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+				}
 				images.add(image);
 				product.setImages(images);
-				 try {
-					iDao.addImage(image);
-					} catch (NullModelAttributesException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+				
 			
 			}
 		}
