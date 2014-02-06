@@ -1,7 +1,6 @@
 package com.plip.systemmonitor;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.EventObject;
 import java.util.List;
 
@@ -17,25 +16,22 @@ import com.plip.eventhandlers.events.TrayDepartureEvent;
 import com.plip.eventhandlers.handlers.CounterEventHandler;
 import com.plip.eventhandlers.handlers.RecognizerEventHandler;
 import com.plip.eventhandlers.handlers.TrayEventHandler;
+import com.plip.eventhandlers.listeners.CounterEventListener;
 import com.plip.eventhandlers.listeners.GenericEventListener;
+import com.plip.eventhandlers.listeners.RecognizerEventListener;
 import com.plip.imageprocessing.matchers.exceptions.NoMatchException;
 import com.plip.imageprocessing.processors.ObjectCounter;
 import com.plip.imageprocessing.processors.ObjectRecognizer;
 import com.plip.imageprocessing.processors.TrayProcessor;
 import com.plip.imageprocessing.processors.Exceptions.NoImageException;
-import com.plip.persistence.dao.impls.StatusDaoImpl;
 import com.plip.persistence.dao.impls.TrayDaoImpl;
-import com.plip.persistence.dao.impls.TrayStatusDaoImpl;
 import com.plip.persistence.exceptions.NullModelAttributesException;
-import com.plip.persistence.exceptions.StatusNotFoundException;
 import com.plip.persistence.managers.LocalPageManager;
 import com.plip.persistence.managers.PageManager;
 import com.plip.persistence.managers.exceptions.NoPageRecievedException;
 import com.plip.persistence.model.Page;
 import com.plip.persistence.model.Product;
-import com.plip.persistence.model.Status;
 import com.plip.persistence.model.Tray;
-import com.plip.persistence.model.TrayStatus;
 import com.plip.systemconfig.SystemUtils;
 import com.plip.uinterfaces.MainMenuFrame;
 
@@ -52,7 +48,10 @@ public class MainSystemMonitor implements GenericEventListener {
 	private TrayEventHandler tehandler;
 	private CounterEventHandler cehandler;
 	private RecognizerEventHandler rehandler;
-
+	
+	private CounterEventListener celistener;
+	private RecognizerEventListener relistener;
+	
 	private MainMenuFrame mmf;
 	
 	public static int imageResolutionWidth = 800;
@@ -73,7 +72,7 @@ public class MainSystemMonitor implements GenericEventListener {
 	public static void main(String arg[]) {
 		System.loadLibrary("opencv_java246");
 		MainSystemMonitor msm = new MainSystemMonitor();
-		msm.initializeCapture();
+		msm.initialize();
 
 //		 PlipTrainer trainer = new PlipTrainer();
 //		 trainer.processProductImages();
@@ -87,7 +86,7 @@ public class MainSystemMonitor implements GenericEventListener {
 	 * cvReleaseCapture(&cap); return n-1;
 	 */
 
-	public void initializeCapture() {
+	public void initialize() {
 
 		vcapture = new VideoCapture(cameraInput);
 		vcapture.set(Highgui.CV_CAP_PROP_FRAME_WIDTH, captureResolutionWidth);
@@ -104,12 +103,19 @@ public class MainSystemMonitor implements GenericEventListener {
 		tehandler = new TrayEventHandler();
 		cehandler = new CounterEventHandler();
 		rehandler = new RecognizerEventHandler();
-
+		
+		celistener = new CounterEventListener();
+		relistener = new RecognizerEventListener();
+		
 		/*event listeners*/
 		tehandler.addEventListener(mmf);
 		tehandler.addEventListener(this);
+		
 		cehandler.addEventListener(this);
-		rehandler.addEventListener(this);
+		//cehandler.addEventListener(celistener); //Sends request to Administration Panel
+		
+		rehandler.addEventListener(this);	
+		//rehandler.addEventListener(relistener);
 	}
 	
 	public void setCamara(){
@@ -201,7 +207,7 @@ public class MainSystemMonitor implements GenericEventListener {
 			System.out.println("Finish Counter");
 			cehandler.saveFinishedCounterStatus(tehandler.getTray());
 			rehandler.startRecognitionEvent(cehandler.getCountedObjects());
-
+			
 		} else if (event instanceof StartRecognitionEvent) {
 
 			System.out.println("Start Recognition Event");
@@ -231,14 +237,10 @@ public class MainSystemMonitor implements GenericEventListener {
 					rehandler.saveProductNotRecognizedStatus(tehandler.getTray());
 					rehandler.falseRecognitionEvent();
 					System.out.println("False Matcher Event");
-				} finally {
-					rehandler.finishRecognitionEvent();
-				}
+				} 
 			}
-			}else{
+			}
 				rehandler.finishRecognitionEvent();
-				System.out.println("Finish Recognition Event");
-			}
 		} else if (event instanceof FinishRecognitionEvent) {
 			System.out.println("Finish Recognition Event");
 		}
