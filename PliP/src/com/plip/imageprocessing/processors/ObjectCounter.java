@@ -52,7 +52,7 @@ public class ObjectCounter {
 
 			/* Find contours and validates quadrilateral forms */
 			Mat detectedObjects = findContours(noTray);
-			Highgui.imwrite("noTrayColor.jpg", this.image);
+//			Highgui.imwrite("noTrayColor.jpg", this.image);
 			
 			if(quantity != pageQuantity){
 				/* Applies distanceTransform to separate products */
@@ -64,8 +64,8 @@ public class ObjectCounter {
 			
 			
 			for (int i = 0; i < this.contours.size(); i++){
-				Mat productImage = cropContour(this.image, contours.get(i), i, false);
-//				Highgui.imwrite("bound"+i+".jpg",productImage);
+				Mat productImage = cropProduct(this.image, contours.get(i), i);
+
 				resultImages.add(productImage);
 			}
 
@@ -129,108 +129,111 @@ public class ObjectCounter {
 	 *            - Pre processed image.
 	 * @return Mat image - Pre processed image without tray.
 	 */
-	public Mat removeTray(Mat image) {
-		if (image != null) {
-
-			Highgui.imwrite("noCrop.jpg", image);
-
-			List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
-			MatOfPoint trayFloorContour = new MatOfPoint();
-			boolean initialized = false;
-			MatOfPoint2f mMOP2f1 = new MatOfPoint2f();
-			Scalar s1 = new Scalar(255, 0, 0);
-
-			Imgproc.findContours(image, contours, new Mat(),
-					Imgproc.RETR_CCOMP, Imgproc.CHAIN_APPROX_NONE);
-
-			for (int i = 0; i < contours.size(); i++) {
-
-				contours.get(i).convertTo(mMOP2f1, CvType.CV_32FC2);
-				RotatedRect rotated = Imgproc.minAreaRect(mMOP2f1);
-				Point[] vertices = new Point[4];
-				rotated.points(vertices);
-				MatOfPoint2f verticesMat = new MatOfPoint2f();
-				verticesMat.fromArray(vertices);
-
-				if (Imgproc.contourArea(verticesMat) > maxAreaThreshold) {
-
-					Imgproc.drawContours(image, contours, i, new Scalar(0), 2);
-
-					if (!initialized) {
-						trayFloorContour = contours.get(i);
-						initialized = true;
-					} else {
-						Rect boundRect = Imgproc.boundingRect(contours.get(i));
-						Rect floor = Imgproc.boundingRect(trayFloorContour);
-						if (boundRect.x > floor.x && boundRect.y <= floor.y) {
-							trayFloorContour = contours.get(i);
-						}
-					}
-				} else {
-					Imgproc.drawContours(image, contours, i, s1, 2);
-				}
-			}
-			if (initialized) {
-				image = cropContour(image, trayFloorContour, 1, true);
-				if(this.image!=null){
-				this.image = cropContour(this.image, trayFloorContour, 1,true);
-				}
-			}
-			Imgproc.threshold(image, image, 100, 255, Imgproc.THRESH_BINARY);
-			return image;
-		}
-		return new Mat();
-	}
+//	public Mat removeTray(Mat image) {
+//		if (image != null) {
+//
+//			Highgui.imwrite("noCrop.jpg", image);
+//
+//			List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
+//			MatOfPoint trayFloorContour = new MatOfPoint();
+//			boolean initialized = false;
+//			MatOfPoint2f mMOP2f1 = new MatOfPoint2f();
+//			Scalar s1 = new Scalar(255, 0, 0);
+//
+//			Imgproc.findContours(image, contours, new Mat(),
+//					Imgproc.RETR_CCOMP, Imgproc.CHAIN_APPROX_NONE);
+//
+//			for (int i = 0; i < contours.size(); i++) {
+//
+//				contours.get(i).convertTo(mMOP2f1, CvType.CV_32FC2);
+//				RotatedRect rotated = Imgproc.minAreaRect(mMOP2f1);
+//				Point[] vertices = new Point[4];
+//				rotated.points(vertices);
+//				MatOfPoint2f verticesMat = new MatOfPoint2f();
+//				verticesMat.fromArray(vertices);
+//
+//				if (Imgproc.contourArea(verticesMat) > maxAreaThreshold) {
+//
+//					Imgproc.drawContours(image, contours, i, new Scalar(0), 2);
+//
+//					if (!initialized) {
+//						trayFloorContour = contours.get(i);
+//						initialized = true;
+//					} else {
+//						Rect boundRect = Imgproc.boundingRect(contours.get(i));
+//						Rect floor = Imgproc.boundingRect(trayFloorContour);
+//						if (boundRect.x > floor.x && boundRect.y <= floor.y) {
+//							trayFloorContour = contours.get(i);
+//						}
+//					}
+//				} else {
+//					Imgproc.drawContours(image, contours, i, s1, 2);
+//				}
+//			}
+//			if (initialized) {
+//				image = cropContour(image, trayFloorContour, 1, true);
+//				if(this.image!=null){
+//				this.image = cropContour(this.image, trayFloorContour, 1,true);
+//				}
+//			}
+//			Imgproc.threshold(image, image, 100, 255, Imgproc.THRESH_BINARY);
+//			return image;
+//		}
+//		return new Mat();
+//	}
 	
 	public Mat removeTrayAlternative(Mat image){
 		if (image != null) {
 
-			Highgui.imwrite("noCrop.jpg", image);
-
-			List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
-			MatOfPoint trayFloorContour = new MatOfPoint();
-			boolean initialized = false;
-			MatOfPoint2f mMOP2f1 = new MatOfPoint2f();
-			Scalar s1 = new Scalar(255, 0, 0);
-			Mat originalImage = image.clone();
-			Imgproc.findContours(image, contours, new Mat(),
-					Imgproc.RETR_CCOMP, Imgproc.CHAIN_APPROX_NONE);
-
-			for (int i = 0; i < contours.size(); i++) {
-
-				contours.get(i).convertTo(mMOP2f1, CvType.CV_32FC2);
-				RotatedRect rotated = Imgproc.minAreaRect(mMOP2f1);
-				Point[] vertices = new Point[4];
-				rotated.points(vertices);
-				MatOfPoint2f verticesMat = new MatOfPoint2f();
-				verticesMat.fromArray(vertices);
-
-				if (Imgproc.contourArea(verticesMat) > maxAreaThreshold) {
-
-					Imgproc.drawContours(originalImage, contours, i, new Scalar(0), 2);
-
-					if (!initialized) {
-						trayFloorContour = contours.get(i);
-						initialized = true;
-					} else {
-						Rect boundRect = Imgproc.boundingRect(contours.get(i));
-						Rect floor = Imgproc.boundingRect(trayFloorContour);
-						if (boundRect.x < floor.x && boundRect.y >= floor.y) {
-							trayFloorContour = contours.get(i);
-						}
-					}
-				} else {
-					Imgproc.drawContours(image, contours, i, s1, 2);
-				}
-			}
-			if (initialized) {
-				image = cropContour(originalImage, trayFloorContour, 1, true);
+//			Highgui.imwrite("noCrop.jpg", image);
+//
+//			List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
+//			MatOfPoint trayFloorContour = new MatOfPoint();
+//			boolean initialized = false;
+//			MatOfPoint2f mMOP2f1 = new MatOfPoint2f();
+//			Scalar s1 = new Scalar(255, 0, 0);
+//			Mat originalImage = image.clone();
+//			Imgproc.findContours(image, contours, new Mat(),
+//					Imgproc.RETR_CCOMP, Imgproc.CHAIN_APPROX_NONE);
+//
+//			for (int i = 0; i < contours.size(); i++) {
+//
+//				contours.get(i).convertTo(mMOP2f1, CvType.CV_32FC2);
+//				RotatedRect rotated = Imgproc.minAreaRect(mMOP2f1);
+//				Point[] vertices = new Point[4];
+//				rotated.points(vertices);
+//				MatOfPoint2f verticesMat = new MatOfPoint2f();
+//				verticesMat.fromArray(vertices);
+//
+//				if (Imgproc.contourArea(verticesMat) > maxAreaThreshold) {
+//
+//					Imgproc.drawContours(originalImage, contours, i, new Scalar(0), 2);
+//
+//					if (!initialized) {
+//						trayFloorContour = contours.get(i);
+//						initialized = true;
+//					} else {
+//						Rect boundRect = Imgproc.boundingRect(contours.get(i));
+//						Rect floor = Imgproc.boundingRect(trayFloorContour);
+//						if (boundRect.x < floor.x && boundRect.y >= floor.y) {
+//							trayFloorContour = contours.get(i);
+//						}
+//					}
+//				} else {
+//					Imgproc.drawContours(image, contours, i, s1, 2);
+//				}
+//			}
+//			if (initialized) {
+				image = cropTray(image);
 				if(this.image!=null){
-				this.image = cropContour(this.image, trayFloorContour, 1,true);
+				this.image = cropTray(this.image);
+			
 				}
-			}
-			Imgproc.threshold(image, image, 100, 255, Imgproc.THRESH_BINARY);
-			return originalImage;
+				return image;
+//			}
+//			Imgproc.threshold(image, image, 100, 255, Imgproc.THRESH_BINARY);
+//			return originalImage;
+			
 		}
 		return new Mat();
 	}
@@ -396,19 +399,9 @@ public class ObjectCounter {
 	 *            - Detected object index
 	 * @return subImage - Object image.
 	 */
-	public Mat cropContour(Mat detectedObjects, MatOfPoint contour, int i, boolean tray) {
-		if (detectedObjects != null && contour != null) {
+	public Mat cropContour(Mat detectedObjects, Rect boundRect) {
+		if (detectedObjects != null && boundRect != null) {
 
-			Rect boundRect = Imgproc.boundingRect(contour);
-			if(!tray){
-				boundRect.x +=0;
-				boundRect.y -=15;
-				boundRect.height += 30;
-				boundRect.width += 30;
-			}else{
-				boundRect.height=1000;
-				boundRect.width=1600;
-			}
 			if (boundRect.x < 0) {
 				boundRect.x = 0;
 			}
@@ -425,13 +418,58 @@ public class ObjectCounter {
 			}
 
 			Mat subImage = detectedObjects.submat(boundRect);
-			
-			String filename = getClass().getResource("/FoundObjects").getPath()
-					+ "/bound" + i + ".jpg";
-			Highgui.imwrite(filename, subImage);
 			return subImage;
 		} else {
 			return new Mat();
 		}
 	}
+	public Mat cropTray(Mat image){
+		Mat subMat = new Mat();
+		
+		if (image != null ) {
+		Rect boundRect = new Rect(270,190,1600,1000);
+		
+		
+//		Core.rectangle(image,boundRect.br(),boundRect.tl(), new Scalar(0,255,0),3);
+//		Highgui.imwrite("brect.jpg", image);
+//		boundRect.height=1000;
+//		boundRect.width=1600;
+//		Core.rectangle(image,boundRect.br(),boundRect.tl(), new Scalar(0,255,0),3);
+//		Highgui.imwrite("cubetaAntes.jpg", image);
+//		System.out.println(boundRect.x +" "+image.cols()+" "+((image.cols()-boundRect.x)/2));
+//		System.out.println(boundRect.y +" "+image.rows()+" "+((image.rows()-boundRect.y)/2));
+//		if(boundRect.x + boundRect.width > ((image.cols()-boundRect.x)/2)){
+//			boundRect.x -=270;
+//		}else{
+//			boundRect.x +=270;
+//		}
+//		if(boundRect.y + boundRect.height > ((image.rows()-boundRect.y)/2)){
+//			boundRect.y +=190;
+//		}else{
+//			boundRect.y -=190;
+//		}
+//		
+		subMat = cropContour(image, boundRect);
+//		Core.rectangle(image,boundRect.br(),boundRect.tl(), new Scalar(0,255,0),3);
+		Highgui.imwrite("cubeta.jpg", image);
+		}
+		return subMat;
+	}
+	public Mat cropProduct(Mat image, MatOfPoint contour, int i){
+		Mat subMat = new Mat();
+		if (image != null && contour != null) {
+		Rect boundRect = Imgproc.boundingRect(contour);
+		boundRect.x +=0;
+		boundRect.y -=15;
+		boundRect.height += 30;
+		boundRect.width += 30;
+		subMat = cropContour(image, boundRect);
+		
+		String filename = getClass().getResource("/FoundObjects").getPath()
+				+ "/bound" + i + ".jpg";
+		Highgui.imwrite(filename, subMat);
+		}
+		return subMat;
+	}
+
 }

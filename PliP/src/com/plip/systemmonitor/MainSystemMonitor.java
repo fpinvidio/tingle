@@ -5,6 +5,7 @@ import java.util.EventObject;
 import java.util.List;
 
 import org.opencv.core.Mat;
+import org.opencv.core.Rect;
 import org.opencv.highgui.Highgui;
 import org.opencv.highgui.VideoCapture;
 
@@ -24,7 +25,9 @@ import com.plip.imageprocessing.processors.ObjectCounter;
 import com.plip.imageprocessing.processors.ObjectRecognizer;
 import com.plip.imageprocessing.processors.TrayProcessor;
 import com.plip.imageprocessing.processors.Exceptions.NoImageException;
+import com.plip.persistence.dao.impls.PlipRoleDaoImpl;
 import com.plip.persistence.dao.impls.TrayDaoImpl;
+import com.plip.persistence.dao.interfaces.PlipRoleDao;
 import com.plip.persistence.exceptions.NullModelAttributesException;
 import com.plip.persistence.managers.LocalPageManager;
 import com.plip.persistence.managers.PageManager;
@@ -54,6 +57,7 @@ public class MainSystemMonitor implements GenericEventListener {
 	
 	private MainMenuFrame mmf;
 	
+	public static Rect trayBounds = null;
 	public static int imageResolutionWidth = 800;
 	public static int imageResolutionHeight = 600;
 	public static int captureResolutionWidth = 800;
@@ -160,7 +164,19 @@ public class MainSystemMonitor implements GenericEventListener {
 				System.out.println("Tray could not be identified");
 				return;
 			}
+			Rect trayBounds = null;
+			if(this.trayBounds != null){
+				trayBounds = this.trayBounds;
 			
+				double widthScale = ((double) imageResolutionWidth)/captureResolutionWidth;
+			
+				double heightScale =((double)  imageResolutionHeight)/captureResolutionHeight;
+			
+				trayBounds.height =(int) Math.floor(trayBounds.height*heightScale);
+				trayBounds.y = (int) Math.floor(trayBounds.y*heightScale);
+				trayBounds.width = (int) Math.floor(trayBounds.width*widthScale);
+				trayBounds.x = (int) Math.floor(trayBounds.x*widthScale);
+			}
 			tehandler.setTray(tray);
 			tehandler.saveTrayArraivalStatus();
 			vcapture.set(Highgui.CV_CAP_PROP_FRAME_WIDTH, imageResolutionWidth);
@@ -174,7 +190,11 @@ public class MainSystemMonitor implements GenericEventListener {
 
 			Mat screenshot = new Mat();
 			vcapture.read(screenshot);
-
+			
+			if(trayBounds != null){
+			
+			screenshot = screenshot.submat(trayBounds);
+			}
 			Highgui.imwrite("tray.jpg", screenshot);
 
 			vcapture.set(Highgui.CV_CAP_PROP_FRAME_WIDTH, captureResolutionWidth);
@@ -245,4 +265,6 @@ public class MainSystemMonitor implements GenericEventListener {
 			System.out.println("Finish Recognition Event");
 		}
 	}
+
+	
 }
