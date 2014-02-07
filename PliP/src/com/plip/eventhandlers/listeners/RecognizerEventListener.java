@@ -13,7 +13,6 @@ public class RecognizerEventListener implements GenericEventListener {
 		
 		if (event instanceof FinishRecognitionEvent) {
 			String urlParameters ="sn=C02G8416DRJM&cn=&locale=&caller=&num=12345";
-			System.out.println("Entro en RecognizerEventListener");
 			try {
 				SystemUtils.connectPlipAdministratiorPanel(urlParameters);
 			} catch (AdministratorPanelConnectionException e) {

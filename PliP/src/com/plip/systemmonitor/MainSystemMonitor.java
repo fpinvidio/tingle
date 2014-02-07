@@ -19,6 +19,7 @@ import com.plip.eventhandlers.handlers.TrayEventHandler;
 import com.plip.eventhandlers.listeners.CounterEventListener;
 import com.plip.eventhandlers.listeners.GenericEventListener;
 import com.plip.eventhandlers.listeners.RecognizerEventListener;
+import com.plip.eventhandlers.listeners.TrayEventListener;
 import com.plip.imageprocessing.matchers.exceptions.NoMatchException;
 import com.plip.imageprocessing.processors.ObjectCounter;
 import com.plip.imageprocessing.processors.ObjectRecognizer;
@@ -51,6 +52,7 @@ public class MainSystemMonitor implements GenericEventListener {
 	
 	private CounterEventListener celistener;
 	private RecognizerEventListener relistener;
+	private TrayEventListener telistener;
 	
 	private MainMenuFrame mmf;
 	
@@ -59,7 +61,6 @@ public class MainSystemMonitor implements GenericEventListener {
 	public static int captureResolutionWidth = 800;
 	public static int captureResolutionHeight = 600;
     
-	
 	public static int cameraInput;
 
 	public MainSystemMonitor() {
@@ -106,10 +107,12 @@ public class MainSystemMonitor implements GenericEventListener {
 		
 		celistener = new CounterEventListener();
 		relistener = new RecognizerEventListener();
+		telistener = new TrayEventListener();
 		
 		/*event listeners*/
 		tehandler.addEventListener(mmf);
 		tehandler.addEventListener(this);
+		//tehandler.addEventListener(telistener);
 		
 		cehandler.addEventListener(this);
 		//cehandler.addEventListener(celistener); //Sends request to Administration Panel
