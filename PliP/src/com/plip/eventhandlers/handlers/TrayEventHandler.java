@@ -10,6 +10,7 @@ import org.opencv.core.Mat;
 
 import com.plip.eventhandlers.events.TrayArrivalEvent;
 import com.plip.eventhandlers.listeners.GenericEventListener;
+import com.plip.imageprocessing.processors.TrayProcessor;
 import com.plip.persistence.dao.impls.StatusDaoImpl;
 import com.plip.persistence.dao.impls.TrayStatusDaoImpl;
 import com.plip.persistence.exceptions.StatusNotFoundException;
@@ -17,6 +18,7 @@ import com.plip.persistence.model.Page;
 import com.plip.persistence.model.Status;
 import com.plip.persistence.model.Tray;
 import com.plip.persistence.model.TrayStatus;
+import com.plip.systemmonitor.MainSystemMonitor;
 
 public class TrayEventHandler extends GenericEventHandler {
 	private final int BUFFER_SIZE = 2;
@@ -65,6 +67,7 @@ public class TrayEventHandler extends GenericEventHandler {
 			if (isBufferFullOfTrays()) {
 				if (lastEvent == null
 						|| !(lastEvent instanceof TrayArrivalEvent)) {
+					MainSystemMonitor.trayBounds = TrayProcessor.getTrayBound();
 					fireEvent(EventFactory.TRAY_ARRIVAL_EVENT);
 				}
 			} else if (isBufferFullOfVoid()) {

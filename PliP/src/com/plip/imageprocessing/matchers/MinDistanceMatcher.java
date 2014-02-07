@@ -93,10 +93,12 @@ public class MinDistanceMatcher implements ImageMatcher {
 	    	   matcher.clear();
 	    	   while(imagesIterator.hasNext()){
 	    		   Image next = (Image) imagesIterator.next();
+	    		   if(next.isTrained()){
 	    		   byte[] descriptorBytes = next.getDescriptor();
 	    		   Mat descriptor = DataTypeManager.convertBlobToMat(descriptorBytes);
 	    		   descriptors.add(descriptor);
-	    	   }
+	    		   }
+	    	   }	   
 	    	   matcher.add(descriptors);
 	    	   matcher.train();
 	    	   }else{

@@ -1,5 +1,6 @@
 package com.plip.persistence.dao.impls;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import org.hibernate.HibernateException;
@@ -146,5 +147,31 @@ public class ImageDaoImpl implements ImageDao {
 		} finally {
 			session.close();
 		}
+	}
+	public Image getImageByProductIdAndPositio(long idProduct, long idPosition) throws ImageNotFoundException{
+		SessionFactory factory = DaoManager.createSessionFactory();
+		Session session = factory.openSession();
+		Transaction tx = null;
+		ArrayList<Image> images = null;
+		try {
+			tx = session.beginTransaction();
+			Query query = session
+					.createQuery("FROM Image where id_product = :idProduct AND id_position= :idPosition");
+			query.setParameter("idProduct", idProduct);
+			query.setParameter("idPosition", idPosition);
+			if(query.list().size()>0){
+			images = (ArrayList<Image>) query.list();
+			}else{
+				throw new ImageNotFoundException();
+			}
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return images.get(0);
 	}
 }

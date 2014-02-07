@@ -17,5 +17,6 @@ public interface ImageDao {
 	public void deleteImage(long imageId);
 
 	ArrayList<Image> getImagesByProductId(long idProduct) throws ImageNotFoundException;
-
+	
+	public Image getImageByProductIdAndPositio(long idProduct, long idPosition)  throws ImageNotFoundException;
 }

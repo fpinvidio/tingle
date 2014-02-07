@@ -19,6 +19,9 @@ import com.plip.imageprocessing.validators.SquareValidator;
 public class TrayProcessor {
 
 	private static Mat possibleTray = null;
+	private static Rect trayBound = null;
+	
+
 	public static int threshold = 2;
 	public static double thr1;
 	public static double thr2;
@@ -105,7 +108,8 @@ public class TrayProcessor {
 				Scalar s1 = new Scalar(255);
 				Imgproc.drawContours(canvas, squares, idx, s1, 1);
 				Rect boundRect = Imgproc.boundingRect(squares.get(idx));
-				possibleTray = canvas.submat(boundRect);
+				trayBound = boundRect;
+				possibleTray = canvas;
 				// possibleTray = inputFrame;
 			}
 		}
@@ -121,5 +125,8 @@ public class TrayProcessor {
 
 	public void clearPossibleTray() {
 		possibleTray = null;
+	}
+	public static Rect getTrayBound() {
+		return trayBound;
 	}
 }
