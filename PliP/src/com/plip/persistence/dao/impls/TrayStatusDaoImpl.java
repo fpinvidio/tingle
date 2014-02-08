@@ -71,7 +71,7 @@ public class TrayStatusDaoImpl implements TrayStatusDao {
 	}
 
 	@Override
-	public List<Status> getStatusByTray(long idTray) throws TrayStatusNotFoundException {
+	public List<TrayStatus> getStatusByTray(long idTray) throws TrayStatusNotFoundException {
 		SessionFactory factory = DaoManager.createSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;

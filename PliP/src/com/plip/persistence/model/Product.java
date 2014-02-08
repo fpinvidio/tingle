@@ -152,5 +152,16 @@ public class Product implements java.io.Serializable {
 		}else return false;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof Product){
+			if (this.idProduct == ((Product) obj).getIdProduct()){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	
 
 }

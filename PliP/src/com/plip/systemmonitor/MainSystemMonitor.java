@@ -35,6 +35,7 @@ import com.plip.persistence.managers.exceptions.NoPageRecievedException;
 import com.plip.persistence.model.Page;
 import com.plip.persistence.model.Product;
 import com.plip.persistence.model.Tray;
+import com.plip.system.validators.TrayValidator;
 import com.plip.systemconfig.SystemUtils;
 import com.plip.uinterfaces.MainMenuFrame;
 
@@ -263,6 +264,8 @@ public class MainSystemMonitor implements GenericEventListener {
 				rehandler.finishRecognitionEvent();
 		} else if (event instanceof FinishRecognitionEvent) {
 			System.out.println("Finish Recognition Event");
+			TrayValidator trayValidator = new TrayValidator();
+			trayValidator.validateTray(tehandler.getTray());
 		}
 	}
 
