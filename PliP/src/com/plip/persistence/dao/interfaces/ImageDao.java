@@ -1,6 +1,7 @@
 package com.plip.persistence.dao.interfaces;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.plip.persistence.exceptions.ImageNotFoundException;
 import com.plip.persistence.exceptions.NullModelAttributesException;
@@ -19,4 +20,6 @@ public interface ImageDao {
 	ArrayList<Image> getImagesByProductId(long idProduct) throws ImageNotFoundException;
 	
 	public Image getImageByProductIdAndPositio(long idProduct, long idPosition)  throws ImageNotFoundException;
+	
+	public List<Image> getNotTrainedImages() throws ImageNotFoundException;
 }

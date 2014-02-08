@@ -1,7 +1,7 @@
 package com.plip.persistence.dao.impls;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -12,10 +12,8 @@ import org.hibernate.Transaction;
 import com.plip.persistence.dao.interfaces.ImageDao;
 import com.plip.persistence.exceptions.ImageNotFoundException;
 import com.plip.persistence.exceptions.NullModelAttributesException;
-import com.plip.persistence.exceptions.OrderNotFoundException;
 import com.plip.persistence.managers.DaoManager;
 import com.plip.persistence.model.Image;
-import com.plip.persistence.model.Status;
 
 public class ImageDaoImpl implements ImageDao {
 	
@@ -173,5 +171,30 @@ public class ImageDaoImpl implements ImageDao {
 			session.close();
 		}
 		return images.get(0);
+	}
+	
+    public List<Image> getNotTrainedImages() throws ImageNotFoundException{
+    	SessionFactory factory = DaoManager.createSessionFactory();
+		Session session = factory.openSession();
+		Transaction tx = null;
+		ArrayList<Image> images = null;
+		try {
+			tx = session.beginTransaction();
+			Query query = session
+					.createQuery("FROM Image where trained = 0");
+			if(query.list().size()>0){
+			images = (ArrayList<Image>) query.list();
+			}else{
+				throw new ImageNotFoundException();
+			}
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return images;
 	}
 }

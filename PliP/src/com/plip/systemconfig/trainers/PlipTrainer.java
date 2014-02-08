@@ -1,7 +1,9 @@
 package com.plip.systemconfig.trainers;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.opencv.core.Mat;
@@ -13,6 +15,7 @@ import com.plip.imageprocessing.processors.ImageDescriptorExtractor;
 import com.plip.persistence.dao.impls.ImageDaoImpl;
 import com.plip.persistence.dao.impls.PositionDaoImpl;
 import com.plip.persistence.dao.impls.ProductDaoImpl;
+import com.plip.persistence.dao.interfaces.ImageDao;
 import com.plip.persistence.exceptions.ImageNotFoundException;
 import com.plip.persistence.exceptions.NullModelAttributesException;
 import com.plip.persistence.exceptions.PositionNotFoundException;
@@ -123,5 +126,32 @@ public class PlipTrainer {
 			e.printStackTrace();
 		}
 		return position;
+	}
+	
+	
+	public void train(){
+		ImageDao imageDao = new ImageDaoImpl();
+		List<Image> images = new ArrayList<Image>();
+		ImageDescriptorExtractor extractor = new ImageDescriptorExtractor(FeatureDetector.ORB, DescriptorExtractor.BRISK);
+		try{
+			 images = imageDao.getNotTrainedImages();
+		}catch(ImageNotFoundException e){
+			e.printStackTrace();
+		}
+		
+		for(Image image : images){
+			String path = image.getPath();
+			Mat imageMat = Highgui.imread(path);
+			Mat descriptor = extractor.extractDescriptor(imageMat);
+			if(descriptor != null){
+			image.setDescriptor(DataTypeManager.convertMatToBlob(descriptor));
+			image.setTrained(true);
+			try {
+			imageDao.updateImage(image);
+			} catch (Exception e) {
+			e.printStackTrace();
+			}
+			}
+		}
 	}
 }
