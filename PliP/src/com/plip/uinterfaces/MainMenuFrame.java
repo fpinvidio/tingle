@@ -34,6 +34,7 @@ import org.opencv.core.Mat;
 
 import com.plip.eventhandlers.events.TrayArrivalEvent;
 import com.plip.eventhandlers.listeners.GenericEventListener;
+import com.plip.systemconfig.trainers.PlipTrainer;
 import com.plip.systemmonitor.MainSystemMonitor;
 
 public class MainMenuFrame extends JFrame implements GenericEventListener {
@@ -112,6 +113,16 @@ public class MainMenuFrame extends JFrame implements GenericEventListener {
 				KeyEvent.VK_T, InputEvent.ALT_MASK | InputEvent.SHIFT_MASK));
 		mnTools.add(mntmCalibrateThreshold);
 
+		JMenuItem mntmTrainer = new JMenuItem("Train System");
+		mntmTrainer.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				 PlipTrainer trainer = new PlipTrainer();
+				 trainer.processProductImages();
+			}
+		});
+		
+		mnTools.add(mntmTrainer);
+		
 		JMenu mnHelp = new JMenu("Help");
 		menuBar.add(mnHelp);
 
