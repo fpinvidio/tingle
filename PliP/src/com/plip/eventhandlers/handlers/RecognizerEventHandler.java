@@ -17,6 +17,15 @@ import com.plip.persistence.model.Tray;
 import com.plip.persistence.model.TrayStatus;
 
 public class RecognizerEventHandler extends GenericEventHandler {
+	private long trayStatusId;
+
+	public long getTrayStatusId() {
+		return trayStatusId;
+	}
+
+	public void setTrayStatusId(long trayStatusId) {
+		this.trayStatusId = trayStatusId;
+	}
 
 	@Override
 	protected synchronized void fireEvent(String type) {
@@ -39,40 +48,47 @@ public class RecognizerEventHandler extends GenericEventHandler {
 		this.fireEvent(EventFactory.FINISHED_RECOGNITION_EVENT);
 	}
 
-	public void validRecognitionEvent() {
+	public void validRecognitionEvent(Tray tray, Product productMatch) {
+		saveProductRecognizedStatus(tray, productMatch);
 		this.fireEvent(EventFactory.TRUE_MATCHER_EVENT);
 	}
 
-	public void falseRecognitionEvent() {
+	public void falseRecognitionEvent(Tray tray) {
+		saveProductNotRecognizedStatus(tray);
 		this.fireEvent(EventFactory.FALSE_MATCHER_EVENT);
 	}
-	
-	public void saveProductRecognizedStatus(Tray tray,Product product){
-		/* Save trayStatus when a product is recognized*/
+
+	public void saveProductRecognizedStatus(Tray tray, Product product) {
+		/* Save trayStatus when a product is recognized */
 		TrayStatusDaoImpl trayStatusDao = new TrayStatusDaoImpl();
 		StatusDaoImpl statusDao = new StatusDaoImpl();
-		if(tray != null){
-		try {
-			Status productRecognizedStatus = statusDao.getStatus(Status.STATUS_PRODUCT_RECOGNIZED);
-			TrayStatus productRecognized = new TrayStatus(product,tray,productRecognizedStatus,1,new Date());
-			trayStatusDao.addTrayStatus(productRecognized);
-		} catch (StatusNotFoundException e) {
-			e.printStackTrace();
-		}
+		if (tray != null) {
+			try {
+				Status productRecognizedStatus = statusDao
+						.getStatus(Status.STATUS_PRODUCT_RECOGNIZED);
+				TrayStatus productRecognized = new TrayStatus(product, tray,
+						productRecognizedStatus, 1, new Date());
+				setTrayStatusId(trayStatusDao.addTrayStatus(productRecognized));
+			} catch (StatusNotFoundException e) {
+				e.printStackTrace();
+			}
 		}
 	}
-	public void saveProductNotRecognizedStatus(Tray tray){
-		/* Save trayStatus when no product is recognized*/
+
+	public void saveProductNotRecognizedStatus(Tray tray) {
+		/* Save trayStatus when no product is recognized */
 		TrayStatusDaoImpl trayStatusDao = new TrayStatusDaoImpl();
 		StatusDaoImpl statusDao = new StatusDaoImpl();
-		if(tray != null){
-		try {
-			Status productNotRecognizedStatus = statusDao.getStatus(Status.STATUS_PRODUCT_NOT_RECOGNIZED);
-			TrayStatus productRecognized = new TrayStatus(tray,productNotRecognizedStatus,new Date());
-			trayStatusDao.addTrayStatus(productRecognized);
-		} catch (StatusNotFoundException e) {
-			e.printStackTrace();
-		}
+		if (tray != null) {
+			try {
+				Status productNotRecognizedStatus = statusDao
+						.getStatus(Status.STATUS_PRODUCT_NOT_RECOGNIZED);
+				TrayStatus productRecognized = new TrayStatus(tray,
+						productNotRecognizedStatus, new Date());
+				setTrayStatusId(trayStatusDao.addTrayStatus(productRecognized));
+			} catch (StatusNotFoundException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }

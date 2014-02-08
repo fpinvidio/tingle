@@ -12,8 +12,13 @@ import com.plip.eventhandlers.events.TrayArrivalEvent;
 import com.plip.eventhandlers.listeners.GenericEventListener;
 import com.plip.imageprocessing.processors.TrayProcessor;
 import com.plip.persistence.dao.impls.StatusDaoImpl;
+import com.plip.persistence.dao.impls.TrayDaoImpl;
 import com.plip.persistence.dao.impls.TrayStatusDaoImpl;
+import com.plip.persistence.exceptions.NullModelAttributesException;
 import com.plip.persistence.exceptions.StatusNotFoundException;
+import com.plip.persistence.managers.LocalPageManager;
+import com.plip.persistence.managers.PageManager;
+import com.plip.persistence.managers.exceptions.NoPageRecievedException;
 import com.plip.persistence.model.Page;
 import com.plip.persistence.model.Status;
 import com.plip.persistence.model.Tray;
@@ -68,6 +73,24 @@ public class TrayEventHandler extends GenericEventHandler {
 				if (lastEvent == null
 						|| !(lastEvent instanceof TrayArrivalEvent)) {
 					MainSystemMonitor.trayBounds = TrayProcessor.getTrayBound();
+					
+					/* Get Tray Page from Database */
+					Tray trayModel = new Tray();
+					PageManager pageManager = new LocalPageManager();
+					TrayDaoImpl trayDao = new TrayDaoImpl();
+					try {
+						Page page = pageManager.getLastPage();
+						trayModel.setPage(page);
+						trayModel.setCode(page.getOrder().getCode());
+						trayDao.addTray(trayModel);
+					} catch (NoPageRecievedException | NullModelAttributesException e) {
+						System.out.println("Tray could not be identified");
+						return;
+					}
+					
+					setTray(trayModel);
+					saveTrayArraivalStatus();
+					
 					fireEvent(EventFactory.TRAY_ARRIVAL_EVENT);
 				}
 			} else if (isBufferFullOfVoid()) {

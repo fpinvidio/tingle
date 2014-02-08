@@ -1,18 +1,17 @@
 package com.plip.systemconfig;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.util.List;
 import java.util.Properties;
 
-import javax.net.ssl.HttpsURLConnection;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
 
 import com.plip.imageprocessing.matchers.MinDistanceMatcher;
 import com.plip.imageprocessing.processors.ObjectCounter;
@@ -21,14 +20,14 @@ import com.plip.systemconfig.exceptions.AdministratorPanelConnectionException;
 import com.plip.systemmonitor.MainSystemMonitor;
 
 public class SystemUtils {
-	
+
 	public static String url;
 
-	public SystemUtils(){
+	public SystemUtils() {
 		super();
 		loadParams();
 	}
-	
+
 	public void loadParams() {
 		Properties props = new Properties();
 		InputStream is = null;
@@ -74,48 +73,24 @@ public class SystemUtils {
 		TrayProcessor.thr4 = new Double(props.getProperty("maxHueThreshold"));
 		TrayProcessor.thr5 = new Double(props.getProperty("maxSatThreshold"));
 		TrayProcessor.thr6 = new Double(props.getProperty("maxValueThreshold"));
-		
+
 		url = new String(props.getProperty("plipAdministratorPanelUrl"));
 	}
-	
-		// HTTP POST request
-		public static void connectPlipAdministratiorPanel (String urlParameters) throws AdministratorPanelConnectionException {
-			
-			try{
-			URL obj = new URL(url);
-			HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
-	 
-			//add request header
-			con.setRequestMethod("POST");
-			//con.setRequestProperty("User-Agent", USER_AGENT);
-			//con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
-	 
-			//urlParameters = "sn=C02G8416DRJM&cn=&locale=&caller=&num=12345";
-	 
-			// Send post request
-			con.setDoOutput(true);
-			DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-			wr.writeBytes(urlParameters);
-			wr.flush();
-			wr.close();
-	 
-			int responseCode = con.getResponseCode();
-			System.out.println("\nSending 'POST' request to URL : " + url);
-			System.out.println("Post parameters : " + urlParameters);
-			System.out.println("Response Code : " + responseCode);
-	 
-			BufferedReader in = new BufferedReader(
-			        new InputStreamReader(con.getInputStream()));
-			String inputLine;
-			StringBuffer response = new StringBuffer();
-	 
-			while ((inputLine = in.readLine()) != null) {
-				response.append(inputLine);
-			}
-			in.close();
-			System.out.println(response.toString());	
-			}catch(IOException e){
-				throw new AdministratorPanelConnectionException();
-			}
+
+	// HTTP POST request
+	public static void connectPlipAdministratiorPanel(
+			List<NameValuePair> parameters)
+			throws AdministratorPanelConnectionException {
+		HttpClient httpClient = new DefaultHttpClient();
+		try {
+			HttpPost request = new HttpPost(url);
+			request.setEntity(new UrlEncodedFormEntity(parameters));
+			HttpResponse response = httpClient.execute(request);
+		} catch (Exception ex) {
+
+		} finally {
+			httpClient.getConnectionManager().shutdown();
 		}
+	}
+
 }

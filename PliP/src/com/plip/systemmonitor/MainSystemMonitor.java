@@ -9,11 +9,13 @@ import org.opencv.core.Rect;
 import org.opencv.highgui.Highgui;
 import org.opencv.highgui.VideoCapture;
 
+import com.plip.eventhandlers.events.FalseMatcherEvent;
 import com.plip.eventhandlers.events.FinishCounterEvent;
 import com.plip.eventhandlers.events.FinishRecognitionEvent;
 import com.plip.eventhandlers.events.StartRecognitionEvent;
 import com.plip.eventhandlers.events.TrayArrivalEvent;
 import com.plip.eventhandlers.events.TrayDepartureEvent;
+import com.plip.eventhandlers.events.TrueMatcherEvent;
 import com.plip.eventhandlers.handlers.CounterEventHandler;
 import com.plip.eventhandlers.handlers.RecognizerEventHandler;
 import com.plip.eventhandlers.handlers.TrayEventHandler;
@@ -26,16 +28,7 @@ import com.plip.imageprocessing.processors.ObjectCounter;
 import com.plip.imageprocessing.processors.ObjectRecognizer;
 import com.plip.imageprocessing.processors.TrayProcessor;
 import com.plip.imageprocessing.processors.Exceptions.NoImageException;
-import com.plip.persistence.dao.impls.PlipRoleDaoImpl;
-import com.plip.persistence.dao.impls.TrayDaoImpl;
-import com.plip.persistence.dao.interfaces.PlipRoleDao;
-import com.plip.persistence.exceptions.NullModelAttributesException;
-import com.plip.persistence.managers.LocalPageManager;
-import com.plip.persistence.managers.PageManager;
-import com.plip.persistence.managers.exceptions.NoPageRecievedException;
-import com.plip.persistence.model.Page;
 import com.plip.persistence.model.Product;
-import com.plip.persistence.model.Tray;
 import com.plip.systemconfig.SystemUtils;
 import com.plip.uinterfaces.MainMenuFrame;
 
@@ -109,14 +102,14 @@ public class MainSystemMonitor implements GenericEventListener {
 		cehandler = new CounterEventHandler();
 		rehandler = new RecognizerEventHandler();
 		
-		celistener = new CounterEventListener();
-		relistener = new RecognizerEventListener();
-		telistener = new TrayEventListener();
+		telistener = new TrayEventListener(tehandler);
+		celistener = new CounterEventListener(tehandler, cehandler);
+		relistener = new RecognizerEventListener(tehandler, rehandler);
 		
 		/*event listeners*/
 		tehandler.addEventListener(mmf);
 		tehandler.addEventListener(this);
-		//tehandler.addEventListener(telistener);
+		tehandler.addEventListener(telistener);
 		
 		cehandler.addEventListener(this);
 		//cehandler.addEventListener(celistener); //Sends request to Administration Panel
@@ -154,19 +147,6 @@ public class MainSystemMonitor implements GenericEventListener {
 
 			System.out.println("Tray Arrival");
 
-			/* Get Tray Page from Database */
-			Tray tray = new Tray();
-			PageManager pageManager = new LocalPageManager();
-			TrayDaoImpl trayDao = new TrayDaoImpl();
-			try {
-				Page page = pageManager.getLastPage();
-				tray.setPage(page);
-				tray.setCode(page.getOrder().getCode());
-				trayDao.addTray(tray);
-			} catch (NoPageRecievedException | NullModelAttributesException e) {
-				System.out.println("Tray could not be identified");
-				return;
-			}
 			Rect trayBounds = null;
 			if(this.trayBounds != null){
 				trayBounds = this.trayBounds;
@@ -180,8 +160,7 @@ public class MainSystemMonitor implements GenericEventListener {
 				trayBounds.width = (int) Math.floor(trayBounds.width*widthScale);
 				trayBounds.x = (int) Math.floor(trayBounds.x*widthScale);
 			}
-			tehandler.setTray(tray);
-			tehandler.saveTrayArraivalStatus();
+			
 			vcapture.set(Highgui.CV_CAP_PROP_FRAME_WIDTH, imageResolutionWidth);
 			vcapture.set(Highgui.CV_CAP_PROP_FRAME_HEIGHT, imageResolutionHeight);
 
@@ -214,7 +193,7 @@ public class MainSystemMonitor implements GenericEventListener {
 				} catch (NoImageException e) {
 					e.printStackTrace();
 				}
-				cehandler.addCountedObjects(images);
+				cehandler.addCountedObjects(images, tehandler.getTray());
 			}else{
 				tehandler.unSupportedTrayEvent();
 				System.out.println("The quantity of products exceeds the system capacity");
@@ -228,7 +207,7 @@ public class MainSystemMonitor implements GenericEventListener {
 		} else if (event instanceof FinishCounterEvent) {
 
 			System.out.println("Finish Counter");
-			cehandler.saveFinishedCounterStatus(tehandler.getTray());
+			
 			rehandler.startRecognitionEvent(cehandler.getCountedObjects());
 			
 		} else if (event instanceof StartRecognitionEvent) {
@@ -253,18 +232,19 @@ public class MainSystemMonitor implements GenericEventListener {
 								+ orecognizer.getFoundImageNames().get(
 										foundImagesDescriptors.indexOf(image)));
 					}
-					rehandler.saveProductRecognizedStatus(tehandler.getTray(), productMatch);
-					rehandler.validRecognitionEvent();
-					System.out.println("True Matcher Event");
+					rehandler.validRecognitionEvent(tehandler.getTray(), productMatch);			
 				} catch (NoMatchException e) {
-					rehandler.saveProductNotRecognizedStatus(tehandler.getTray());
-					rehandler.falseRecognitionEvent();
-					System.out.println("False Matcher Event");
+					
+					rehandler.falseRecognitionEvent(tehandler.getTray());	
 				} 
 			}
 			}
 				rehandler.finishRecognitionEvent();
-		} else if (event instanceof FinishRecognitionEvent) {
+		}else if (event instanceof TrueMatcherEvent) {
+			System.out.println("True Matcher Event");
+		}else if (event instanceof FalseMatcherEvent) {
+			System.out.println("False Matcher Event");
+		}else if (event instanceof FinishRecognitionEvent) {
 			System.out.println("Finish Recognition Event");
 		}
 	}
