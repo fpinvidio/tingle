@@ -50,6 +50,7 @@ public class TrayStatusDaoImpl implements TrayStatusDao {
 		Transaction tx = null;
 		List trayList = null;
 		try {
+			tx = session.beginTransaction();
 			Query query = session
 					.createQuery("FROM TrayStatus where idStatus = :id");
 			query.setParameter("id", idStatus);
@@ -77,8 +78,9 @@ public class TrayStatusDaoImpl implements TrayStatusDao {
 		Transaction tx = null;
 		List statusList = null;
 		try {
+			tx = session.beginTransaction();
 			Query query = session
-					.createQuery("FROM TrayStatus where idTray = :id");
+					.createQuery("FROM TrayStatus where id_tray = :id");
 			query.setParameter("id", idTray);
 			if(query.list().size() > 0){
 			statusList = query.list();

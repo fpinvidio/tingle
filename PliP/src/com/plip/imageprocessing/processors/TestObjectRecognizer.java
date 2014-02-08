@@ -112,9 +112,9 @@ public class TestObjectRecognizer {
 			try{
 				productMatch =	matcher.match(foundImagesDescriptors.get(i), page);
 				recognizedObjects.add(productMatch);	
-				rehandler.validRecognitionEvent();
+				//rehandler.validRecognitionEvent();
 			}catch(NoMatchException e){
-				rehandler.falseRecognitionEvent();
+				//rehandler.falseRecognitionEvent();
 				//generateNoMatchStatus();
 			}		
 			if(productMatch !=null && productMatch.getName() != null){

@@ -98,7 +98,7 @@ public class TrayValidator {
 		if (tray != null) {
 			try {
 				Status trayDetectedStatus = statusDao
-						.getStatus(Status.STATUS_INVALID_TRAY);
+						.getStatus(Status.STATUS_VALID_TRAY);
 				TrayStatus trayDetected = new TrayStatus(tray,
 						trayDetectedStatus, new Date());
 				trayStatusDao.addTrayStatus(trayDetected);

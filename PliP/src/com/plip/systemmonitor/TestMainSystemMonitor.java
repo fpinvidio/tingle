@@ -21,7 +21,6 @@ import com.plip.eventhandlers.listeners.GenericEventListener;
 import com.plip.imageprocessing.processors.ObjectCounter;
 import com.plip.imageprocessing.processors.ObjectRecognizer;
 import com.plip.imageprocessing.processors.TrayProcessor;
-import com.plip.imageprocessing.trainers.PlipTrainer;
 import com.plip.persistence.dao.impls.PageDaoImpl;
 import com.plip.persistence.exceptions.PageNotFoundException;
 import com.plip.persistence.model.Page;
@@ -116,8 +115,8 @@ public class TestMainSystemMonitor implements GenericEventListener {
 	public static void main(String arg[]) {
 		System.loadLibrary("opencv_java246");
 
-		 PlipTrainer trainer = new PlipTrainer();
-		 trainer.processProductImages();
+		// PlipTrainer trainer = new PlipTrainer();
+		// trainer.processProductImages();
 		 
 		/*TestMainSystemMonitor tmsm = new TestMainSystemMonitor();
 		tmsm.initialize();
@@ -225,7 +224,7 @@ public class TestMainSystemMonitor implements GenericEventListener {
 			//} catch (NoImageException e) {
 			//	e.printStackTrace();
 		//	}
-			cehandler.addCountedObjects(images);
+		//	cehandler.addCountedObjects(images);
 		} else if (event instanceof TrayDepartureEvent) {
 			System.out.println("Tray Departure");
 		} else if (event instanceof FinishCounterEvent) {

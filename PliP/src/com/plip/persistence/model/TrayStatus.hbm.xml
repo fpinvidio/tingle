@@ -8,13 +8,13 @@
             <column name="id_tray_status" />
             <generator class="identity" />
         </id>
-        <many-to-one name="product" class="com.plip.persistence.model.Product" fetch="select">
+        <many-to-one name="product" class="com.plip.persistence.model.Product" fetch="select" lazy="false">
             <column name="id_product" />
         </many-to-one>
-        <many-to-one name="tray" class="com.plip.persistence.model.Tray" fetch="select">
+        <many-to-one name="tray" class="com.plip.persistence.model.Tray" fetch="select" lazy="false">
             <column name="id_tray" not-null="true" />
         </many-to-one>
-        <many-to-one name="status" class="com.plip.persistence.model.Status" fetch="select">
+        <many-to-one name="status" class="com.plip.persistence.model.Status" fetch="select" lazy="false">
             <column name="id_status" not-null="true" />
         </many-to-one>
         <property name="quantity" type="java.lang.Integer">
