@@ -28,7 +28,17 @@ import com.plip.imageprocessing.processors.ObjectCounter;
 import com.plip.imageprocessing.processors.ObjectRecognizer;
 import com.plip.imageprocessing.processors.TrayProcessor;
 import com.plip.imageprocessing.processors.Exceptions.NoImageException;
+import com.plip.persistence.dao.impls.PlipRoleDaoImpl;
+import com.plip.persistence.dao.impls.TrayDaoImpl;
+import com.plip.persistence.dao.interfaces.PlipRoleDao;
+import com.plip.persistence.exceptions.NullModelAttributesException;
+import com.plip.persistence.managers.LocalPageManager;
+import com.plip.persistence.managers.PageManager;
+import com.plip.persistence.managers.exceptions.NoPageRecievedException;
+import com.plip.persistence.model.Page;
 import com.plip.persistence.model.Product;
+import com.plip.persistence.model.Tray;
+import com.plip.system.validators.TrayValidator;
 import com.plip.systemconfig.SystemUtils;
 import com.plip.uinterfaces.MainMenuFrame;
 
@@ -233,9 +243,11 @@ public class MainSystemMonitor implements GenericEventListener {
 										foundImagesDescriptors.indexOf(image)));
 					}
 					rehandler.validRecognitionEvent(tehandler.getTray(), productMatch);			
+					System.out.println("True Matcher Event");
 				} catch (NoMatchException e) {
 					
 					rehandler.falseRecognitionEvent(tehandler.getTray());	
+					System.out.println("False Matcher Event");
 				} 
 			}
 			}
@@ -246,6 +258,8 @@ public class MainSystemMonitor implements GenericEventListener {
 			System.out.println("False Matcher Event");
 		}else if (event instanceof FinishRecognitionEvent) {
 			System.out.println("Finish Recognition Event");
+			TrayValidator trayValidator = new TrayValidator();
+			trayValidator.validateTray(tehandler.getTray());
 		}
 	}
 

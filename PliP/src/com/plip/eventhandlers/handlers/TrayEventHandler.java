@@ -66,6 +66,24 @@ public class TrayEventHandler extends GenericEventHandler {
 		return tray_buffer.size() == BUFFER_SIZE;
 	}
 
+	
+	public Tray createTray(){
+		/* Get Tray Page from Database */
+		Tray trayModel = new Tray();
+		PageManager pageManager = new LocalPageManager();
+		TrayDaoImpl trayDao = new TrayDaoImpl();
+		try {
+			Page page = pageManager.getLastPage();
+			trayModel.setPage(page);
+			trayModel.setCode(page.getOrder().getCode());
+			trayDao.addTray(trayModel);
+		} catch (NoPageRecievedException | NullModelAttributesException e) {
+			System.out.println("Tray could not be identified");
+			return null;
+		}
+		return trayModel;
+	}
+	
 	public void addTray(Mat tray) {
 		tray_buffer.add(tray);
 		if (isBufferFull()) {
@@ -74,20 +92,7 @@ public class TrayEventHandler extends GenericEventHandler {
 						|| !(lastEvent instanceof TrayArrivalEvent)) {
 					MainSystemMonitor.trayBounds = TrayProcessor.getTrayBound();
 					
-					/* Get Tray Page from Database */
-					Tray trayModel = new Tray();
-					PageManager pageManager = new LocalPageManager();
-					TrayDaoImpl trayDao = new TrayDaoImpl();
-					try {
-						Page page = pageManager.getLastPage();
-						trayModel.setPage(page);
-						trayModel.setCode(page.getOrder().getCode());
-						trayDao.addTray(trayModel);
-					} catch (NoPageRecievedException | NullModelAttributesException e) {
-						System.out.println("Tray could not be identified");
-						return;
-					}
-					
+					Tray trayModel = createTray();
 					setTray(trayModel);
 					saveTrayArraivalStatus();
 					
@@ -103,6 +108,9 @@ public class TrayEventHandler extends GenericEventHandler {
 	}
 	
 	public void unSupportedTrayEvent(){
+		Tray trayModel = createTray();
+		setTray(trayModel);
+		saveTrayArraivalStatus();
 		fireEvent(EventFactory.UNSUPPORTED_TRAY_EVENT);
 	}
 

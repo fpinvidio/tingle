@@ -37,6 +37,7 @@ public class TrayEventListener implements GenericEventListener {
 			
 		} else if (event instanceof UnSupportedTrayEvent) {
 			urlParameters = new ArrayList<NameValuePair>();
+			urlParameters.add(new BasicNameValuePair("page_id", tehandler.getPage().getIdPage().toString()));
 			try {
 				SystemUtils.connectPlipAdministratiorPanel(urlParameters);
 			} catch (AdministratorPanelConnectionException e) {

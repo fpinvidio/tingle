@@ -13,7 +13,7 @@ public interface TrayStatusDao {
 	
 	public List <Tray> getTraysByStatus(long idStatus) throws TrayStatusNotFoundException;
 	
-	public List <Status> getStatusByTray(long idTray) throws TrayStatusNotFoundException;
+	public List <TrayStatus> getStatusByTray(long idTray) throws TrayStatusNotFoundException;
 	
 	public void updateTrayStatus(TrayStatus trayStatus) throws TrayStatusNotFoundException;
 	

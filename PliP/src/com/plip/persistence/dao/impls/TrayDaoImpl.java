@@ -1,5 +1,7 @@
 package com.plip.persistence.dao.impls;
 
+import java.util.List;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -9,6 +11,7 @@ import org.hibernate.Transaction;
 import com.plip.persistence.dao.interfaces.TrayDao;
 import com.plip.persistence.exceptions.NullModelAttributesException;
 import com.plip.persistence.exceptions.TrayNotFoundException;
+import com.plip.persistence.exceptions.TrayStatusNotFoundException;
 import com.plip.persistence.managers.DaoManager;
 import com.plip.persistence.model.Position;
 import com.plip.persistence.model.Status;
@@ -115,4 +118,5 @@ public class TrayDaoImpl implements TrayDao {
 			session.close();
 		}	
 	}
-}
+	
+	}
