@@ -32,6 +32,7 @@ import com.plip.persistence.dao.impls.PlipRoleDaoImpl;
 import com.plip.persistence.dao.impls.TrayDaoImpl;
 import com.plip.persistence.dao.interfaces.PlipRoleDao;
 import com.plip.persistence.exceptions.NullModelAttributesException;
+import com.plip.persistence.exceptions.PageNotFoundException;
 import com.plip.persistence.managers.LocalPageManager;
 import com.plip.persistence.managers.PageManager;
 import com.plip.persistence.managers.exceptions.NoPageRecievedException;
@@ -119,7 +120,7 @@ public class MainSystemMonitor implements GenericEventListener {
 		/*event listeners*/
 		tehandler.addEventListener(mmf);
 		tehandler.addEventListener(this);
-		tehandler.addEventListener(telistener);
+		//tehandler.addEventListener(telistener);
 		
 		cehandler.addEventListener(this);
 		//cehandler.addEventListener(celistener); //Sends request to Administration Panel
@@ -141,7 +142,11 @@ public class MainSystemMonitor implements GenericEventListener {
 			if (!capturedFrame.empty()) {
 				capturedFrame = tprocessor.findRectangleInImage(capturedFrame);
 				Mat possibleTray = tprocessor.getPossibleTray();
-				tehandler.addTray(possibleTray);
+			    try {
+					tehandler.addTray(possibleTray);
+				} catch (PageNotFoundException e) {
+					System.out.println("Page not found");
+				}
 				tprocessor.clearPossibleTray();
 			} else {
 				capturedFrame = null;
@@ -191,8 +196,13 @@ public class MainSystemMonitor implements GenericEventListener {
 
 			vcapture.set(Highgui.CV_CAP_PROP_FRAME_WIDTH, captureResolutionWidth);
 			vcapture.set(Highgui.CV_CAP_PROP_FRAME_HEIGHT, captureResolutionHeight);
-			
-			int pageQuantity = tehandler.getPage().getProductQuantity();
+						
+			int pageQuantity = 0;
+			try {
+				pageQuantity = tehandler.getPage().getProductQuantity();
+			} catch (PageNotFoundException e1) {
+				return;
+			}
 			
 			if( pageQuantity < 10){
 		
@@ -202,10 +212,18 @@ public class MainSystemMonitor implements GenericEventListener {
 					images = ocounter.count(screenshot, tehandler.getPage().getProductQuantity());
 				} catch (NoImageException e) {
 					e.printStackTrace();
+				} catch (PageNotFoundException e) {
+					return;
 				}
 				cehandler.addCountedObjects(images, tehandler.getTray());
 			}else{
-				tehandler.unSupportedTrayEvent();
+				try {
+					tehandler.unSupportedTrayEvent();
+				} catch (NoPageRecievedException e) {
+					return;
+				} catch (PageNotFoundException e) {
+					System.out.println("Page not found");
+				}
 				System.out.println("The quantity of products exceeds the system capacity");
 				return;
 			}
@@ -224,8 +242,12 @@ public class MainSystemMonitor implements GenericEventListener {
 
 			System.out.println("Start Recognition Event");
 			
-			orecognizer.computeDescriptors(cehandler.getCountedObjects(),
-					tehandler.getPage());
+			try {
+				orecognizer.computeDescriptors(cehandler.getCountedObjects(),
+						tehandler.getPage());
+			} catch (PageNotFoundException e1) {
+				return;
+			}
 			
 			List<Mat> foundImagesDescriptors = orecognizer
 					.getFoundImagesDescriptors();
@@ -248,6 +270,8 @@ public class MainSystemMonitor implements GenericEventListener {
 					
 					rehandler.falseRecognitionEvent(tehandler.getTray());	
 					System.out.println("False Matcher Event");
+				} catch (PageNotFoundException e) {
+				    return;
 				} 
 			}
 			}

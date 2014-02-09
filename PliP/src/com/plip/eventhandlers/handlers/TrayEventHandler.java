@@ -15,6 +15,7 @@ import com.plip.persistence.dao.impls.StatusDaoImpl;
 import com.plip.persistence.dao.impls.TrayDaoImpl;
 import com.plip.persistence.dao.impls.TrayStatusDaoImpl;
 import com.plip.persistence.exceptions.NullModelAttributesException;
+import com.plip.persistence.exceptions.PageNotFoundException;
 import com.plip.persistence.exceptions.StatusNotFoundException;
 import com.plip.persistence.managers.LocalPageManager;
 import com.plip.persistence.managers.PageManager;
@@ -55,11 +56,10 @@ public class TrayEventHandler extends GenericEventHandler {
 		this.lastEvent = event;
 	}
 
-	 public Page getPage() {
+	 public Page getPage() throws PageNotFoundException {
 	 if(tray.getPage()!=null) {
 	 return this.tray.getPage();
-	 }else		 
-	 return null;	 
+	 }else throw new PageNotFoundException();	 
 	 }
 
 	private boolean isBufferFull() {
@@ -67,7 +67,7 @@ public class TrayEventHandler extends GenericEventHandler {
 	}
 
 	
-	public Tray createTray(){
+	public Tray createTray() throws NoPageRecievedException, PageNotFoundException{
 		/* Get Tray Page from Database */
 		Tray trayModel = new Tray();
 		PageManager pageManager = new LocalPageManager();
@@ -77,14 +77,13 @@ public class TrayEventHandler extends GenericEventHandler {
 			trayModel.setPage(page);
 			trayModel.setCode(page.getOrder().getCode());
 			trayDao.addTray(trayModel);
-		} catch (NoPageRecievedException | NullModelAttributesException e) {
-			System.out.println("Tray could not be identified");
-			return null;
+		} catch ( NullModelAttributesException e) {
+			e.printStackTrace();
 		}
 		return trayModel;
 	}
 	
-	public void addTray(Mat tray) {
+	public void addTray(Mat tray) throws PageNotFoundException {
 		tray_buffer.add(tray);
 		if (isBufferFull()) {
 			if (isBufferFullOfTrays()) {
@@ -92,10 +91,14 @@ public class TrayEventHandler extends GenericEventHandler {
 						|| !(lastEvent instanceof TrayArrivalEvent)) {
 					MainSystemMonitor.trayBounds = TrayProcessor.getTrayBound();
 					
-					Tray trayModel = createTray();
+					Tray trayModel;
+					try {
+						trayModel = createTray();
+					} catch (NoPageRecievedException e) {
+						return;
+					}
 					setTray(trayModel);
-					saveTrayArraivalStatus();
-					
+					saveTrayArraivalStatus();					
 					fireEvent(EventFactory.TRAY_ARRIVAL_EVENT);
 				}
 			} else if (isBufferFullOfVoid()) {
@@ -107,7 +110,7 @@ public class TrayEventHandler extends GenericEventHandler {
 		}
 	}
 	
-	public void unSupportedTrayEvent(){
+	public void unSupportedTrayEvent() throws NoPageRecievedException, PageNotFoundException{
 		Tray trayModel = createTray();
 		setTray(trayModel);
 		saveTrayArraivalStatus();

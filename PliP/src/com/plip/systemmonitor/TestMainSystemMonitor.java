@@ -171,7 +171,7 @@ public class TestMainSystemMonitor implements GenericEventListener {
 			if (!capturedFrame.empty()) {
 				capturedFrame = tprocessor.findRectangleInImage(capturedFrame);
 				Mat possibleTray = tprocessor.getPossibleTray();
-				tehandler.addTray(possibleTray);
+				//tehandler.addTray(possibleTray);
 				tprocessor.clearPossibleTray();
 			} else {
 				capturedFrame = null;
@@ -186,19 +186,6 @@ public class TestMainSystemMonitor implements GenericEventListener {
 		if (event instanceof TrayArrivalEvent) {
 
 			System.out.println("Tray Arrival");
-
-			/* Get Tray Page from Database */
-			PageDaoImpl pageDao = new PageDaoImpl();
-			Page page = null;
-			try {
-				page = pageDao.getPage(1);
-			} catch (PageNotFoundException e1) {
-				e1.printStackTrace();
-			}
-			//tehandler.setPage(page);
-
-			// Pensar como vamos a saber la page correspondiente a la tray en
-			// ese momento!
 
 			vcapture.set(Highgui.CV_CAP_PROP_FRAME_WIDTH, 1620);
 			vcapture.set(Highgui.CV_CAP_PROP_FRAME_HEIGHT, 1080);

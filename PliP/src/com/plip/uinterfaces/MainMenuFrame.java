@@ -1,26 +1,35 @@
 package com.plip.uinterfaces;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.EventObject;
 
+import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayer;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -34,6 +43,7 @@ import org.opencv.core.Mat;
 
 import com.plip.eventhandlers.events.TrayArrivalEvent;
 import com.plip.eventhandlers.listeners.GenericEventListener;
+import com.plip.persistence.exceptions.ImageNotFoundException;
 import com.plip.systemconfig.trainers.PlipTrainer;
 import com.plip.systemmonitor.MainSystemMonitor;
 
@@ -70,15 +80,37 @@ public class MainMenuFrame extends JFrame implements GenericEventListener {
 	 */
 	public MainMenuFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setTitle("PliP");
+		
 		setBounds(100, 100, 1300, 900);
-
+		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
-
+		
+		menuBar.setBackground(Color.WHITE);
+		
 		JMenu mnFile = new JMenu("File");
 		menuBar.add(mnFile);
+		
+		JMenuItem mntmAboutPliP = new JMenuItem("About Plip");
+		mntmAboutPliP.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		
+		mnFile.add(mntmAboutPliP);
+		
+		JMenuItem mntmPreferences= new JMenuItem("Preferences");
+		mntmAboutPliP.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		
+		mnFile.add(mntmPreferences);
 
-		JMenuItem mntmExit = new JMenuItem("Exit");
+		JMenuItem mntmExit = new JMenuItem("Quit Plip");
 		mntmExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
@@ -88,22 +120,19 @@ public class MainMenuFrame extends JFrame implements GenericEventListener {
 				InputEvent.ALT_MASK));
 		mnFile.add(mntmExit);
 
-		JMenu mnEdit = new JMenu("Edit");
-		menuBar.add(mnEdit);
-
-		JMenu mnRun = new JMenu("Run");
-		menuBar.add(mnRun);
+		JMenu mnSystem = new JMenu("System");
+		menuBar.add(mnSystem);
 
 		JMenuItem mntmRun = new JMenuItem("Run");
-		mnRun.add(mntmRun);
+		mnSystem.add(mntmRun);
 
-		JMenuItem mntmRunHistory = new JMenuItem("Run History");
-		mnRun.add(mntmRunHistory);
+		JMenuItem mntmSystem = new JMenuItem("Stop");
+		mnSystem.add(mntmSystem);
 
 		JMenu mnTools = new JMenu("Tools");
 		menuBar.add(mnTools);
 
-		JMenuItem mntmCalibrateThreshold = new JMenuItem("Calibrate Threshold");
+		JMenuItem mntmCalibrateThreshold = new JMenuItem("Camera");
 		mntmCalibrateThreshold.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new CalibrationDialog().setVisible(true);
@@ -113,38 +142,58 @@ public class MainMenuFrame extends JFrame implements GenericEventListener {
 				KeyEvent.VK_T, InputEvent.ALT_MASK | InputEvent.SHIFT_MASK));
 		mnTools.add(mntmCalibrateThreshold);
 
-		JMenuItem mntmTrainer = new JMenuItem("Train System");
-		mntmTrainer.addActionListener(new ActionListener(){
+		JMenuItem mntmInitialize = new JMenuItem("Initialize PliP");
+		mntmInitialize.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				 PlipTrainer trainer = new PlipTrainer();
-				 trainer.processProductImages();
+				PlipTrainer trainer = new PlipTrainer();
+				trainer.initializeSystem();
 			}
 		});
-		
+
+		mnTools.add(mntmInitialize);
+
+		JMenuItem mntmTrainer = new JMenuItem("Start Training");
+		mntmTrainer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PlipTrainer trainer = new PlipTrainer();
+				try {
+					trainer.train();
+				} catch (ImageNotFoundException e1) {
+					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(getParent(), "Eggs are not supposed to be green.");
+				}
+			}
+		});
+
 		mnTools.add(mntmTrainer);
-		
+
 		JMenu mnHelp = new JMenu("Help");
 		menuBar.add(mnHelp);
 
 		JMenuItem mntmHelpContents = new JMenuItem("Help Contents");
 		mnHelp.add(mntmHelpContents);
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
+		contentPane.setBackground(Color.WHITE);
 		setContentPane(contentPane);
+		
 
 		JPanel westPanel = new JPanel();
-		westPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+		westPanel.setBackground(Color.WHITE);
+		westPanel.setBorder(new EmptyBorder(10, 15, 10, 10));
 		westPanel.setMinimumSize(new Dimension(200, 10));
-		westPanel.setPreferredSize(new Dimension(950, 650));
-		westPanel.setSize(new Dimension(950, 650));
+		westPanel.setPreferredSize(new Dimension(940, 640));
+		westPanel.setSize(new Dimension(940, 640));
 		contentPane.add(westPanel, BorderLayout.WEST);
 		westPanel.setLayout(new BoxLayout(westPanel, BoxLayout.X_AXIS));
 
 		final VideoDisplayPanel videoDisplayPanel = new VideoDisplayPanel();
+		
 		final WaitLayerUI layerUI = new WaitLayerUI();
-
-		final Timer stopper = new Timer(8000, new ActionListener() {
+		
+		final Timer stopper = new Timer(5000, new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				layerUI.stop();
 			}
@@ -153,28 +202,51 @@ public class MainMenuFrame extends JFrame implements GenericEventListener {
 
 		JLayer<JPanel> layer = new JLayer<JPanel>();
 		layer = new JLayer<JPanel>(videoDisplayPanel, layerUI);
+		
 		westPanel.add(layer);
+		
 
 		JPanel centerPanel = new JPanel();
+		centerPanel.setBackground(Color.WHITE);
 		contentPane.add(centerPanel, BorderLayout.CENTER);
+	
 		centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
 
 		JPanel startButtonPanel = new JPanel();
+		startButtonPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+		startButtonPanel.setBackground(Color.WHITE);
 		centerPanel.add(startButtonPanel);
 		startButtonPanel.setLayout(new BoxLayout(startButtonPanel,
 				BoxLayout.Y_AXIS));
 
-		final JLabel capturingLabel = new JLabel("Not Capturing");
-		capturingLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		startButtonPanel.add(capturingLabel);
+		//final JLabel capturingLabel = new JLabel("Not Capturing");
+		//capturingLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+		
+		//capturingLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		//startButtonPanel.add(capturingLabel);
 
-		JToggleButton tglbtnStart = new JToggleButton("Start");
+		JToggleButton tglbtnStart = new JToggleButton();
+		//tglbtnStart.setBorderPainted(false);
+		
+		try {
+		    Image img =  ImageIO.read(getClass().getResource("/play.png"));
+		    tglbtnStart.setIcon(new ImageIcon(img));
+		  } catch (IOException ex) {
+		}
+		
 		tglbtnStart.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
-				final JToggleButton startButton = (JToggleButton) e.getItem();
-				if (startButton.isSelected()) {
-					capturingLabel.setText("Capturing");
-					startButton.setText("Stop");
+				final JToggleButton stopButton = (JToggleButton) e.getItem();
+				if (stopButton.isSelected()) {
+					//capturingLabel.setText("Capturing");
+					
+					try {
+					    Image img =  ImageIO.read(getClass().getResource("/stop.png"));
+					    stopButton.setIcon(new ImageIcon(img));
+					  } catch (IOException ex) {
+						  ex.printStackTrace();
+					}
+					
 					layerUI.start();
 					if (!stopper.isRunning()) {
 						stopper.start();
@@ -190,7 +262,7 @@ public class MainMenuFrame extends JFrame implements GenericEventListener {
 										videoDisplayPanel.repaint();
 									}
 								}
-								if (!startButton.isSelected()) {
+								if (!stopButton.isSelected()) {
 									break;
 								}
 							}
@@ -198,10 +270,16 @@ public class MainMenuFrame extends JFrame implements GenericEventListener {
 					}).start();
 
 				} else {
-					capturingLabel.setText("Not Capturing");
-					startButton.setText("Start");
+					//capturingLabel.setText("Not Capturing");
 					stopper.stop();
 					videoDisplayPanel.repaint();
+					
+					try {
+					    Image img =  ImageIO.read(getClass().getResource("/play.png"));
+					    stopButton.setIcon(new ImageIcon(img));
+					  } catch (IOException ex) {
+						  ex.printStackTrace();
+					}
 				}
 			}
 		});
@@ -209,6 +287,7 @@ public class MainMenuFrame extends JFrame implements GenericEventListener {
 		startButtonPanel.add(tglbtnStart);
 
 		JPanel logPanel = new JPanel();
+		logPanel.setBackground(Color.WHITE);
 		centerPanel.add(logPanel);
 		logPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		logPanel.setLayout(new BoxLayout(logPanel, BoxLayout.X_AXIS));
@@ -221,9 +300,11 @@ public class MainMenuFrame extends JFrame implements GenericEventListener {
 		logPanel.add(logScrollPane);
 
 		JPanel northPanel = new JPanel();
+		northPanel.setBackground(Color.WHITE);
 		contentPane.add(northPanel, BorderLayout.NORTH);
 
 		JPanel southPanel = new JPanel();
+		southPanel.setBackground(Color.WHITE);
 		contentPane.add(southPanel, BorderLayout.SOUTH);
 	}
 
@@ -243,7 +324,7 @@ public class MainMenuFrame extends JFrame implements GenericEventListener {
 			Mat[] trayArray = tae.getTray_images();
 			for (Mat tray : trayArray) {
 				try {
-					//Highgui.imwrite("Tray.jpg", tray);
+					// Highgui.imwrite("Tray.jpg", tray);
 				} catch (Exception e) {
 					System.out.println("Imagen NULA");
 				}
@@ -252,5 +333,4 @@ public class MainMenuFrame extends JFrame implements GenericEventListener {
 		logTextPane.append(text);
 		logTextPane.setCaretPosition(logTextPane.getDocument().getLength());
 	}
-
 }

@@ -11,7 +11,7 @@ import java.util.Set;
 public class Tray implements java.io.Serializable {
 
 	private Long idTray;
-	private Page page;
+	private Page page = null;
 	private String code;
 	private Set trayStatuses = new HashSet(0);
 
