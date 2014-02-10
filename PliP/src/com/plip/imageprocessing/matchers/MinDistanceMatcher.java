@@ -66,8 +66,9 @@ public class MinDistanceMatcher implements ImageMatcher {
 		while(pageProductIterator.hasNext()){
 			PageProduct next = pageProductIterator.next();
 			Product productToCompare = next.getProduct();
+			for(int i = 0; i<Product.faces; i++){
 			try {
-				train(productToCompare);
+				train(productToCompare,i+1);
 				double dist = minDist(descriptor);
 				if(dist < minDist && dist < minDistanceThreshold){
 					minDist = dist;
@@ -75,6 +76,7 @@ public class MinDistanceMatcher implements ImageMatcher {
 				}
 			} catch (NoImageException e) {
 				break;
+			}
 			}
 		}
 		System.out.println(minDist);
@@ -84,7 +86,7 @@ public class MinDistanceMatcher implements ImageMatcher {
 		return product;
 	}
 	
-	public void train(Product product) throws NoImageException{
+	public void train(Product product, int face) throws NoImageException{
 	       if(product != null){
 	    	   Set images = product.getImages();
 	    	   if (images != null && images.size() > 0){
@@ -93,7 +95,7 @@ public class MinDistanceMatcher implements ImageMatcher {
 	    	   matcher.clear();
 	    	   while(imagesIterator.hasNext()){
 	    		   Image next = (Image) imagesIterator.next();
-	    		   if(next.isTrained()){
+	    		   if(next.isTrained() && next.getPosition().getFace() == face){
 	    		   byte[] descriptorBytes = next.getDescriptor();
 	    		   Mat descriptor = DataTypeManager.convertBlobToMat(descriptorBytes);
 	    		   descriptors.add(descriptor);

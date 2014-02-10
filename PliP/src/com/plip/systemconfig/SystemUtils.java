@@ -16,6 +16,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import com.plip.imageprocessing.matchers.MinDistanceMatcher;
 import com.plip.imageprocessing.processors.ObjectCounter;
 import com.plip.imageprocessing.processors.TrayProcessor;
+import com.plip.persistence.managers.images.HashImageManager;
 import com.plip.systemconfig.exceptions.AdministratorPanelConnectionException;
 import com.plip.systemmonitor.MainSystemMonitor;
 
@@ -73,6 +74,8 @@ public class SystemUtils {
 		TrayProcessor.thr4 = new Double(props.getProperty("maxHueThreshold"));
 		TrayProcessor.thr5 = new Double(props.getProperty("maxSatThreshold"));
 		TrayProcessor.thr6 = new Double(props.getProperty("maxValueThreshold"));
+		
+		HashImageManager.imagesRootPath = new String(props.getProperty("imagesUploadPath"));
 
 		url = new String(props.getProperty("plipAdministratorPanelUrl"));
 	}
