@@ -91,6 +91,10 @@ public class PlipTrainer {
 					if(descriptors != null && descriptors.rows() != 0){
 					image.setDescriptor(DataTypeManager
 							.convertMatToBlob(descriptors));
+					image.setTrained(true);
+					}else{
+					image.setTrained(false);
+					}
 					image.setPath(productImageListOfFiles[i].getPath()
 							+ productImageListOfFiles[i].getName());
 					
