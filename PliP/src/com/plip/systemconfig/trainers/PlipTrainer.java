@@ -27,10 +27,11 @@ import com.plip.persistence.model.Position;
 import com.plip.persistence.model.Product;
 
 public class PlipTrainer {
+	
+	public static String imagesPath; 
 
 	public void initializeSystem() {
-		File productImageFolder = new File(getClass().getResource(
-				"/ProductImages").getPath());
+		File productImageFolder = new File(imagesPath);
 		ImageDescriptorExtractor extractor = new ImageDescriptorExtractor(
 				FeatureDetector.ORB, DescriptorExtractor.BRISK);
 

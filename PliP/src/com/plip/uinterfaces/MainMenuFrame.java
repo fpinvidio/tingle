@@ -226,7 +226,7 @@ public class MainMenuFrame extends JFrame implements GenericEventListener {
 		//startButtonPanel.add(capturingLabel);
 
 		JToggleButton tglbtnStart = new JToggleButton();
-		//tglbtnStart.setBorderPainted(false);
+		tglbtnStart.setBorderPainted(false);
 		
 		try {
 		    Image img =  ImageIO.read(getClass().getResource("/play.png"));

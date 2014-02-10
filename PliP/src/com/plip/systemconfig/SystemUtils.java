@@ -17,6 +17,7 @@ import com.plip.imageprocessing.matchers.MinDistanceMatcher;
 import com.plip.imageprocessing.processors.ObjectCounter;
 import com.plip.imageprocessing.processors.TrayProcessor;
 import com.plip.systemconfig.exceptions.AdministratorPanelConnectionException;
+import com.plip.systemconfig.trainers.PlipTrainer;
 import com.plip.systemmonitor.MainSystemMonitor;
 
 public class SystemUtils {
@@ -75,6 +76,8 @@ public class SystemUtils {
 		TrayProcessor.thr6 = new Double(props.getProperty("maxValueThreshold"));
 
 		url = new String(props.getProperty("plipAdministratorPanelUrl"));
+		
+		PlipTrainer.imagesPath = new String(props.getProperty("imagesPath"));
 	}
 
 	// HTTP POST request
