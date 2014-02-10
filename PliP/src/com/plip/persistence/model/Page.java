@@ -14,6 +14,7 @@ import com.plip.persistence.dao.interfaces.PageDao;
 import com.plip.persistence.dao.interfaces.PageImageDao;
 import com.plip.persistence.exceptions.NullModelAttributesException;
 import com.plip.persistence.exceptions.PageNotFoundException;
+import com.plip.persistence.managers.FileSystemManager;
 import com.plip.persistence.managers.images.HashImageManager;
 import com.plip.persistence.managers.images.ImageManager;
 
@@ -117,8 +118,8 @@ public class Page implements java.io.Serializable {
 			  String filename = orderNumber +"-"+ pageNumber;
 			  ImageManager imageManager = new HashImageManager();
 			  String path = imageManager.getImagesPath(filename);
-			  Highgui.imwrite(path +".jpg", image);
-			  
+			  FileSystemManager.checkDirectoryExists(path);
+			  Highgui.imwrite(path + filename +".jpg", image);
 			  PageImageDao pageImageDao = new PageImageDaoImpl();
 			  PageDao pageDao = new PageDaoImpl();
 			  try{

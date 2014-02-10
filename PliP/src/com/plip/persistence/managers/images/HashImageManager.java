@@ -2,8 +2,6 @@ package com.plip.persistence.managers.images;
 
 import java.io.File;
 
-import org.opencv.highgui.Highgui;
-
 public class HashImageManager implements ImageManager {
 	public static String imagesRootPath = "";
 	@Override
@@ -18,8 +16,8 @@ public class HashImageManager implements ImageManager {
 		path.append(File.separator);
 		path.append(String.format("%03d", secondDir));
 		path.append(File.separator);
-		path.append(filename);	
-		path.append(".jpg");
+//		path.append(filename);	
+//		path.append(".jpg");
 		return path.toString();
 	}
 

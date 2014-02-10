@@ -1,12 +1,7 @@
 package com.plip.imageprocessing.processors;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Properties;
 
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
@@ -21,11 +16,6 @@ import org.opencv.highgui.Highgui;
 import org.opencv.imgproc.Imgproc;
 
 import com.plip.imageprocessing.processors.Exceptions.NoImageException;
-import com.plip.persistence.dao.impls.StatusDaoImpl;
-import com.plip.persistence.dao.impls.TrayStatusDaoImpl;
-import com.plip.persistence.exceptions.StatusNotFoundException;
-import com.plip.persistence.model.Status;
-import com.plip.persistence.model.TrayStatus;
 
 public class ObjectCounter {
 

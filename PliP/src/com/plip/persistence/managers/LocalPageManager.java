@@ -4,7 +4,6 @@ import com.plip.persistence.dao.impls.PageDaoImpl;
 import com.plip.persistence.exceptions.PageNotFoundException;
 import com.plip.persistence.managers.exceptions.NoPageRecievedException;
 import com.plip.persistence.model.Page;
-import com.plip.uinterfaces.MainMenuFrame;
 
 public class LocalPageManager implements PageManager{
 

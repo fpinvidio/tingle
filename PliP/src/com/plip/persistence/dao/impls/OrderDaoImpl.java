@@ -10,9 +10,7 @@ import com.plip.persistence.dao.interfaces.OrderDao;
 import com.plip.persistence.exceptions.NullModelAttributesException;
 import com.plip.persistence.exceptions.OrderNotFoundException;
 import com.plip.persistence.managers.DaoManager;
-import com.plip.persistence.model.Image;
 import com.plip.persistence.model.Order;
-import com.plip.persistence.model.Status;
 
 public class OrderDaoImpl implements OrderDao {
 	

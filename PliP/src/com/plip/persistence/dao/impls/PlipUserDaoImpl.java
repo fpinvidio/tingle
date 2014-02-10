@@ -11,7 +11,6 @@ import com.plip.persistence.exceptions.NullModelAttributesException;
 import com.plip.persistence.exceptions.PlipUserNotFoundException;
 import com.plip.persistence.managers.DaoManager;
 import com.plip.persistence.model.PlipUser;
-import com.plip.persistence.model.Status;
 
 public class PlipUserDaoImpl implements PlipUserDao {
 	
