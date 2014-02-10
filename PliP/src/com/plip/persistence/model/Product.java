@@ -10,6 +10,7 @@ import java.util.Set;
  */
 public class Product implements java.io.Serializable {
 
+	public static int faces = 2;
 	private Long idProduct;
 	private ProductCategory productCategory;
 	private String name;

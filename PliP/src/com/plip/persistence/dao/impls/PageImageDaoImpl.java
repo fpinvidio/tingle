@@ -11,7 +11,6 @@ import com.plip.persistence.exceptions.NullModelAttributesException;
 import com.plip.persistence.exceptions.PageImageNotFoundException;
 import com.plip.persistence.managers.DaoManager;
 import com.plip.persistence.model.PageImage;
-import com.plip.persistence.model.Status;
 
 public class PageImageDaoImpl implements PageImageDao {
 

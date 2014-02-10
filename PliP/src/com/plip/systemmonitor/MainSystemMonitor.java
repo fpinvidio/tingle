@@ -33,6 +33,7 @@ import com.plip.persistence.dao.impls.TrayDaoImpl;
 import com.plip.persistence.dao.interfaces.PlipRoleDao;
 import com.plip.persistence.exceptions.NullModelAttributesException;
 import com.plip.persistence.exceptions.PageNotFoundException;
+import com.plip.persistence.exceptions.TrayNotFoundException;
 import com.plip.persistence.managers.LocalPageManager;
 import com.plip.persistence.managers.PageManager;
 import com.plip.persistence.managers.exceptions.NoPageRecievedException;
@@ -191,6 +192,11 @@ public class MainSystemMonitor implements GenericEventListener {
 			if(trayBounds != null){
 			
 			screenshot = screenshot.submat(trayBounds);
+			}
+			try{
+			tehandler.getPage().addTrayImage(screenshot);
+			}catch(PageNotFoundException e){
+				e.printStackTrace();
 			}
 			Highgui.imwrite("tray.jpg", screenshot);
 
