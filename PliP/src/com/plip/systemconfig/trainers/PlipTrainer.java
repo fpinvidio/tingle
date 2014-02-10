@@ -67,7 +67,7 @@ public class PlipTrainer {
 					product.setEnabled(true);
 					product.setLaboratory("");
 					product.setDescription(productName);
-					product.setCode(i);
+					product.setCode(i+1);
 					try {
 						pDao.addProduct(product);
 					} catch (NullModelAttributesException e1) {
@@ -88,11 +88,10 @@ public class PlipTrainer {
 				} catch (ImageNotFoundException e) {
 					image.setPosition(pos);
 					image.setProduct(product);
+					System.out.println(product.getName());
 					image.setDescriptor(DataTypeManager
 							.convertMatToBlob(descriptors));
-					image.setPath(getClass().getResource("/ProductImages")
-							.getPath()
-							+ "/"
+					image.setPath(productImageListOfFiles[i].getPath()
 							+ productImageListOfFiles[i].getName());
 					image.setTrained(true);
 					try {
