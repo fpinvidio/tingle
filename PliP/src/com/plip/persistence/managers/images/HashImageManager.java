@@ -18,7 +18,8 @@ public class HashImageManager implements ImageManager {
 		path.append(File.separator);
 		path.append(String.format("%03d", secondDir));
 		path.append(File.separator);
-		// path.append(filename);	
+		path.append(filename);	
+		path.append(".jpg");
 		return path.toString();
 	}
 

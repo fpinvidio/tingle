@@ -18,6 +18,7 @@ import com.plip.imageprocessing.processors.ObjectCounter;
 import com.plip.imageprocessing.processors.TrayProcessor;
 import com.plip.persistence.managers.images.HashImageManager;
 import com.plip.systemconfig.exceptions.AdministratorPanelConnectionException;
+import com.plip.systemconfig.trainers.PlipTrainer;
 import com.plip.systemmonitor.MainSystemMonitor;
 
 public class SystemUtils {
@@ -78,6 +79,8 @@ public class SystemUtils {
 		HashImageManager.imagesRootPath = new String(props.getProperty("imagesUploadPath"));
 
 		url = new String(props.getProperty("plipAdministratorPanelUrl"));
+		
+		PlipTrainer.imagesPath = new String(props.getProperty("imagesPath"));
 	}
 
 	// HTTP POST request

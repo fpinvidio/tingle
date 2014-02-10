@@ -27,10 +27,11 @@ import com.plip.persistence.model.Position;
 import com.plip.persistence.model.Product;
 
 public class PlipTrainer {
+	
+	public static String imagesPath; 
 
 	public void initializeSystem() {
-		File productImageFolder = new File(getClass().getResource(
-				"/ProductImages").getPath());
+		File productImageFolder = new File(imagesPath);
 		ImageDescriptorExtractor extractor = new ImageDescriptorExtractor(
 				FeatureDetector.ORB, DescriptorExtractor.BRISK);
 
@@ -66,7 +67,7 @@ public class PlipTrainer {
 					product.setEnabled(true);
 					product.setLaboratory("");
 					product.setDescription(productName);
-					product.setCode(i);
+					product.setCode(i+1);
 					try {
 						pDao.addProduct(product);
 					} catch (NullModelAttributesException e1) {
@@ -90,11 +91,7 @@ public class PlipTrainer {
 					if(descriptors != null && descriptors.rows() != 0){
 					image.setDescriptor(DataTypeManager
 							.convertMatToBlob(descriptors));
-					image.setTrained(true);
-					}
-					image.setPath(getClass().getResource("/ProductImages")
-							.getPath()
-							+ "/"
+					image.setPath(productImageListOfFiles[i].getPath()
 							+ productImageListOfFiles[i].getName());
 					
 					try {
