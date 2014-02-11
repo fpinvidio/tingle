@@ -22,6 +22,8 @@ import com.plip.persistence.exceptions.PositionNotFoundException;
 import com.plip.persistence.exceptions.ProductNotFoundException;
 import com.plip.persistence.managers.DataTypeManager;
 import com.plip.persistence.managers.FileSystemManager;
+import com.plip.persistence.managers.images.HashImageManager;
+import com.plip.persistence.managers.images.ImageManager;
 import com.plip.persistence.model.Image;
 import com.plip.persistence.model.Position;
 import com.plip.persistence.model.Product;
@@ -62,12 +64,15 @@ public class PlipTrainer {
 				Product product = new Product();
 				try {
 					product = pDao.getProductByName(productName);
+					product.setImageNumber(product.getImageNumber() +1);
+					pDao.updateProduct(product);
 				} catch (ProductNotFoundException e) {
 					product.setName(productName);
 					product.setEnabled(true);
 					product.setLaboratory("");
 					product.setDescription(productName);
 					product.setCode(i+1);
+					product.setImageNumber(1);
 					try {
 						pDao.addProduct(product);
 					} catch (NullModelAttributesException e1) {
@@ -95,8 +100,11 @@ public class PlipTrainer {
 					}else{
 					image.setTrained(false);
 					}
-					image.setPath(productImageListOfFiles[i].getPath()
-							+ productImageListOfFiles[i].getName());
+					ImageManager imageManager = new HashImageManager();
+					String path = imageManager.getImagesPath(filename);
+					FileSystemManager.checkDirectoryExists(path);
+					Highgui.imwrite(path + filename +".jpg", productImage);
+					image.setPath(path + filename +".jpg");
 					
 					try {
 						iDao.addImage(image);
