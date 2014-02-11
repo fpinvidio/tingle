@@ -8,7 +8,6 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.junit.Assert;
 
 import com.plip.persistence.dao.interfaces.PageDao;
 import com.plip.persistence.exceptions.NullModelAttributesException;
@@ -17,7 +16,6 @@ import com.plip.persistence.managers.DaoManager;
 import com.plip.persistence.model.Page;
 import com.plip.persistence.model.PageProduct;
 import com.plip.persistence.model.Product;
-import com.plip.persistence.model.Status;
 
 public class PageDaoImpl implements PageDao {
 

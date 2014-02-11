@@ -11,7 +11,6 @@ import org.opencv.features2d.DescriptorExtractor;
 import org.opencv.features2d.DescriptorMatcher;
 import org.opencv.features2d.FeatureDetector;
 
-import com.plip.eventhandlers.handlers.RecognizerEventHandler;
 import com.plip.imageprocessing.matchers.ImageMatcher;
 import com.plip.imageprocessing.matchers.MinDistanceMatcher;
 import com.plip.imageprocessing.matchers.exceptions.NoMatchException;

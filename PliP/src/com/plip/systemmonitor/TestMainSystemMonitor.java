@@ -21,9 +21,6 @@ import com.plip.eventhandlers.listeners.GenericEventListener;
 import com.plip.imageprocessing.processors.ObjectCounter;
 import com.plip.imageprocessing.processors.ObjectRecognizer;
 import com.plip.imageprocessing.processors.TrayProcessor;
-import com.plip.persistence.dao.impls.PageDaoImpl;
-import com.plip.persistence.exceptions.PageNotFoundException;
-import com.plip.persistence.model.Page;
 import com.plip.uinterfaces.MainMenuFrame;
 
 // Queda pendiente organizar handlers para todos los eventos 

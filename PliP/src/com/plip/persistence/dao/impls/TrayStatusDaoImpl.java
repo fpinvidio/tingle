@@ -11,7 +11,6 @@ import org.hibernate.Transaction;
 import com.plip.persistence.dao.interfaces.TrayStatusDao;
 import com.plip.persistence.exceptions.TrayStatusNotFoundException;
 import com.plip.persistence.managers.DaoManager;
-import com.plip.persistence.model.Status;
 import com.plip.persistence.model.Tray;
 import com.plip.persistence.model.TrayStatus;
 

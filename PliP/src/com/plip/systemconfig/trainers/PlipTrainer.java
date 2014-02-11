@@ -88,12 +88,16 @@ public class PlipTrainer {
 				} catch (ImageNotFoundException e) {
 					image.setPosition(pos);
 					image.setProduct(product);
-					System.out.println(product.getName());
+					if(descriptors != null && descriptors.rows() != 0){
 					image.setDescriptor(DataTypeManager
 							.convertMatToBlob(descriptors));
+					image.setTrained(true);
+					}else{
+					image.setTrained(false);
+					}
 					image.setPath(productImageListOfFiles[i].getPath()
 							+ productImageListOfFiles[i].getName());
-					image.setTrained(true);
+					
 					try {
 						iDao.addImage(image);
 					} catch (NullModelAttributesException e1) {
@@ -148,7 +152,7 @@ public class PlipTrainer {
 			String path = image.getPath();
 			Mat imageMat = Highgui.imread(path);
 			Mat descriptor = extractor.extractDescriptor(imageMat);
-			if (descriptor != null) {
+			if (descriptor != null && descriptor.rows()!=0) {
 				image.setDescriptor(DataTypeManager
 						.convertMatToBlob(descriptor));
 				image.setTrained(true);

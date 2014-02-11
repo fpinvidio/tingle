@@ -3,7 +3,6 @@ package com.plip.persistence.dao.interfaces;
 import java.util.List;
 
 import com.plip.persistence.exceptions.TrayStatusNotFoundException;
-import com.plip.persistence.model.Status;
 import com.plip.persistence.model.Tray;
 import com.plip.persistence.model.TrayStatus;
 

@@ -11,7 +11,6 @@ import com.plip.persistence.exceptions.NullModelAttributesException;
 import com.plip.persistence.exceptions.PlipRoleNotFoundException;
 import com.plip.persistence.managers.DaoManager;
 import com.plip.persistence.model.PlipRole;
-import com.plip.persistence.model.Status;
 
 public class PlipRoleDaoImpl implements PlipRoleDao {
 	

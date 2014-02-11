@@ -10,9 +10,7 @@ import com.plip.persistence.dao.interfaces.PositionDao;
 import com.plip.persistence.exceptions.NullModelAttributesException;
 import com.plip.persistence.exceptions.PositionNotFoundException;
 import com.plip.persistence.managers.DaoManager;
-import com.plip.persistence.model.Order;
 import com.plip.persistence.model.Position;
-import com.plip.persistence.model.Status;
 
 public class PositionDaoImpl implements PositionDao {
 
