@@ -417,7 +417,7 @@ public class ObjectCounter {
 		Mat subMat = new Mat();
 		
 		if (image != null ) {
-		Rect boundRect = new Rect(270,190,1600,1000);
+		Rect boundRect = new Rect(270,190,1700,1000);
 		
 		
 //		Core.rectangle(image,boundRect.br(),boundRect.tl(), new Scalar(0,255,0),3);
