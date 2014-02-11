@@ -120,10 +120,11 @@ public class MinDistanceMatcher implements ImageMatcher {
 			min_dist = 300;
 			// matches = matchesList.get(0);
 			// -- Quick calculation of max and min distances between keypoints
-
+			DMatch[] dmatches = matches.toArray();
+			if(dmatches.length>0){
 			double[] distances = new double[objectDescriptor.rows()];
 			for (int i = 0; i < objectDescriptor.rows(); i++) {
-				DMatch[] dmatches = matches.toArray();
+				
 				double dist = dmatches[i].distance;
 				distances[i] = dist;
 				if (dist < min_dist) {
@@ -132,6 +133,7 @@ public class MinDistanceMatcher implements ImageMatcher {
 				if (dist > max_dist) {
 					max_dist = dist;
 				}
+			}
 			}
 		}
 		return min_dist;
