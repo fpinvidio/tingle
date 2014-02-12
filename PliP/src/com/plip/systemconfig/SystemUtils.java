@@ -13,6 +13,8 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import com.plip.eventhandlers.handlers.TrayEventHandler;
+import com.plip.eventhandlers.listeners.TrayEventListener;
 import com.plip.imageprocessing.matchers.MinDistanceMatcher;
 import com.plip.imageprocessing.processors.ObjectCounter;
 import com.plip.imageprocessing.processors.TrayProcessor;
@@ -22,8 +24,6 @@ import com.plip.systemconfig.trainers.PlipTrainer;
 import com.plip.systemmonitor.MainSystemMonitor;
 
 public class SystemUtils {
-
-	public static String url;
 
 	public SystemUtils() {
 		super();
@@ -78,25 +78,9 @@ public class SystemUtils {
 		
 		HashImageManager.imagesRootPath = new String(props.getProperty("imagesUploadPath"));
 
-		url = new String(props.getProperty("plipAdministratorPanelUrl"));
+		WebServiceManager.url = new String(props.getProperty("plipAdministratorPanelUrl"));
 		
 		PlipTrainer.imagesPath = new String(props.getProperty("imagesPath"));
-	}
-
-	// HTTP POST request
-	public static void connectPlipAdministratiorPanel(
-			List<NameValuePair> parameters)
-			throws AdministratorPanelConnectionException {
-		HttpClient httpClient = new DefaultHttpClient();
-		try {
-			HttpPost request = new HttpPost(url);
-			request.setEntity(new UrlEncodedFormEntity(parameters));
-			HttpResponse response = httpClient.execute(request);
-		} catch (Exception ex) {
-
-		} finally {
-			httpClient.getConnectionManager().shutdown();
-		}
 	}
 
 }

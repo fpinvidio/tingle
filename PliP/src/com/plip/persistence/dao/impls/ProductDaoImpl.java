@@ -84,7 +84,7 @@ public class ProductDaoImpl implements ProductDao{
 			prod.setProductCategory(product.getProductCategory());
 			prod.setWeight(product.getWeight());
 			
-			session.update(product);
+			session.update(prod);
 			}else{
 				throw new ProductNotFoundException();
 			}

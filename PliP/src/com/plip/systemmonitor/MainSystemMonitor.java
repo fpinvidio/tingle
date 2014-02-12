@@ -80,13 +80,6 @@ public class MainSystemMonitor implements GenericEventListener {
 //		 PlipRoleDao roleDao = new PlipRoleDaoImpl();
 	}
 
-	/*
-	 * CvCapture *cap; int n = 0; while(1) { cap = cvCreateCameraCapture(n++);
-	 * if (cap == NULL) break; cvReleaseCapture(&cap); }
-	 * 
-	 * cvReleaseCapture(&cap); return n-1;
-	 */
-
 	public void initialize() {
 
 		vcapture = new VideoCapture(cameraInput);
@@ -111,14 +104,16 @@ public class MainSystemMonitor implements GenericEventListener {
 		
 		/*event listeners*/
 		tehandler.addEventListener(mmf);
-		tehandler.addEventListener(this);
 		//tehandler.addEventListener(telistener);
+		tehandler.addEventListener(this);
 		
+		//cehandler.addEventListener(celistener);
 		cehandler.addEventListener(this);
-		//cehandler.addEventListener(celistener); //Sends request to Administration Panel
+		 //Sends request to Administration Panel
 		
-		rehandler.addEventListener(this);	
 		//rehandler.addEventListener(relistener);
+		rehandler.addEventListener(this);	
+		
 	}
 	
 	public void setCamara(){
@@ -201,7 +196,7 @@ public class MainSystemMonitor implements GenericEventListener {
 				return;
 			}
 			
-			if( pageQuantity < 10){
+			if(pageQuantity <= 10){
 		
 				ArrayList<Mat> images = new ArrayList<Mat>();
 
@@ -262,25 +257,15 @@ public class MainSystemMonitor implements GenericEventListener {
 										foundImagesDescriptors.indexOf(image)));
 					}
 					rehandler.validRecognitionEvent(tehandler.getTray(), productMatch);			
-					System.out.println("True Matcher Event");
-				} catch (NoMatchException e) {
 					
+				} catch (NoMatchException e) {
 					rehandler.falseRecognitionEvent(tehandler.getTray());	
-					System.out.println("False Matcher Event");
 				} catch (PageNotFoundException e) {
 				    return;
 				} 
 			}
 			}
-				rehandler.finishRecognitionEvent();
-		}else if (event instanceof TrueMatcherEvent) {
-			System.out.println("True Matcher Event");
-		}else if (event instanceof FalseMatcherEvent) {
-			System.out.println("False Matcher Event");
-		}else if (event instanceof FinishRecognitionEvent) {
-			System.out.println("Finish Recognition Event");
-			TrayValidator trayValidator = new TrayValidator();
-			trayValidator.validateTray(tehandler.getTray());
+				rehandler.finishRecognitionEvent(tehandler.getTray());
 		}
 	}
 

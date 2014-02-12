@@ -15,6 +15,7 @@ import com.plip.persistence.model.Product;
 import com.plip.persistence.model.Status;
 import com.plip.persistence.model.Tray;
 import com.plip.persistence.model.TrayStatus;
+import com.plip.system.validators.TrayValidator;
 
 public class RecognizerEventHandler extends GenericEventHandler {
 	private long trayStatusId;
@@ -44,7 +45,9 @@ public class RecognizerEventHandler extends GenericEventHandler {
 		}
 	}
 
-	public void finishRecognitionEvent() {
+	public void finishRecognitionEvent(Tray tray) {
+		TrayValidator trayValidator = new TrayValidator();
+		setTrayStatusId(trayValidator.validateTray(tray));	
 		this.fireEvent(EventFactory.FINISHED_RECOGNITION_EVENT);
 	}
 
@@ -68,7 +71,7 @@ public class RecognizerEventHandler extends GenericEventHandler {
 						.getStatus(Status.STATUS_PRODUCT_RECOGNIZED);
 				TrayStatus productRecognized = new TrayStatus(product, tray,
 						productRecognizedStatus, 1, new Date());
-				setTrayStatusId(trayStatusDao.addTrayStatus(productRecognized));
+				trayStatusDao.addTrayStatus(productRecognized);
 			} catch (StatusNotFoundException e) {
 				e.printStackTrace();
 			}

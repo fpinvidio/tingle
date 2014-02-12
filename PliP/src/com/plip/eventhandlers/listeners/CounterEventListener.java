@@ -12,9 +12,11 @@ import com.plip.eventhandlers.handlers.CounterEventHandler;
 import com.plip.eventhandlers.handlers.TrayEventHandler;
 import com.plip.persistence.exceptions.PageNotFoundException;
 import com.plip.systemconfig.SystemUtils;
+import com.plip.systemconfig.WebServiceManager;
 import com.plip.systemconfig.exceptions.AdministratorPanelConnectionException;
 
 public class CounterEventListener implements GenericEventListener {
+	
 	private TrayEventHandler tehandler;
 	private CounterEventHandler cehandler;
 
@@ -28,20 +30,22 @@ public class CounterEventListener implements GenericEventListener {
 	public void handleEvent(EventObject event) {
 		List<NameValuePair> urlParameters = null;
 
-		if (event instanceof FinishCounterEvent) 
+		if (event instanceof FinishCounterEvent){ 
 			try {
 				urlParameters = new ArrayList<NameValuePair>();
 				urlParameters.add(new BasicNameValuePair("page_id", tehandler
 						.getPage().getIdPage().toString()));
 				urlParameters.add(new BasicNameValuePair("tray_status_id", String
 						.valueOf(cehandler.getTrayStatusId())));
-				SystemUtils.connectPlipAdministratiorPanel(urlParameters);
-			} catch (AdministratorPanelConnectionException e) {
-				e.printStackTrace();
+				
+				WebServiceManager wsManager = new WebServiceManager(urlParameters); 
+				Thread myThread = new Thread(wsManager);
+				myThread.start(); 
+				
 			} catch (PageNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
+	}	
 }
 

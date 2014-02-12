@@ -12,7 +12,7 @@ public class LocalPageManager implements PageManager{
 		/* Get Tray Page from Database */
 		PageDaoImpl pageDao = new PageDaoImpl();
 		Page page = new Page();
-		page = pageDao.getPage(Long.valueOf(1));
+		page = pageDao.getPage(Long.valueOf(13));
 		return page;
 	}
 }

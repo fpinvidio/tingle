@@ -12,12 +12,13 @@ import com.plip.eventhandlers.events.UnSupportedTrayEvent;
 import com.plip.eventhandlers.handlers.TrayEventHandler;
 import com.plip.persistence.exceptions.PageNotFoundException;
 import com.plip.systemconfig.SystemUtils;
+import com.plip.systemconfig.WebServiceManager;
 import com.plip.systemconfig.exceptions.AdministratorPanelConnectionException;
 
 public class TrayEventListener implements GenericEventListener {
 
-	TrayEventHandler tehandler;
-	
+	private TrayEventHandler tehandler;
+
 	public TrayEventListener(TrayEventHandler tehandler) {
 		this.tehandler = tehandler;
 	}
@@ -25,13 +26,17 @@ public class TrayEventListener implements GenericEventListener {
 	@Override
 	public void handleEvent(EventObject event) {
 		List<NameValuePair> urlParameters = null;
-		if (event instanceof TrayArrivalEvent) {
+		if (event instanceof TrayArrivalEvent ) {
 			try {
 				urlParameters = new ArrayList<NameValuePair>();
 				urlParameters.add(new BasicNameValuePair("page_id", tehandler.getPage().getIdPage().toString()));
-				SystemUtils.connectPlipAdministratiorPanel(urlParameters);
-			} catch (AdministratorPanelConnectionException e) {
-				e.printStackTrace();
+				urlParameters.add(new BasicNameValuePair("tray_status_id", String
+						.valueOf(tehandler.getTrayStatusId())));
+				
+				WebServiceManager wsManager = new WebServiceManager(urlParameters); 
+				Thread myThread = new Thread(wsManager);
+				myThread.start(); 
+				
 			} catch (PageNotFoundException e) {
 				return;
 			}
@@ -40,13 +45,16 @@ public class TrayEventListener implements GenericEventListener {
 			try {
 				urlParameters = new ArrayList<NameValuePair>();
 				urlParameters.add(new BasicNameValuePair("page_id", tehandler.getPage().getIdPage().toString()));
-				SystemUtils.connectPlipAdministratiorPanel(urlParameters);
-			} catch (AdministratorPanelConnectionException e) {
-				e.printStackTrace();
+				urlParameters.add(new BasicNameValuePair("tray_status_id", String
+						.valueOf(tehandler.getTrayStatusId())));
+				
+				WebServiceManager wsManager = new WebServiceManager(urlParameters); 
+				Thread myThread = new Thread(wsManager);
+				myThread.start(); 
+	
 			} catch (PageNotFoundException e) {
 			    return;
 			}
 		}
 	}
-	
 }

@@ -31,6 +31,15 @@ public class TrayEventHandler extends GenericEventHandler {
 	private final float tol = 0.99f;
 	private List<Mat> tray_buffer = new ArrayList<Mat>();
 	private Tray tray;
+	private long trayStatusId;
+	
+	public long getTrayStatusId() {
+		return trayStatusId;
+	}
+
+	public void setTrayStatusId(long trayStatusId) {
+		this.trayStatusId = trayStatusId;
+	}
 
 	public Tray getTray() {
 		return tray;
@@ -98,7 +107,7 @@ public class TrayEventHandler extends GenericEventHandler {
 						return;
 					}
 					setTray(trayModel);
-					saveTrayArraivalStatus();					
+					setTrayStatusId(saveTrayArraivalStatus());					
 					fireEvent(EventFactory.TRAY_ARRIVAL_EVENT);
 				}
 			} else if (isBufferFullOfVoid()) {
@@ -113,7 +122,7 @@ public class TrayEventHandler extends GenericEventHandler {
 	public void unSupportedTrayEvent() throws NoPageRecievedException, PageNotFoundException{
 		Tray trayModel = createTray();
 		setTray(trayModel);
-		saveTrayArraivalStatus();
+		setTrayStatusId(saveTrayArraivalStatus());
 		fireEvent(EventFactory.UNSUPPORTED_TRAY_EVENT);
 	}
 
@@ -148,8 +157,9 @@ public class TrayEventHandler extends GenericEventHandler {
 		return array;
 	}
 	
-	public void saveTrayArraivalStatus(){
+	public long saveTrayArraivalStatus(){
 		/*Save Status when tray arrives*/
+		long idStatus = 0;
 		TrayStatusDaoImpl trayStatusDao = new TrayStatusDaoImpl();
 		TrayStatus trayDetected = new TrayStatus();
 		StatusDaoImpl statusDao = new StatusDaoImpl();
@@ -159,10 +169,11 @@ public class TrayEventHandler extends GenericEventHandler {
 			trayDetected.setDate(new Date());
 			trayDetected.setStatus(trayDetectedStatus);
 			trayDetected.setTray(this.tray);
-			trayStatusDao.addTrayStatus(trayDetected);
+			idStatus = trayStatusDao.addTrayStatus(trayDetected);
 		} catch (StatusNotFoundException e) {
 			e.printStackTrace();
 		}
 		}
+		return idStatus;
 	}
 }

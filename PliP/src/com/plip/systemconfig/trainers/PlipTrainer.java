@@ -36,7 +36,7 @@ public class PlipTrainer {
 		File productImageFolder = new File(imagesPath);
 		ImageDescriptorExtractor extractor = new ImageDescriptorExtractor(
 				FeatureDetector.ORB, DescriptorExtractor.BRISK);
-
+		ImageManager imageManager = new HashImageManager();
 		File[] productImageListOfFiles = productImageFolder.listFiles();
 		ProductDaoImpl pDao = new ProductDaoImpl();
 		ImageDaoImpl iDao = new ImageDaoImpl();
@@ -64,8 +64,12 @@ public class PlipTrainer {
 				Product product = new Product();
 				try {
 					product = pDao.getProductByName(productName);
+					if(product.getImageNumber()!=null){
 					product.setImageNumber(product.getImageNumber() +1);
-					pDao.updateProduct(product);
+					}else{
+				    product.setImageNumber(0);	
+					}
+					//pDao.updateProduct(product);
 				} catch (ProductNotFoundException e) {
 					product.setName(productName);
 					product.setEnabled(true);
@@ -88,6 +92,16 @@ public class PlipTrainer {
 				try {
 					image = iDao.getImageByProductIdAndPositio(
 							product.getIdProduct(), pos.getIdPosition());
+					if(descriptors != null && descriptors.rows() != 0){
+						image.setDescriptor(DataTypeManager
+								.convertMatToBlob(descriptors));
+						image.setTrained(true);
+					}
+					String path = imageManager.getImagesPath(filename);
+					FileSystemManager.checkDirectoryExists(path);
+					Highgui.imwrite(path + filename +".jpg", productImage);
+					image.setPath(path + filename +".jpg");
+					
 					iDao.updateImage(image);
 
 				} catch (ImageNotFoundException e) {
@@ -100,7 +114,7 @@ public class PlipTrainer {
 					}else{
 					image.setTrained(false);
 					}
-					ImageManager imageManager = new HashImageManager();
+					
 					String path = imageManager.getImagesPath(filename);
 					FileSystemManager.checkDirectoryExists(path);
 					Highgui.imwrite(path + filename +".jpg", productImage);
