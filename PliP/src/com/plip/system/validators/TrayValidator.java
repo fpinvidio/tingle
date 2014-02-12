@@ -20,9 +20,10 @@ import com.plip.persistence.model.TrayStatus;
 
 public class TrayValidator {
 	private HashSet<Product> recognizedProducts = new HashSet<>(0);
-	public void validateTray(Tray tray) {
+	public long validateTray(Tray tray) {
 		if (tray != null) {
 			Page page = tray.getPage();
+			
 			List<TrayStatus> statusList = new ArrayList<TrayStatus>();
 			if (page != null) {
 				TrayStatusDao trayStatusDao = new TrayStatusDaoImpl();
@@ -31,16 +32,15 @@ public class TrayValidator {
 					statusList = trayStatusDao
 							.getStatusByTray(tray.getIdTray());
 				} catch (TrayStatusNotFoundException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				for (TrayStatus trayStatus : statusList) {
-					long idStatus = (long) trayStatus.getStatus().getIdStatus();
-					switch ((int) idStatus) {
-					case Status.STATUS_INVALID_QUANTITY:
-						saveInvalidTrayStatus(tray);
-						return;
-					case Status.STATUS_PRODUCT_RECOGNIZED:
+					int idStatus = trayStatus.getStatus().getIdStatus().intValue();
+					switch (idStatus) {
+					case Status.STATUS_INVALID_QUANTITY: 
+						return saveInvalidTrayStatus(tray);
+						
+					case Status.STATUS_PRODUCT_RECOGNIZED: 
 						decreaseProductQuantity(trayStatus, pageProducts);
 						break;
 					default:
@@ -51,31 +51,33 @@ public class TrayValidator {
 				for (PageProduct pageProduct : pageProducts) {
 					if (recognizedProducts.contains(pageProduct.getProduct())
 							&& pageProduct.getQuantity() != 0) {
-						saveInvalidTrayStatus(tray);
-						return;
+						return saveInvalidTrayStatus(tray);
 					}
 				}
-				saveValidTrayStatus(tray);
+				return saveValidTrayStatus(tray);
 			}
 
 		}
+		return 0;
 	}
 
-	public void saveInvalidTrayStatus(Tray tray) {
+	public long saveInvalidTrayStatus(Tray tray) {
 		/* Save Status when tray is invalid*/
 		TrayStatusDaoImpl trayStatusDao = new TrayStatusDaoImpl();
 		StatusDaoImpl statusDao = new StatusDaoImpl();
+		long trayStatusId=0;
 		if (tray != null) {
 			try {
 				Status trayDetectedStatus = statusDao
 						.getStatus(Status.STATUS_INVALID_TRAY);
 				TrayStatus trayDetected = new TrayStatus(tray,
 						trayDetectedStatus, new Date());
-				trayStatusDao.addTrayStatus(trayDetected);
+				trayStatusId=trayStatusDao.addTrayStatus(trayDetected);
 			} catch (StatusNotFoundException e) {
 				e.printStackTrace();
 			}
 		}
+		return trayStatusId;
 	}
 
 	public void decreaseProductQuantity(TrayStatus trayStatus,
@@ -84,28 +86,29 @@ public class TrayValidator {
 		for (PageProduct pageProduct : pageProducts) {
 			if (pageProduct.getProduct().equals(trayStatus.getProduct())) {
 				pageProduct.setQuantity(pageProduct.getQuantity() - trayStatus.getQuantity());
-				if (!recognizedProducts.contains(pageProduct.getProduct())) {
-					recognizedProducts.add(pageProduct.getProduct());
-				}
 			}
 		}
-		
+		if (!recognizedProducts.contains(trayStatus.getProduct())) {
+			recognizedProducts.add(trayStatus.getProduct());
+		}
 	}
 
-	public void saveValidTrayStatus(Tray tray) {
+	public long saveValidTrayStatus(Tray tray) {
 		/* Save Status when tray is valid */
 		TrayStatusDaoImpl trayStatusDao = new TrayStatusDaoImpl();
 		StatusDaoImpl statusDao = new StatusDaoImpl();
+		long trayStatusId = 0;
 		if (tray != null) {
 			try {
 				Status trayDetectedStatus = statusDao
 						.getStatus(Status.STATUS_VALID_TRAY);
 				TrayStatus trayDetected = new TrayStatus(tray,
 						trayDetectedStatus, new Date());
-				trayStatusDao.addTrayStatus(trayDetected);
+				trayStatusId = trayStatusDao.addTrayStatus(trayDetected);
 			} catch (StatusNotFoundException e) {
 				e.printStackTrace();
 			}
 		}
+		return trayStatusId;
 	}
 }

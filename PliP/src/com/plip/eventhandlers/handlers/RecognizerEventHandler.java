@@ -24,8 +24,9 @@ public class RecognizerEventHandler extends GenericEventHandler {
 		return trayStatusId;
 	}
 
-	public void setTrayStatusId(long trayStatusId) {
+	private void setTrayStatusId(long trayStatusId) {
 		this.trayStatusId = trayStatusId;
+		
 	}
 
 	@Override
@@ -47,7 +48,7 @@ public class RecognizerEventHandler extends GenericEventHandler {
 
 	public void finishRecognitionEvent(Tray tray) {
 		TrayValidator trayValidator = new TrayValidator();
-		setTrayStatusId(trayValidator.validateTray(tray));	
+		trayValidator.validateTray(tray);	
 		this.fireEvent(EventFactory.FINISHED_RECOGNITION_EVENT);
 	}
 
