@@ -8,7 +8,7 @@
             <column name="id_tray" />
             <generator class="identity" />
         </id>
-        <many-to-one name="page" class="com.plip.persistence.model.Page" fetch="select">
+        <many-to-one name="page" class="com.plip.persistence.model.Page" fetch="select" lazy ="false">
             <column name="id_page" not-null="true" />
         </many-to-one>
         <property name="code" type="string">
