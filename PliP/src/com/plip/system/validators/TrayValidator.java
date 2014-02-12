@@ -83,12 +83,13 @@ public class TrayValidator {
 
 		for (PageProduct pageProduct : pageProducts) {
 			if (pageProduct.getProduct().equals(trayStatus.getProduct())) {
-				trayStatus.setQuantity(trayStatus.getQuantity() - 1);
+				pageProduct.setQuantity(pageProduct.getQuantity() - trayStatus.getQuantity());
+				if (!recognizedProducts.contains(pageProduct.getProduct())) {
+					recognizedProducts.add(pageProduct.getProduct());
+				}
 			}
 		}
-		if (!recognizedProducts.contains(trayStatus.getProduct())) {
-			recognizedProducts.add(trayStatus.getProduct());
-		}
+		
 	}
 
 	public void saveValidTrayStatus(Tray tray) {
