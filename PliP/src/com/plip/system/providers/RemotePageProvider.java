@@ -28,6 +28,7 @@ import com.plip.persistence.model.Order;
 import com.plip.persistence.model.Page;
 import com.plip.persistence.model.PageProduct;
 import com.plip.persistence.model.Product;
+import com.plip.system.communication.RemoteServerConnector;
 import com.plip.system.communication.WebServiceManager;
 import com.plip.system.config.SystemUtils;
 
@@ -40,27 +41,28 @@ public class RemotePageProvider implements PageProvider{
 		List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
 		urlParameters.add(new BasicNameValuePair("date", String.valueOf(new Date())));
 			
-		WebServiceManager wsManager = new WebServiceManager(urlParameters); 
-		wsManager.setUrl(new SystemUtils().getParam("DusaServer"));
-//		Thread myThread = new Thread(wsManager);
-//		myThread.start(); 
+		RemoteServerConnector rServerConnector = new RemoteServerConnector();
+	
+		JSONObject response = rServerConnector.connectRemoteServer(new SystemUtils().getParam("DusaServer"));
+		
 		PageDao pageDao = new PageDaoImpl();
-		JSONObject response = wsManager.getResponse();
 		JSONObject order = null;
 		JSONArray pageProducts = null;
+		int pageNumber = 0;
+		int productQuantity = 0;
 		try {
 			order = response.getJSONObject("order");
 			pageProducts = response.getJSONArray("page_products");
-			
-
-			
+			productQuantity = response.getInt("product_quantity");
+			pageNumber = response.getInt("page_number");
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		Page page = addPageWithProducts(pageProducts);
 		Order orderModel = addOrder(order);
 		page.setOrder(orderModel);
+		page.setProductQuantity(productQuantity);
+		page.setPageNumber(pageNumber);
 		try{
 			pageDao.addPage(page);	
 			}catch(NullModelAttributesException e){
@@ -98,12 +100,13 @@ public class RemotePageProvider implements PageProvider{
 //		e.printStackTrace();	
 //		}
 		for (int i = 0 ; i < jsonPageProducts.length() ; i ++){
-			JSONObject jsonObject;
+			JSONObject jsonPageProduct;
 			try {
-				jsonObject = jsonPageProducts.getJSONObject(i);
-				String name = jsonObject.getString("name");
-				int code = jsonObject.getInt("code");
-				String laboratory = jsonObject.getString("laboratory");
+				jsonPageProduct = jsonPageProducts.getJSONObject(i);
+				JSONObject jsonProduct = jsonPageProduct.getJSONObject("product");
+				String name = jsonProduct.getString("name");
+				int code = jsonProduct.getInt("code");
+				String laboratory = jsonProduct.getString("laboratory");
 				try{
 				product  = productDao.getProductByNameAndCode(name, code);
 				
@@ -127,14 +130,7 @@ public class RemotePageProvider implements PageProvider{
 			PageProduct pageProduct = new PageProduct();
 			pageProduct.setProduct(product);
 			pageProduct.setPage(page);
-//			try{
-//				pageProductDao.addPageProduct(pageProduct);
-				pageProductsSet.add(pageProduct);
-//			}catch(NullModelAttributesException e){
-//				e.printStackTrace();
-//			}
-			
-		    
+			pageProductsSet.add(pageProduct);	
 		}
 		page.setPageProducts(pageProductsSet);
 		return page;

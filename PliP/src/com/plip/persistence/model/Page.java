@@ -106,7 +106,7 @@ public class Page implements java.io.Serializable {
 	}
 	
 	public boolean validate(){
-		if(pageImage!=null && order!=null && pageNumber!=0){
+		if(order!=null && pageNumber!=0){
 			return true;
 		}else return false;
 	}

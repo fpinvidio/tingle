@@ -5,6 +5,7 @@ import java.util.EventObject;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
+import org.apache.http.impl.client.SystemDefaultCredentialsProvider;
 import org.apache.http.message.BasicNameValuePair;
 
 import com.plip.eventhandlers.events.TrayArrivalEvent;
@@ -12,6 +13,7 @@ import com.plip.eventhandlers.events.UnSupportedTrayEvent;
 import com.plip.eventhandlers.handlers.TrayEventHandler;
 import com.plip.exceptions.persistence.PageNotFoundException;
 import com.plip.system.communication.WebServiceManager;
+import com.plip.system.config.SystemUtils;
 
 public class TrayEventListener implements GenericEventListener {
 
@@ -32,6 +34,7 @@ public class TrayEventListener implements GenericEventListener {
 						.valueOf(tehandler.getTrayStatusId())));
 				
 				WebServiceManager wsManager = new WebServiceManager(urlParameters); 
+				wsManager.setUrl(new SystemUtils().getParam("plipAdministratorPanelUrl"));
 				Thread myThread = new Thread(wsManager);
 				myThread.start(); 
 				
@@ -47,6 +50,7 @@ public class TrayEventListener implements GenericEventListener {
 						.valueOf(tehandler.getTrayStatusId())));
 				
 				WebServiceManager wsManager = new WebServiceManager(urlParameters); 
+				wsManager.setUrl(new SystemUtils().getParam("plipAdministratorPanelUrl"));
 				Thread myThread = new Thread(wsManager);
 				myThread.start(); 
 	
