@@ -8,9 +8,9 @@ import java.util.Iterator;
 import org.opencv.core.Mat;
 
 import com.plip.eventhandlers.listeners.GenericEventListener;
-import com.plip.persistence.dao.impls.StatusDaoImpl;
-import com.plip.persistence.dao.impls.TrayStatusDaoImpl;
-import com.plip.persistence.exceptions.StatusNotFoundException;
+import com.plip.exceptions.persistence.StatusNotFoundException;
+import com.plip.persistence.daos.impls.StatusDaoImpl;
+import com.plip.persistence.daos.impls.TrayStatusDaoImpl;
 import com.plip.persistence.model.Product;
 import com.plip.persistence.model.Status;
 import com.plip.persistence.model.Tray;

@@ -10,21 +10,22 @@ import org.opencv.core.Mat;
 
 import com.plip.eventhandlers.events.TrayArrivalEvent;
 import com.plip.eventhandlers.listeners.GenericEventListener;
+import com.plip.exceptions.persistence.NoPageRecievedException;
+import com.plip.exceptions.persistence.NullModelAttributesException;
+import com.plip.exceptions.persistence.PageNotFoundException;
+import com.plip.exceptions.persistence.StatusNotFoundException;
 import com.plip.imageprocessing.processors.TrayProcessor;
-import com.plip.persistence.dao.impls.StatusDaoImpl;
-import com.plip.persistence.dao.impls.TrayDaoImpl;
-import com.plip.persistence.dao.impls.TrayStatusDaoImpl;
-import com.plip.persistence.exceptions.NullModelAttributesException;
-import com.plip.persistence.exceptions.PageNotFoundException;
-import com.plip.persistence.exceptions.StatusNotFoundException;
-import com.plip.persistence.managers.LocalPageManager;
-import com.plip.persistence.managers.PageManager;
-import com.plip.persistence.managers.exceptions.NoPageRecievedException;
+import com.plip.persistence.daos.impls.StatusDaoImpl;
+import com.plip.persistence.daos.impls.TrayDaoImpl;
+import com.plip.persistence.daos.impls.TrayStatusDaoImpl;
 import com.plip.persistence.model.Page;
 import com.plip.persistence.model.Status;
 import com.plip.persistence.model.Tray;
 import com.plip.persistence.model.TrayStatus;
-import com.plip.systemmonitor.MainSystemMonitor;
+import com.plip.system.monitors.MainSystemMonitor;
+import com.plip.system.providers.LocalPageProvider;
+import com.plip.system.providers.PageProvider;
+import com.plip.system.providers.RemotePageProvider;
 
 public class TrayEventHandler extends GenericEventHandler {
 	private final int BUFFER_SIZE = 2;
@@ -79,10 +80,12 @@ public class TrayEventHandler extends GenericEventHandler {
 	public Tray createTray() throws NoPageRecievedException, PageNotFoundException{
 		/* Get Tray Page from Database */
 		Tray trayModel = new Tray();
-		PageManager pageManager = new LocalPageManager();
+		//PageProvider pageManager = new LocalPageProvider();
+		PageProvider pageProvider = new RemotePageProvider();
+		
 		TrayDaoImpl trayDao = new TrayDaoImpl();
 		try {
-			Page page = pageManager.getLastPage();
+			Page page = pageProvider.getLastPage();
 			trayModel.setPage(page);
 			trayModel.setCode(page.getOrder().getCode());
 			trayDao.addTray(trayModel);

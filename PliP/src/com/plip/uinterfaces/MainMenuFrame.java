@@ -39,9 +39,9 @@ import org.opencv.core.Mat;
 
 import com.plip.eventhandlers.events.TrayArrivalEvent;
 import com.plip.eventhandlers.listeners.GenericEventListener;
-import com.plip.persistence.exceptions.ImageNotFoundException;
-import com.plip.systemconfig.trainers.PlipTrainer;
-import com.plip.systemmonitor.MainSystemMonitor;
+import com.plip.exceptions.persistence.ImageNotFoundException;
+import com.plip.system.config.trainers.PlipTrainer;
+import com.plip.system.monitors.MainSystemMonitor;
 
 public class MainMenuFrame extends JFrame implements GenericEventListener {
 

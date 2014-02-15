@@ -10,10 +10,10 @@ import org.apache.http.message.BasicNameValuePair;
 import com.plip.eventhandlers.events.FinishCounterEvent;
 import com.plip.eventhandlers.handlers.CounterEventHandler;
 import com.plip.eventhandlers.handlers.TrayEventHandler;
-import com.plip.persistence.exceptions.PageNotFoundException;
-import com.plip.systemconfig.SystemUtils;
-import com.plip.systemconfig.WebServiceManager;
-import com.plip.systemconfig.exceptions.AdministratorPanelConnectionException;
+import com.plip.exceptions.persistence.PageNotFoundException;
+import com.plip.exceptions.system.AdministratorPanelConnectionException;
+import com.plip.system.communication.WebServiceManager;
+import com.plip.system.config.SystemUtils;
 
 public class CounterEventListener implements GenericEventListener {
 	
@@ -39,6 +39,7 @@ public class CounterEventListener implements GenericEventListener {
 						.valueOf(cehandler.getTrayStatusId())));
 				
 				WebServiceManager wsManager = new WebServiceManager(urlParameters); 
+				wsManager.setUrl(new SystemUtils().getParam("plipAdministratorPanelUrl"));
 				Thread myThread = new Thread(wsManager);
 				myThread.start(); 
 				

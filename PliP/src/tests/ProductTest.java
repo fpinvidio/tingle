@@ -6,12 +6,12 @@ import java.util.Set;
 
 import org.junit.Test;
 
-import com.plip.persistence.dao.impls.PageDaoImpl;
-import com.plip.persistence.dao.impls.ProductDaoImpl;
-import com.plip.persistence.dao.interfaces.PageDao;
-import com.plip.persistence.dao.interfaces.ProductDao;
-import com.plip.persistence.exceptions.PageNotFoundException;
-import com.plip.persistence.exceptions.ProductNotFoundException;
+import com.plip.exceptions.persistence.PageNotFoundException;
+import com.plip.exceptions.persistence.ProductNotFoundException;
+import com.plip.persistence.daos.impls.PageDaoImpl;
+import com.plip.persistence.daos.impls.ProductDaoImpl;
+import com.plip.persistence.daos.interfaces.PageDao;
+import com.plip.persistence.daos.interfaces.ProductDao;
 import com.plip.persistence.model.Image;
 import com.plip.persistence.model.Page;
 import com.plip.persistence.model.PageProduct;

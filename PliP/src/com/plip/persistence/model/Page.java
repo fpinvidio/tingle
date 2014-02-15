@@ -8,12 +8,12 @@ import java.util.Set;
 import org.opencv.core.Mat;
 import org.opencv.highgui.Highgui;
 
-import com.plip.persistence.dao.impls.PageDaoImpl;
-import com.plip.persistence.dao.impls.PageImageDaoImpl;
-import com.plip.persistence.dao.interfaces.PageDao;
-import com.plip.persistence.dao.interfaces.PageImageDao;
-import com.plip.persistence.exceptions.NullModelAttributesException;
-import com.plip.persistence.exceptions.PageNotFoundException;
+import com.plip.exceptions.persistence.NullModelAttributesException;
+import com.plip.exceptions.persistence.PageNotFoundException;
+import com.plip.persistence.daos.impls.PageDaoImpl;
+import com.plip.persistence.daos.impls.PageImageDaoImpl;
+import com.plip.persistence.daos.interfaces.PageDao;
+import com.plip.persistence.daos.interfaces.PageImageDao;
 import com.plip.persistence.managers.FileSystemManager;
 import com.plip.persistence.managers.images.HashImageManager;
 import com.plip.persistence.managers.images.ImageManager;

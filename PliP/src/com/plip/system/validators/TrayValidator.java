@@ -6,11 +6,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.plip.persistence.dao.impls.StatusDaoImpl;
-import com.plip.persistence.dao.impls.TrayStatusDaoImpl;
-import com.plip.persistence.dao.interfaces.TrayStatusDao;
-import com.plip.persistence.exceptions.StatusNotFoundException;
-import com.plip.persistence.exceptions.TrayStatusNotFoundException;
+import com.plip.exceptions.persistence.StatusNotFoundException;
+import com.plip.exceptions.persistence.TrayStatusNotFoundException;
+import com.plip.persistence.daos.impls.StatusDaoImpl;
+import com.plip.persistence.daos.impls.TrayStatusDaoImpl;
+import com.plip.persistence.daos.interfaces.TrayStatusDao;
 import com.plip.persistence.model.Page;
 import com.plip.persistence.model.PageProduct;
 import com.plip.persistence.model.Product;

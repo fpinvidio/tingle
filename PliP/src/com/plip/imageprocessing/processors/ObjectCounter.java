@@ -15,7 +15,7 @@ import org.opencv.core.Scalar;
 import org.opencv.highgui.Highgui;
 import org.opencv.imgproc.Imgproc;
 
-import com.plip.imageprocessing.processors.Exceptions.NoImageException;
+import com.plip.exceptions.imageprocessing.NoImageException;
 
 public class ObjectCounter {
 

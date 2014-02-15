@@ -9,8 +9,8 @@ import org.opencv.core.MatOfDMatch;
 import org.opencv.features2d.DMatch;
 import org.opencv.features2d.DescriptorMatcher;
 
-import com.plip.imageprocessing.matchers.exceptions.NoMatchException;
-import com.plip.imageprocessing.processors.Exceptions.NoImageException;
+import com.plip.exceptions.imageprocessing.NoImageException;
+import com.plip.exceptions.imageprocessing.NoMatchException;
 import com.plip.persistence.managers.DataTypeManager;
 import com.plip.persistence.model.Image;
 import com.plip.persistence.model.Page;

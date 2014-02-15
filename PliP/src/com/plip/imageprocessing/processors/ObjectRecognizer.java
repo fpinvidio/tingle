@@ -11,11 +11,11 @@ import org.opencv.features2d.DescriptorExtractor;
 import org.opencv.features2d.DescriptorMatcher;
 import org.opencv.features2d.FeatureDetector;
 
+import com.plip.exceptions.imageprocessing.NoMatchException;
+import com.plip.exceptions.persistence.ImageNotFoundException;
 import com.plip.imageprocessing.matchers.ImageMatcher;
 import com.plip.imageprocessing.matchers.MinDistanceMatcher;
-import com.plip.imageprocessing.matchers.exceptions.NoMatchException;
-import com.plip.persistence.dao.impls.ImageDaoImpl;
-import com.plip.persistence.exceptions.ImageNotFoundException;
+import com.plip.persistence.daos.impls.ImageDaoImpl;
 import com.plip.persistence.model.Image;
 import com.plip.persistence.model.Page;
 import com.plip.persistence.model.PageProduct;
