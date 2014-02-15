@@ -23,7 +23,6 @@ import com.plip.persistence.model.Status;
 import com.plip.persistence.model.Tray;
 import com.plip.persistence.model.TrayStatus;
 import com.plip.system.monitors.MainSystemMonitor;
-import com.plip.system.providers.LocalPageProvider;
 import com.plip.system.providers.PageProvider;
 import com.plip.system.providers.RemotePageProvider;
 

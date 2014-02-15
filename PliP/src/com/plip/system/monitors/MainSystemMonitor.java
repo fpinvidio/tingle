@@ -9,13 +9,10 @@ import org.opencv.core.Rect;
 import org.opencv.highgui.Highgui;
 import org.opencv.highgui.VideoCapture;
 
-import com.plip.eventhandlers.events.FalseMatcherEvent;
 import com.plip.eventhandlers.events.FinishCounterEvent;
-import com.plip.eventhandlers.events.FinishRecognitionEvent;
 import com.plip.eventhandlers.events.StartRecognitionEvent;
 import com.plip.eventhandlers.events.TrayArrivalEvent;
 import com.plip.eventhandlers.events.TrayDepartureEvent;
-import com.plip.eventhandlers.events.TrueMatcherEvent;
 import com.plip.eventhandlers.handlers.CounterEventHandler;
 import com.plip.eventhandlers.handlers.RecognizerEventHandler;
 import com.plip.eventhandlers.handlers.TrayEventHandler;

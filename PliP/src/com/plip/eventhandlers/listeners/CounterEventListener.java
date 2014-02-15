@@ -11,7 +11,6 @@ import com.plip.eventhandlers.events.FinishCounterEvent;
 import com.plip.eventhandlers.handlers.CounterEventHandler;
 import com.plip.eventhandlers.handlers.TrayEventHandler;
 import com.plip.exceptions.persistence.PageNotFoundException;
-import com.plip.exceptions.system.AdministratorPanelConnectionException;
 import com.plip.system.communication.WebServiceManager;
 import com.plip.system.config.SystemUtils;
 

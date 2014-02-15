@@ -145,4 +145,32 @@ public class ProductDaoImpl implements ProductDao{
 		}
 		return product;
 	}
+
+	@Override
+	public Product getProductByNameAndCode(String name, int code) throws ProductNotFoundException {
+		SessionFactory factory = DaoManager.createSessionFactory();
+		Session session = factory.openSession();
+		Transaction tx = null;
+		Product product = null;
+		try {
+			tx = session.beginTransaction();
+			Query query = session
+					.createQuery("FROM Product where name = :name AND code = :code");
+			query.setParameter("name", name);
+			query.setParameter("code", code);
+			if(query.list().size() > 0){
+			product = (Product) query.list().get(0);
+			}else{
+				throw new ProductNotFoundException();
+			}
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return product;
+	}
 }

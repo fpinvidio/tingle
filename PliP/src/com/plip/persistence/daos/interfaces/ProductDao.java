@@ -15,5 +15,7 @@ public interface ProductDao {
 	public void updateProduct(Product product) throws ProductNotFoundException;
 	
 	public void deleteProduct(long productId) ;
+	
+	public Product getProductByNameAndCode(String name, int code) throws ProductNotFoundException;
 
 }

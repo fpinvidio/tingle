@@ -11,9 +11,7 @@ import com.plip.eventhandlers.events.TrayArrivalEvent;
 import com.plip.eventhandlers.events.UnSupportedTrayEvent;
 import com.plip.eventhandlers.handlers.TrayEventHandler;
 import com.plip.exceptions.persistence.PageNotFoundException;
-import com.plip.exceptions.system.AdministratorPanelConnectionException;
 import com.plip.system.communication.WebServiceManager;
-import com.plip.system.config.SystemUtils;
 
 public class TrayEventListener implements GenericEventListener {
 

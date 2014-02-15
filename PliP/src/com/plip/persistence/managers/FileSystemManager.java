@@ -3,7 +3,6 @@ package com.plip.persistence.managers;
 import java.io.File;
 import java.io.IOException;
 
-import org.apache.commons.io.FileExistsException;
 import org.apache.commons.io.FileUtils;
 
 

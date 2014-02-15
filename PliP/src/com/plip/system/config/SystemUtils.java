@@ -3,24 +3,12 @@ package com.plip.system.config;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.List;
 import java.util.Properties;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-
-import com.plip.eventhandlers.handlers.TrayEventHandler;
-import com.plip.eventhandlers.listeners.TrayEventListener;
-import com.plip.exceptions.system.AdministratorPanelConnectionException;
 import com.plip.imageprocessing.matchers.MinDistanceMatcher;
 import com.plip.imageprocessing.processors.ObjectCounter;
 import com.plip.imageprocessing.processors.TrayProcessor;
 import com.plip.persistence.managers.images.HashImageManager;
-import com.plip.system.communication.WebServiceManager;
 import com.plip.system.config.trainers.PlipTrainer;
 import com.plip.system.monitors.MainSystemMonitor;
 
