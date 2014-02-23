@@ -35,6 +35,7 @@ public class ObjectCounter {
 			ArrayList<Mat> resultImages = new ArrayList<Mat>();
 
 			/* Pre process image to enhance contours */
+			imagenesInforme(this.image);
 			Mat imageWithEdges = edgeDetector(this.image);
 
 			/* Removes detected tray contour */
@@ -83,14 +84,16 @@ public class ObjectCounter {
 			Mat binary = new Mat();
 
 			binary = image;
-
+			
+			
 			/* Apply median blur to smooth image */
 			Imgproc.medianBlur(binary, medianBlur, 7);
-
+			
+			
 			/* Apply bilateral filter to smooth image but maintaining edges */
 			Imgproc.bilateralFilter(medianBlur, bilateral, 5, 230, 5, 1);
-			// Highgui.imwrite("bilateral.jpg", bilateral);
-
+			//Highgui.imwrite("bilateral.jpg", bilateral);
+			
 			/* Apply edge detector detect medicine edges and contours */
 			Imgproc.Canny(bilateral, cannyBilateral, 35, 85);
 			// Highgui.imwrite("CannybilateralFilter.jpg", cannyBilateral);
@@ -460,6 +463,32 @@ public class ObjectCounter {
 		Highgui.imwrite(filename, subMat);
 		}
 		return subMat;
+	}
+	
+	public void imagenesInforme(Mat image){
+		Mat binary = image.clone();
+		Mat canny = new Mat();
+		Mat bilateralInforme = new Mat();
+		Mat bilateralInformeDilated = new Mat();
+		Imgproc.bilateralFilter(binary, bilateralInforme, 5, 230, 5, 1);
+		Imgproc.Canny(bilateralInforme, canny, 35, 85);
+		Imgproc.dilate(canny, bilateralInformeDilated, new Mat(),
+				new Point(-1, -1), 3);
+		Highgui.imwrite("bilateralDilated.jpg",bilateralInforme);
+		Mat medianBlurInforme = new Mat();
+		Mat medianBlurInformeDilated = new Mat();
+		Imgproc.medianBlur(binary, medianBlurInforme, 7);
+		Imgproc.Canny(medianBlurInforme, canny, 35, 85);
+		Imgproc.dilate(canny, medianBlurInformeDilated, new Mat(),
+				new Point(-1, -1), 3);
+		Highgui.imwrite("medianBlurInformeDilated.jpg",medianBlurInforme);
+		Mat mixed = new Mat();
+		Mat mixedDilated = new Mat();
+		Imgproc.bilateralFilter(medianBlurInforme, mixed, 5, 230, 5, 1);
+		Imgproc.Canny(mixed, canny, 35, 85);
+		Imgproc.dilate(canny, mixedDilated, new Mat(),
+				new Point(-1, -1), 3);
+		Highgui.imwrite("mixedInformeDilated.jpg",mixedDilated);
 	}
 
 }
