@@ -48,7 +48,7 @@ public class RecognizerEventHandler extends GenericEventHandler {
 
 	public void finishRecognitionEvent(Tray tray) {
 		TrayValidator trayValidator = new TrayValidator();
-		trayValidator.validateTray(tray);	
+		setTrayStatusId(trayValidator.validateTray(tray));	
 		this.fireEvent(EventFactory.FINISHED_RECOGNITION_EVENT);
 	}
 

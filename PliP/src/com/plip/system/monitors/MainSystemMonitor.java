@@ -100,14 +100,14 @@ public class MainSystemMonitor implements GenericEventListener {
 		
 		/*event listeners*/
 		tehandler.addEventListener(mmf);
-		//tehandler.addEventListener(telistener);
+		tehandler.addEventListener(telistener);
 		tehandler.addEventListener(this);
 		
-		//cehandler.addEventListener(celistener);
+		cehandler.addEventListener(celistener);
 		cehandler.addEventListener(this);
 		 //Sends request to Administration Panel
 		
-		//rehandler.addEventListener(relistener);
+		rehandler.addEventListener(relistener);
 		rehandler.addEventListener(this);	
 		
 	}

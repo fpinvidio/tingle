@@ -474,14 +474,14 @@ public class ObjectCounter {
 		Imgproc.Canny(bilateralInforme, canny, 35, 85);
 		Imgproc.dilate(canny, bilateralInformeDilated, new Mat(),
 				new Point(-1, -1), 3);
-		Highgui.imwrite("bilateralDilated.jpg",bilateralInforme);
+		//Highgui.imwrite("bilateralDilated.jpg",bilateralInformeDilated);
 		Mat medianBlurInforme = new Mat();
 		Mat medianBlurInformeDilated = new Mat();
 		Imgproc.medianBlur(binary, medianBlurInforme, 7);
 		Imgproc.Canny(medianBlurInforme, canny, 35, 85);
 		Imgproc.dilate(canny, medianBlurInformeDilated, new Mat(),
 				new Point(-1, -1), 3);
-		Highgui.imwrite("medianBlurInformeDilated.jpg",medianBlurInforme);
+		//Highgui.imwrite("medianBlurInformeDilated.jpg",medianBlurInformeDilated);
 		Mat mixed = new Mat();
 		Mat mixedDilated = new Mat();
 		Imgproc.bilateralFilter(medianBlurInforme, mixed, 5, 230, 5, 1);

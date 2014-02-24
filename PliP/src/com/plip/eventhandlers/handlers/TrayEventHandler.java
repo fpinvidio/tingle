@@ -79,7 +79,7 @@ public class TrayEventHandler extends GenericEventHandler {
 	public Tray createTray() throws NoPageRecievedException, PageNotFoundException{
 		/* Get Tray Page from Database */
 		Tray trayModel = new Tray();
-		//PageProvider pageManager = new LocalPageProvider();
+		//PageProvider pageProvider = new LocalPageProvider();
 		PageProvider pageProvider = new RemotePageProvider();
 		
 		TrayDaoImpl trayDao = new TrayDaoImpl();
