@@ -11,6 +11,7 @@ import com.plip.exceptions.persistence.TrayStatusNotFoundException;
 import com.plip.persistence.daos.impls.StatusDaoImpl;
 import com.plip.persistence.daos.impls.TrayStatusDaoImpl;
 import com.plip.persistence.daos.interfaces.TrayStatusDao;
+import com.plip.persistence.model.Image;
 import com.plip.persistence.model.Page;
 import com.plip.persistence.model.PageProduct;
 import com.plip.persistence.model.Product;
@@ -43,6 +44,11 @@ public class TrayValidator {
 					case Status.STATUS_PRODUCT_RECOGNIZED: 
 						decreaseProductQuantity(trayStatus, pageProducts);
 						break;
+					case Status.STATUS_PRODUCT_NOT_RECOGNIZED:
+						 if(productUnrecognizedError(trayStatus)){
+							 return saveInvalidTrayStatus(tray);	 
+						 }
+						 break;
 					default:
 						break;
 					}
@@ -112,5 +118,13 @@ public class TrayValidator {
 			}
 		}
 		return trayStatusId;
+	}
+	
+	public boolean productUnrecognizedError(TrayStatus trayStatus){
+		   Product product = trayStatus.getProduct();
+		   if(product.getImageNumber() > 0){
+			   return true;
+		   }
+		   return false;
 	}
 }

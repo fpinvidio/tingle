@@ -69,7 +69,7 @@ public class PlipTrainer {
 					}else{
 				    product.setImageNumber(0);	
 					}
-					//pDao.updateProduct(product);
+					pDao.updateProduct(product);
 				} catch (ProductNotFoundException e) {
 					product.setName(productName);
 					product.setEnabled(true);
