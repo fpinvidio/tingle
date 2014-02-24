@@ -45,7 +45,7 @@ public class TrayValidator {
 						decreaseProductQuantity(trayStatus, pageProducts);
 						break;
 					case Status.STATUS_PRODUCT_NOT_RECOGNIZED:
-						 if(productUnrecognizedError(trayStatus)){
+						 if(productUnrecognizedError(pageProducts)){
 							 return saveInvalidTrayStatus(tray);	 
 						 }
 						 break;
@@ -120,11 +120,13 @@ public class TrayValidator {
 		return trayStatusId;
 	}
 	
-	public boolean productUnrecognizedError(TrayStatus trayStatus){
-		   Product product = trayStatus.getProduct();
-		   if(product.getImageNumber() > 0){
-			   return true;
+	public boolean productUnrecognizedError(Set<PageProduct> pageProducts){
+		   for(PageProduct pageProduct : pageProducts){
+		   Product product = pageProduct.getProduct();
+		   if(product.getImageNumber() == 0){
+		   return false;   
 		   }
-		   return false;
+		   }
+		   return true;
 	}
 }
