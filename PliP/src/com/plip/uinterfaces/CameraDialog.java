@@ -7,7 +7,9 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Properties;
 
@@ -28,7 +30,12 @@ import org.opencv.core.Mat;
 import org.opencv.highgui.Highgui;
 import org.opencv.highgui.VideoCapture;
 
+import com.plip.imageprocessing.matchers.MinDistanceMatcher;
+import com.plip.imageprocessing.processors.ObjectCounter;
 import com.plip.imageprocessing.processors.TrayProcessor;
+import com.plip.persistence.managers.images.HashImageManager;
+import com.plip.system.config.trainers.PlipTrainer;
+import com.plip.system.monitors.MainSystemMonitor;
 
 public class CameraDialog extends JDialog {
 
@@ -61,6 +68,7 @@ public class CameraDialog extends JDialog {
 		try {
 			CameraDialog dialog = new CameraDialog();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.intitializeDialog();
 			dialog.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -324,9 +332,7 @@ public class CameraDialog extends JDialog {
 						cameraPortPanel.add(cameraPortTextField);
 					}
 				}
-			}
-			
-			
+			}		
 			}
 		}
 	}		
@@ -352,7 +358,25 @@ public class CameraDialog extends JDialog {
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						try {
+							File f = null;
 							Properties props = new Properties();
+							InputStream is = null;
+							try {
+								 f = new File("./res/config.properties");
+								is = new FileInputStream(f);
+							} catch (Exception e1) {
+								is = null;
+							}
+
+							try {
+								if (is == null) {
+									is = getClass().getResourceAsStream("./res/config.properties");
+								}
+
+								props.load(is);
+							} catch (Exception e2) {
+							}
+							
 							props.setProperty("minHueThreshold",
 									minHueSlider.getValue() + "");
 							props.setProperty("minSaturationThreshold",
@@ -365,13 +389,17 @@ public class CameraDialog extends JDialog {
 									maxSatSlider.getValue() + "");
 							props.setProperty("maxValueThreshold",
 									maxValueSlider.getValue() + "");
-							props.setProperty("maxHueThreshold",
-									maxHueSlider.getValue() + "");
-							props.setProperty("maxSaturationThreshold",
-									maxSatSlider.getValue() + "");
-							props.setProperty("maxValueThreshold",
-									maxValueSlider.getValue() + "");			
-							File f = new File("./res/config.properties");
+							props.setProperty("imageResolutionWidth",
+									imageResolutionTextFieldW.getText() + "");
+							props.setProperty("imageResolutionHeight",
+									imageResolutionTextFieldH.getText() + "");
+							props.setProperty("captureResolutionHeight",
+									videoResolutionTextFieldH.getText() + "");
+							props.setProperty("captureResolutionWidth",
+									videoResolutionTextFieldW.getText() + "");
+							props.setProperty("cameraInput",
+									cameraPortTextField.getText() + "");				
+							
 							OutputStream out = new FileOutputStream(f);
 							props.store(out, "This file has been modified.");
 						} catch (Exception e1) {
@@ -396,6 +424,45 @@ public class CameraDialog extends JDialog {
 			}
 		}
 		initializeVideoCapture();
+	}
+	
+	public void intitializeDialog() {
+		Properties props = new Properties();
+		InputStream is = null;
+		try {
+			File f = new File("./res/config.properties");
+			is = new FileInputStream(f);
+		} catch (Exception e) {
+			is = null;
+		}
+
+		try {
+			if (is == null) {
+				is = getClass().getResourceAsStream("./res/config.properties");
+			}
+
+			props.load(is);
+		} catch (Exception e) {
+		}
+		
+		minHueSlider.setValue(Integer.valueOf(props.getProperty("minHueThreshold")));
+		minSatSlider.setValue(Integer.valueOf(props.getProperty("minSatThreshold")));
+		minValueSlider.setValue(Integer.valueOf(props.getProperty("minValueThreshold")));
+		maxHueSlider.setValue(Integer.valueOf(props.getProperty("maxHueThreshold")));
+		maxSatSlider.setValue(Integer.valueOf(props.getProperty("maxSatThreshold")));
+		maxSatSlider.setValue(Integer.valueOf(props.getProperty("maxValueThreshold")));
+				
+		imageResolutionTextFieldW.setText(
+				props.getProperty("imageResolutionWidth"));
+		imageResolutionTextFieldH.setText(
+				props.getProperty("imageResolutionHeight"));
+		videoResolutionTextFieldW.setText(
+				props.getProperty("captureResolutionWidth"));
+		videoResolutionTextFieldH.setText(
+				props.getProperty("captureResolutionHeight"));
+
+		cameraPortTextField.setText(
+				props.getProperty("cameraInput"));
 	}
 
 	public void initializeVideoCapture() {
