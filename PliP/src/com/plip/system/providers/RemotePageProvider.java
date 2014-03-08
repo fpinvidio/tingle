@@ -29,7 +29,6 @@ import com.plip.persistence.model.Page;
 import com.plip.persistence.model.PageProduct;
 import com.plip.persistence.model.Product;
 import com.plip.system.communication.RemoteServerConnector;
-import com.plip.system.communication.WebServiceManager;
 import com.plip.system.config.SystemUtils;
 
 public class RemotePageProvider implements PageProvider{
@@ -46,6 +45,7 @@ public class RemotePageProvider implements PageProvider{
 		JSONObject response = rServerConnector.connectRemoteServer(new SystemUtils().getParam("DusaServer"));
 		
 		PageDao pageDao = new PageDaoImpl();
+		PageProductDao pageProductDao = new PageProductDaoImpl();
 		JSONObject order = null;
 		JSONArray pageProducts = null;
 		int pageNumber = 0;
@@ -65,6 +65,10 @@ public class RemotePageProvider implements PageProvider{
 		page.setPageNumber(pageNumber);
 		try{
 			pageDao.addPage(page);	
+			Set<PageProduct> pageProductsModels = page.getPageProducts();
+			for(PageProduct pageProduct : pageProductsModels){
+				pageProductDao.addPageProduct(pageProduct);
+			}
 			}catch(NullModelAttributesException e){
 			e.printStackTrace();	
 			}
@@ -91,6 +95,7 @@ public class RemotePageProvider implements PageProvider{
 		ProductDao productDao =  new ProductDaoImpl();
 		Product product = new Product();
 		
+		int quantity = 0;
 	
 		Page page = new Page();
 		Set<PageProduct> pageProductsSet = new HashSet<PageProduct>();
@@ -103,6 +108,7 @@ public class RemotePageProvider implements PageProvider{
 			JSONObject jsonPageProduct;
 			try {
 				jsonPageProduct = jsonPageProducts.getJSONObject(i);
+				quantity = jsonPageProduct.getInt("quantity");
 				JSONObject jsonProduct = jsonPageProduct.getJSONObject("product");
 				String name = jsonProduct.getString("name");
 				int code = jsonProduct.getInt("code");
@@ -129,7 +135,8 @@ public class RemotePageProvider implements PageProvider{
 			}
 			PageProduct pageProduct = new PageProduct();
 			pageProduct.setProduct(product);
-			pageProduct.setPage(page);
+			pageProduct.setQuantity(quantity);
+			pageProduct.setPage(page);  
 			pageProductsSet.add(pageProduct);	
 		}
 		page.setPageProducts(pageProductsSet);
