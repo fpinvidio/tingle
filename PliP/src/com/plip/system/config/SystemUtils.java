@@ -54,6 +54,11 @@ public class SystemUtils {
 				props.getProperty("minAreaThreshold"));
 		ObjectCounter.maxAreaThreshold = new Integer(
 				props.getProperty("maxAreaThreshold"));
+		
+		ObjectCounter.trayFloorX = new Integer(props.getProperty("trayFloorX"));
+		ObjectCounter.trayFloorY = new Integer(props.getProperty("trayFloorY"));
+		ObjectCounter.trayFloorHeight = new Integer(props.getProperty("trayFloorHeight"));
+		ObjectCounter.trayFloorWidth = new Integer(props.getProperty("trayFloorWidth"));
 
 		MinDistanceMatcher.minDistanceThreshold = new Double(
 				props.getProperty("minMatchingDistance"));
@@ -64,6 +69,8 @@ public class SystemUtils {
 		TrayProcessor.thr4 = new Double(props.getProperty("maxHueThreshold"));
 		TrayProcessor.thr5 = new Double(props.getProperty("maxSatThreshold"));
 		TrayProcessor.thr6 = new Double(props.getProperty("maxValueThreshold"));
+		
+		
 		
 		HashImageManager.imagesRootPath = new String(props.getProperty("imagesUploadPath"));
 	

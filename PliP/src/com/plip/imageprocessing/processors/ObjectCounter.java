@@ -24,6 +24,10 @@ public class ObjectCounter {
 	private Mat image = new Mat();
 	public static int minAreaThreshold = 0;
 	public static int maxAreaThreshold = 1000000;
+	public static int trayFloorX = 0;
+	public static int trayFloorY = 0;
+	public static int trayFloorHeight=1000;
+	public static int trayFloorWidth=1700;
 	
 	public ObjectCounter(){
 		super();
@@ -420,7 +424,7 @@ public class ObjectCounter {
 		Mat subMat = new Mat();
 		
 		if (image != null ) {
-		Rect boundRect = new Rect(270,190,1700,1000);
+		Rect boundRect = new Rect(trayFloorX,trayFloorY,trayFloorWidth,trayFloorHeight);
 		
 		
 //		Core.rectangle(image,boundRect.br(),boundRect.tl(), new Scalar(0,255,0),3);
