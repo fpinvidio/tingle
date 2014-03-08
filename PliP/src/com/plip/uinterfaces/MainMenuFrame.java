@@ -131,7 +131,7 @@ public class MainMenuFrame extends JFrame implements GenericEventListener {
 		JMenuItem mntmCalibrateThreshold = new JMenuItem("Camera");
 		mntmCalibrateThreshold.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new CalibrationDialog().setVisible(true);
+				new CameraDialog().setVisible(true);
 			}
 		});
 		mntmCalibrateThreshold.setAccelerator(KeyStroke.getKeyStroke(

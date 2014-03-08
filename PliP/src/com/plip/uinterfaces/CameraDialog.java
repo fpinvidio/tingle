@@ -1,6 +1,5 @@
 package com.plip.uinterfaces;
 
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -18,6 +17,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
@@ -30,7 +30,7 @@ import org.opencv.highgui.VideoCapture;
 
 import com.plip.imageprocessing.processors.TrayProcessor;
 
-public class CalibrationDialog extends JDialog {
+public class CameraDialog extends JDialog {
 
 	/**
 	 * 
@@ -42,23 +42,24 @@ public class CalibrationDialog extends JDialog {
 	private VideoCapture vcapture;
 	private TrayProcessor iprocessor;
 
-	private CalibrationDialog cDialog = this;
+	private CameraDialog cDialog = this;
 	private JSlider minHueSlider;
 	private JSlider minSatSlider;
 	private JSlider minValueSlider;
 	private JSlider maxHueSlider;
 	private JSlider maxSatSlider;
 	private JSlider maxValueSlider;
+	private JTextField imageResolutionTextFieldW,imageResolutionTextFieldH, videoResolutionTextFieldW, videoResolutionTextFieldH,cameraPortTextField;
 	private VideoDisplayPanel videoDisplayPanel;
 	private JLabel minHueLabel, minSatLabel, minValueLabel, maxHueLabel,
-			maxSatLabel, maxValueLabel;
+			maxSatLabel, maxValueLabel,imageResolutionLabel, videoResolutionLabel, cameraPortLabel;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			CalibrationDialog dialog = new CalibrationDialog();
+			CameraDialog dialog = new CameraDialog();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -69,22 +70,33 @@ public class CalibrationDialog extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public CalibrationDialog() {
-		setMinimumSize(new Dimension(600, 380));
-		setPreferredSize(new Dimension(600, 350));
-		setTitle("Calibrate Tray");
+	public CameraDialog() {
+		
+		setTitle("Camera");
 		setModal(true);
-		setBounds(100, 100, 450, 300);
+		setMinimumSize(new Dimension(700, 550));
+		setPreferredSize(new Dimension(700, 550));
+		setBounds(50, 50, 680, 500);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.X_AXIS));
 		{
+			JPanel mainPanel = new JPanel();
+			mainPanel.setAlignmentY(LEFT_ALIGNMENT);
+			contentPanel.add(mainPanel);
+			mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+			{
+				
 			JPanel panel = new JPanel();
 			panel.setBorder(new TitledBorder(new EtchedBorder(
-					EtchedBorder.LOWERED, null, null), "HSV Values",
+					EtchedBorder.LOWERED, null, null), "Calibrate",
 					TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			contentPanel.add(panel);
+			panel.setMinimumSize(new Dimension(400, 340));
+			
+			panel.setPreferredSize(new Dimension(400, 340));
+			
+			mainPanel.add(panel);
 			panel.setLayout(new GridLayout(0, 1, 0, 0));
 			{
 				JPanel minPanel = new JPanel();
@@ -235,6 +247,89 @@ public class CalibrationDialog extends JDialog {
 				}
 			}
 		}
+		
+		{
+		JPanel settingsPanel = new JPanel();
+		mainPanel.setAlignmentY(LEFT_ALIGNMENT);
+		settingsPanel.setBorder(new TitledBorder(new EtchedBorder(
+				EtchedBorder.LOWERED, null, null), "Settings",
+				TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		mainPanel.add(settingsPanel);
+		settingsPanel.setLayout(new GridLayout(0, 1, 0, 0));
+		{
+			
+			{
+				JPanel minPanel = new JPanel();
+				minPanel.setBorder(new TitledBorder(new EtchedBorder(
+						EtchedBorder.LOWERED, null, null), "",
+						TitledBorder.CENTER, TitledBorder.TOP, null, null));
+				settingsPanel.add(minPanel);
+				minPanel.setLayout(new BoxLayout(minPanel, BoxLayout.Y_AXIS));
+				{
+					JPanel imageResolutionPanel = new JPanel();
+					imageResolutionPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
+					minPanel.add(imageResolutionPanel);
+					{
+						imageResolutionLabel = new JLabel("Image resolution:");
+						imageResolutionLabel.setPreferredSize(new Dimension(130, 16));
+						imageResolutionLabel.setMinimumSize(new Dimension(130, 16));
+						imageResolutionPanel.add(imageResolutionLabel);
+					}
+					{
+						imageResolutionTextFieldH = new JTextField(3);
+						imageResolutionTextFieldW = new JTextField(3);
+						imageResolutionTextFieldH.setPreferredSize(new Dimension(80, 18));
+						imageResolutionTextFieldH.setMinimumSize(new Dimension(80, 18));
+						imageResolutionTextFieldW.setPreferredSize(new Dimension(80, 18));
+						imageResolutionTextFieldW.setMinimumSize(new Dimension(80, 18));
+						imageResolutionPanel.add(imageResolutionTextFieldH);
+						imageResolutionPanel.add(imageResolutionTextFieldW);
+					}
+				}
+				{
+					JPanel videoResolutionPanel = new JPanel();
+					videoResolutionPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
+					minPanel.add(videoResolutionPanel);
+					{
+						videoResolutionLabel = new JLabel("Video resolution:");
+						videoResolutionLabel.setMinimumSize(new Dimension(130, 16));
+						videoResolutionLabel.setPreferredSize(new Dimension(130, 16));
+						videoResolutionPanel.add(videoResolutionLabel);
+					}
+					{
+						videoResolutionTextFieldH = new JTextField(3);
+						videoResolutionTextFieldW = new JTextField(3);
+						videoResolutionTextFieldH.setPreferredSize(new Dimension(80, 18));
+						videoResolutionTextFieldH.setMinimumSize(new Dimension(80, 18));
+						videoResolutionTextFieldW.setPreferredSize(new Dimension(80, 18));
+						videoResolutionTextFieldW.setMinimumSize(new Dimension(80, 18));
+						videoResolutionPanel.add(videoResolutionTextFieldH);
+						videoResolutionPanel.add(videoResolutionTextFieldW);
+					}
+				}
+				{
+					JPanel cameraPortPanel = new JPanel();
+					cameraPortPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
+					minPanel.add(cameraPortPanel);
+					{
+						cameraPortLabel = new JLabel("Camera Port:");
+						cameraPortLabel.setMinimumSize(new Dimension(130, 16));
+						cameraPortLabel.setPreferredSize(new Dimension(130, 16));
+						cameraPortPanel.add(cameraPortLabel);
+					}
+					{
+						cameraPortTextField = new JTextField(1);
+						cameraPortTextField.setPreferredSize(new Dimension(80, 18));
+						cameraPortTextField.setMinimumSize(new Dimension(80, 18));
+						cameraPortPanel.add(cameraPortTextField);
+					}
+				}
+			}
+			
+			
+			}
+		}
+	}		
 		{
 			JPanel videoPanel = new JPanel();
 			videoPanel.setBorder(new TitledBorder(null, "Video",
@@ -270,10 +365,15 @@ public class CalibrationDialog extends JDialog {
 									maxSatSlider.getValue() + "");
 							props.setProperty("maxValueThreshold",
 									maxValueSlider.getValue() + "");
+							props.setProperty("maxHueThreshold",
+									maxHueSlider.getValue() + "");
+							props.setProperty("maxSaturationThreshold",
+									maxSatSlider.getValue() + "");
+							props.setProperty("maxValueThreshold",
+									maxValueSlider.getValue() + "");			
 							File f = new File("./res/config.properties");
 							OutputStream out = new FileOutputStream(f);
-							props.store(out,
-									"This file has been modified.");
+							props.store(out, "This file has been modified.");
 						} catch (Exception e1) {
 							e1.printStackTrace();
 						}
