@@ -1,4 +1,5 @@
 package com.plip.uinterfaces;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -42,4 +43,5 @@ public class VideoDisplayPanel extends JPanel{
           g.drawImage(this.image,0,0,this.image.getWidth(),this.image.getHeight(), null);  
          //g.drawString("This is my custom Panel!",10,20);  
     }
+
 }

@@ -20,7 +20,9 @@ import java.util.EventObject;
 import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JLayer;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -47,13 +49,15 @@ public class MainMenuFrame extends JFrame implements GenericEventListener {
 
 	public MainSystemMonitor msm = null;
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JScrollPane logScrollPane;
 	private JTextArea logTextPane;
+	private boolean monitor = false;
+	private final WaitLayerUI layerUI;
+	private final Timer stopper;
+	private final VideoDisplayPanel videoDisplayPanel;
+	private CameraDialog cameraDialog;
 
 	/**
 	 * Launch the application.
@@ -88,19 +92,29 @@ public class MainMenuFrame extends JFrame implements GenericEventListener {
 		JMenu mnFile = new JMenu("File");
 		menuBar.add(mnFile);
 		
+		stopper = new Timer(5000, new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				layerUI.stop();
+			}
+		});
+		stopper.setRepeats(false);
+		
+		cameraDialog = new CameraDialog();
+		cameraDialog.setVisible(false);
+		
 		JMenuItem mntmAboutPliP = new JMenuItem("About Plip");
 		mntmAboutPliP.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
+			public void actionPerformed(ActionEvent e) {	
+				new AboutPLiPDialog().setVisible(true);
 			}
 		});
 		
 		mnFile.add(mntmAboutPliP);
 		
 		JMenuItem mntmPreferences= new JMenuItem("Preferences");
-		mntmAboutPliP.addActionListener(new ActionListener() {
+		mntmPreferences.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				new PreferencesDialog().setVisible(true);
 			}
 		});
 		
@@ -121,9 +135,46 @@ public class MainMenuFrame extends JFrame implements GenericEventListener {
 
 		JMenuItem mntmRun = new JMenuItem("Run");
 		mnSystem.add(mntmRun);
-
+		mntmRun.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(!monitor){
+					videoDisplayPanel.setVisible(true);
+					layerUI.start();
+					layerUI.start();
+					if (!stopper.isRunning()) {
+						stopper.start();
+					}
+					new Thread(new Runnable() {
+						public void run() {
+							while (true) {
+								if (!stopper.isRunning()) {
+									msm = new MainSystemMonitor();
+									Mat capturedImage = msm.captureVideoFrame();
+									if (capturedImage != null) {
+										videoDisplayPanel
+												.matToBufferedImage(capturedImage);
+										videoDisplayPanel.repaint();
+									}
+								}
+							}
+						}
+					}).start();
+					monitor = true;
+				}
+			}
+		});
+		
 		JMenuItem mntmSystem = new JMenuItem("Stop");
 		mnSystem.add(mntmSystem);
+		mntmSystem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(monitor){
+						monitor = false;
+						msm.stop();
+						videoDisplayPanel.setVisible(false);
+					}
+				}
+		});
 
 		JMenu mnTools = new JMenu("Tools");
 		menuBar.add(mnTools);
@@ -131,7 +182,7 @@ public class MainMenuFrame extends JFrame implements GenericEventListener {
 		JMenuItem mntmCalibrateThreshold = new JMenuItem("Camera");
 		mntmCalibrateThreshold.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new CameraDialog().setVisible(true);
+				cameraDialog.setVisible(true);
 			}
 		});
 		mntmCalibrateThreshold.setAccelerator(KeyStroke.getKeyStroke(
@@ -155,7 +206,6 @@ public class MainMenuFrame extends JFrame implements GenericEventListener {
 				try {
 					trainer.train();
 				} catch (ImageNotFoundException e1) {
-					// TODO Auto-generated catch block
 					JOptionPane.showMessageDialog(getParent(), "Eggs are not supposed to be green.");
 				}
 			}
@@ -170,38 +220,30 @@ public class MainMenuFrame extends JFrame implements GenericEventListener {
 		mnHelp.add(mntmHelpContents);
 		
 		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setBorder(new EmptyBorder(10, 15, 10, 10));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		contentPane.setBackground(Color.WHITE);
 		setContentPane(contentPane);
 		
 
 		JPanel westPanel = new JPanel();
-		westPanel.setBackground(Color.WHITE);
-		westPanel.setBorder(new EmptyBorder(10, 15, 10, 10));
+		westPanel.setBackground(Color.LIGHT_GRAY);
+		westPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		westPanel.setMinimumSize(new Dimension(200, 10));
-		westPanel.setPreferredSize(new Dimension(940, 640));
-		westPanel.setSize(new Dimension(940, 640));
+		westPanel.setPreferredSize(new Dimension(920, 640));
+		westPanel.setSize(new Dimension(920, 640));
 		contentPane.add(westPanel, BorderLayout.WEST);
 		westPanel.setLayout(new BoxLayout(westPanel, BoxLayout.X_AXIS));
 
-		final VideoDisplayPanel videoDisplayPanel = new VideoDisplayPanel();
+		videoDisplayPanel = new VideoDisplayPanel();
 		
-		final WaitLayerUI layerUI = new WaitLayerUI();
-		
-		final Timer stopper = new Timer(5000, new ActionListener() {
-			public void actionPerformed(ActionEvent ae) {
-				layerUI.stop();
-			}
-		});
-		stopper.setRepeats(false);
+		layerUI = new WaitLayerUI();
 
 		JLayer<JPanel> layer = new JLayer<JPanel>();
 		layer = new JLayer<JPanel>(videoDisplayPanel, layerUI);
-		
+		layer.setBackground(Color.GRAY);	
 		westPanel.add(layer);
-		
-
+	
 		JPanel centerPanel = new JPanel();
 		centerPanel.setBackground(Color.WHITE);
 		contentPane.add(centerPanel, BorderLayout.CENTER);
@@ -215,13 +257,7 @@ public class MainMenuFrame extends JFrame implements GenericEventListener {
 		startButtonPanel.setLayout(new BoxLayout(startButtonPanel,
 				BoxLayout.Y_AXIS));
 
-		//final JLabel capturingLabel = new JLabel("Not Capturing");
-		//capturingLabel.setFont(new Font("Arial", Font.PLAIN, 14));
-		
-		//capturingLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		//startButtonPanel.add(capturingLabel);
-
-		JToggleButton tglbtnStart = new JToggleButton();
+		final JToggleButton tglbtnStart = new JToggleButton();
 		tglbtnStart.setBorderPainted(false);
 		
 		try {
@@ -232,21 +268,19 @@ public class MainMenuFrame extends JFrame implements GenericEventListener {
 		
 		tglbtnStart.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
-				final JToggleButton stopButton = (JToggleButton) e.getItem();
-				if (stopButton.isSelected()) {
-					//capturingLabel.setText("Capturing");
-					
+				if(!monitor){
+					monitor = true;
 					try {
 					    Image img =  ImageIO.read(getClass().getResource("/stop.png"));
-					    stopButton.setIcon(new ImageIcon(img));
+					    tglbtnStart.setIcon(new ImageIcon(img));
 					  } catch (IOException ex) {
 						  ex.printStackTrace();
 					}
-					
 					layerUI.start();
 					if (!stopper.isRunning()) {
 						stopper.start();
 					}
+					videoDisplayPanel.setVisible(true);
 					new Thread(new Runnable() {
 						public void run() {
 							while (true) {
@@ -258,21 +292,20 @@ public class MainMenuFrame extends JFrame implements GenericEventListener {
 										videoDisplayPanel.repaint();
 									}
 								}
-								if (!stopButton.isSelected()) {
+								if (!tglbtnStart.isSelected()) {
 									break;
 								}
 							}
 						}
 					}).start();
-
 				} else {
-					//capturingLabel.setText("Not Capturing");
+					monitor = false;
 					stopper.stop();
-					videoDisplayPanel.repaint();
-					
+					msm.stop();
+					videoDisplayPanel.setVisible(false);;
 					try {
 					    Image img =  ImageIO.read(getClass().getResource("/play.png"));
-					    stopButton.setIcon(new ImageIcon(img));
+					    tglbtnStart.setIcon(new ImageIcon(img));
 					  } catch (IOException ex) {
 						  ex.printStackTrace();
 					}
@@ -284,17 +317,33 @@ public class MainMenuFrame extends JFrame implements GenericEventListener {
 
 		JPanel logPanel = new JPanel();
 		logPanel.setBackground(Color.WHITE);
-		centerPanel.add(logPanel);
-		logPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+		logPanel.setBorder(new EmptyBorder(10, 15, 0, 10));
+		logPanel.setPreferredSize(new Dimension(120,380));
 		logPanel.setLayout(new BoxLayout(logPanel, BoxLayout.X_AXIS));
-
+		centerPanel.add(logPanel);
+		
 		logTextPane = new JTextArea();
 		logTextPane.setEditable(false);
 		logScrollPane = new JScrollPane(logTextPane);
 		logScrollPane
 				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		logPanel.add(logScrollPane);
+		
+		JPanel logoPanel = new JPanel();
+		logoPanel.setBackground(Color.WHITE);
+		logoPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
 
+		final JLabel plipIcon = new JLabel();	
+		plipIcon.setAlignmentX(BOTTOM_ALIGNMENT);
+		try {
+		    Image img =  ImageIO.read(getClass().getResource("/logomini.png"));
+		    plipIcon.setIcon(new ImageIcon(img));
+		    plipIcon.setPreferredSize(new Dimension(190,80));
+		    logoPanel.add(plipIcon);
+		  } catch (IOException ex) {
+		}	
+		centerPanel.add(logoPanel);
+		
 		JPanel northPanel = new JPanel();
 		northPanel.setBackground(Color.WHITE);
 		contentPane.add(northPanel, BorderLayout.NORTH);
@@ -306,7 +355,7 @@ public class MainMenuFrame extends JFrame implements GenericEventListener {
 
 	public MainMenuFrame(MainSystemMonitor msm) {
 		this();
-		this.msm = msm;
+		this.msm = msm;	
 	}
 
 	@Override

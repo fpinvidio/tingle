@@ -39,9 +39,6 @@ import com.plip.system.monitors.MainSystemMonitor;
 
 public class CameraDialog extends JDialog {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private final JPanel contentPanel = new JPanel();
@@ -56,10 +53,13 @@ public class CameraDialog extends JDialog {
 	private JSlider maxHueSlider;
 	private JSlider maxSatSlider;
 	private JSlider maxValueSlider;
-	private JTextField imageResolutionTextFieldW,imageResolutionTextFieldH, videoResolutionTextFieldW, videoResolutionTextFieldH,cameraPortTextField;
+	private JTextField imageResolutionTextFieldW, imageResolutionTextFieldH,
+			videoResolutionTextFieldW, videoResolutionTextFieldH,
+			cameraPortTextField;
 	private VideoDisplayPanel videoDisplayPanel;
 	private JLabel minHueLabel, minSatLabel, minValueLabel, maxHueLabel,
-			maxSatLabel, maxValueLabel,imageResolutionLabel, videoResolutionLabel, cameraPortLabel;
+			maxSatLabel, maxValueLabel, imageResolutionLabel,
+			videoResolutionLabel, cameraPortLabel;
 
 	/**
 	 * Launch the application.
@@ -79,12 +79,12 @@ public class CameraDialog extends JDialog {
 	 * Create the dialog.
 	 */
 	public CameraDialog() {
-		
+
 		setTitle("Camera");
 		setModal(true);
-		setMinimumSize(new Dimension(700, 550));
-		setPreferredSize(new Dimension(700, 550));
-		setBounds(50, 50, 680, 500);
+		setMinimumSize(new Dimension(650, 530));
+		setPreferredSize(new Dimension(650, 530));
+		setBounds(100, 100, 650, 530);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -95,247 +95,305 @@ public class CameraDialog extends JDialog {
 			contentPanel.add(mainPanel);
 			mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 			{
-				
-			JPanel panel = new JPanel();
-			panel.setBorder(new TitledBorder(new EtchedBorder(
-					EtchedBorder.LOWERED, null, null), "Calibrate",
-					TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			panel.setMinimumSize(new Dimension(400, 340));
-			
-			panel.setPreferredSize(new Dimension(400, 340));
-			
-			mainPanel.add(panel);
-			panel.setLayout(new GridLayout(0, 1, 0, 0));
-			{
-				JPanel minPanel = new JPanel();
-				minPanel.setBorder(new TitledBorder(new EtchedBorder(
-						EtchedBorder.LOWERED, null, null), "Min. Threshold",
-						TitledBorder.CENTER, TitledBorder.TOP, null, null));
-				panel.add(minPanel);
-				minPanel.setLayout(new BoxLayout(minPanel, BoxLayout.Y_AXIS));
+
+				JPanel panel = new JPanel();
+				panel.setBorder(new TitledBorder(new EtchedBorder(
+						EtchedBorder.LOWERED, null, null), "Calibrate",
+						TitledBorder.LEADING, TitledBorder.TOP, null, null));
+				panel.setMinimumSize(new Dimension(300, 340));
+
+				panel.setPreferredSize(new Dimension(300, 340));
+
+				mainPanel.add(panel);
+				panel.setLayout(new GridLayout(0, 1, 0, 0));
 				{
-					JPanel minHuePanel = new JPanel();
-					minHuePanel.setBorder(new EmptyBorder(0, 0, 0, 0));
-					minPanel.add(minHuePanel);
+					JPanel minPanel = new JPanel();
+					minPanel.setBorder(new TitledBorder(new EtchedBorder(
+							EtchedBorder.LOWERED, null, null),
+							"Min. Threshold", TitledBorder.CENTER,
+							TitledBorder.TOP, null, null));
+					panel.add(minPanel);
+					minPanel.setLayout(new BoxLayout(minPanel, BoxLayout.Y_AXIS));
 					{
-						minHueLabel = new JLabel("Hue:");
-						minHueLabel.setPreferredSize(new Dimension(100, 16));
-						minHueLabel.setMinimumSize(new Dimension(100, 16));
-						minHuePanel.add(minHueLabel);
+						JPanel minHuePanel = new JPanel();
+						minHuePanel.setBorder(new EmptyBorder(0, 0, 0, 0));
+						minHuePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 3, 3));
+						minPanel.add(minHuePanel);
+						{
+							minHueLabel = new JLabel("Hue:");
+							minHueLabel
+									.setPreferredSize(new Dimension(100, 16));
+							minHueLabel.setMinimumSize(new Dimension(100, 16));
+							minHuePanel.add(minHueLabel);
+						}
+						{
+							minHueSlider = new JSlider();
+							minHueSlider
+									.addChangeListener(new ChangeListener() {
+										public void stateChanged(ChangeEvent e) {
+											minHueLabel.setText("Hue: "
+													+ minHueSlider.getValue());
+										}
+									});
+							minHueSlider.setMaximum(500);
+							minHuePanel.add(minHueSlider);
+						}
 					}
 					{
-						minHueSlider = new JSlider();
-						minHueSlider.addChangeListener(new ChangeListener() {
-							public void stateChanged(ChangeEvent e) {
-								minHueLabel.setText("Hue: "
-										+ minHueSlider.getValue());
-							}
-						});
-						minHueSlider.setMaximum(500);
-						minHuePanel.add(minHueSlider);
+						JPanel minSatPanel = new JPanel();
+						minSatPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 3, 3));
+						minSatPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
+						minPanel.add(minSatPanel);
+						{
+							minSatLabel = new JLabel("Saturation:");
+							minSatLabel.setMinimumSize(new Dimension(100, 16));
+							minSatLabel
+									.setPreferredSize(new Dimension(100, 16));
+							minSatPanel.add(minSatLabel);
+						}
+						{
+							minSatSlider = new JSlider();
+							minSatSlider
+									.addChangeListener(new ChangeListener() {
+										public void stateChanged(ChangeEvent e) {
+											minSatLabel.setText("Saturation: "
+													+ minSatSlider.getValue());
+										}
+									});
+							minSatSlider.setMaximum(500);
+							minSatPanel.add(minSatSlider);
+						}
+					}
+					{
+						JPanel minValPanel = new JPanel();
+						minValPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 3, 3));
+						minValPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
+						minPanel.add(minValPanel);
+						{
+							minValueLabel = new JLabel("Value:");
+							minValueLabel
+									.setMinimumSize(new Dimension(100, 16));
+							minValueLabel.setPreferredSize(new Dimension(100,
+									16));
+							minValPanel.add(minValueLabel);
+						}
+						{
+							minValueSlider = new JSlider();
+							minValueSlider
+									.addChangeListener(new ChangeListener() {
+										public void stateChanged(ChangeEvent e) {
+											minValueLabel.setText("Value: "
+													+ minValueSlider.getValue());
+										}
+									});
+							minValueSlider.setMaximum(500);
+							minValPanel.add(minValueSlider);
+						}
 					}
 				}
 				{
-					JPanel minSatPanel = new JPanel();
-					minSatPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
-					minPanel.add(minSatPanel);
+					JPanel maxPanel = new JPanel();
+					maxPanel.setBorder(new TitledBorder(new EtchedBorder(
+							EtchedBorder.LOWERED, null, null),
+							"Max. Threshold", TitledBorder.CENTER,
+							TitledBorder.TOP, null, null));
+					panel.add(maxPanel);
+					maxPanel.setLayout(new BoxLayout(maxPanel, BoxLayout.Y_AXIS));
 					{
-						minSatLabel = new JLabel("Saturation:");
-						minSatLabel.setMinimumSize(new Dimension(100, 16));
-						minSatLabel.setPreferredSize(new Dimension(100, 16));
-						minSatPanel.add(minSatLabel);
+						JPanel panel_1 = new JPanel();
+						panel_1.setLayout(new FlowLayout(FlowLayout.LEFT, 3, 3));
+						panel_1.setBorder(new EmptyBorder(0, 0, 0, 0));
+						maxPanel.add(panel_1);
+						{
+							maxHueLabel = new JLabel("Hue:");
+							maxHueLabel
+									.setPreferredSize(new Dimension(100, 16));
+							maxHueLabel.setMinimumSize(new Dimension(100, 16));
+							panel_1.add(maxHueLabel);
+						}
+						{
+							maxHueSlider = new JSlider();
+							maxHueSlider
+									.addChangeListener(new ChangeListener() {
+										public void stateChanged(ChangeEvent e) {
+											maxHueLabel.setText("Hue: "
+													+ maxHueSlider.getValue());
+										}
+									});
+							maxHueSlider.setMaximum(500);
+							panel_1.add(maxHueSlider);
+						}
 					}
 					{
-						minSatSlider = new JSlider();
-						minSatSlider.addChangeListener(new ChangeListener() {
-							public void stateChanged(ChangeEvent e) {
-								minSatLabel.setText("Saturation: "
-										+ minSatSlider.getValue());
-							}
-						});
-						minSatSlider.setMaximum(500);
-						minSatPanel.add(minSatSlider);
+						JPanel panel_1 = new JPanel();
+						panel_1.setLayout(new FlowLayout(FlowLayout.LEFT, 3, 3));
+						panel_1.setBorder(new EmptyBorder(0, 0, 0, 0));
+						maxPanel.add(panel_1);
+						{
+							maxSatLabel = new JLabel("Saturation:");
+							maxSatLabel.setMinimumSize(new Dimension(100, 16));
+							maxSatLabel
+									.setPreferredSize(new Dimension(100, 16));
+							panel_1.add(maxSatLabel);
+						}
+						{
+							maxSatSlider = new JSlider();
+							maxSatSlider
+									.addChangeListener(new ChangeListener() {
+										public void stateChanged(ChangeEvent e) {
+											maxSatLabel.setText("Saturation: "
+													+ maxSatSlider.getValue());
+										}
+									});
+							maxSatSlider.setMaximum(500);
+							panel_1.add(maxSatSlider);
+						}
 					}
-				}
-				{
-					JPanel minValPanel = new JPanel();
-					minValPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
-					minPanel.add(minValPanel);
 					{
-						minValueLabel = new JLabel("Value:");
-						minValueLabel.setMinimumSize(new Dimension(100, 16));
-						minValueLabel.setPreferredSize(new Dimension(100, 16));
-						minValPanel.add(minValueLabel);
-					}
-					{
-						minValueSlider = new JSlider();
-						minValueSlider.addChangeListener(new ChangeListener() {
-							public void stateChanged(ChangeEvent e) {
-								minValueLabel.setText("Value: "
-										+ minValueSlider.getValue());
-							}
-						});
-						minValueSlider.setMaximum(500);
-						minValPanel.add(minValueSlider);
+						JPanel panel_1 = new JPanel();
+						panel_1.setBorder(new EmptyBorder(0, 0, 0, 0));
+						panel_1.setLayout(new FlowLayout(FlowLayout.LEFT, 3, 3));
+						maxPanel.add(panel_1);
+						{
+							maxValueLabel = new JLabel("Value:");
+							maxValueLabel.setPreferredSize(new Dimension(100,
+									16));
+							maxValueLabel
+									.setMinimumSize(new Dimension(100, 16));
+							panel_1.add(maxValueLabel);
+						}
+						{
+							maxValueSlider = new JSlider();
+							maxValueSlider
+									.addChangeListener(new ChangeListener() {
+										public void stateChanged(ChangeEvent e) {
+											maxValueLabel.setText("Value: "
+													+ maxValueSlider.getValue());
+										}
+									});
+							maxValueSlider.setMaximum(500);
+							panel_1.add(maxValueSlider);
+						}
 					}
 				}
 			}
 			{
-				JPanel maxPanel = new JPanel();
-				maxPanel.setBorder(new TitledBorder(new EtchedBorder(
-						EtchedBorder.LOWERED, null, null), "Max. Threshold",
-						TitledBorder.CENTER, TitledBorder.TOP, null, null));
-				panel.add(maxPanel);
-				maxPanel.setLayout(new BoxLayout(maxPanel, BoxLayout.Y_AXIS));
+				JPanel settingsPanel = new JPanel();
+				mainPanel.setAlignmentY(LEFT_ALIGNMENT);
+				settingsPanel.setBorder(new TitledBorder(new EtchedBorder(
+						EtchedBorder.LOWERED, null, null), "Settings",
+						TitledBorder.LEADING, TitledBorder.TOP, null, null));
+				mainPanel.add(settingsPanel);
+				settingsPanel.setLayout(new GridLayout(0, 1, 0, 0));
 				{
-					JPanel panel_1 = new JPanel();
-					panel_1.setBorder(new EmptyBorder(0, 0, 0, 0));
-					maxPanel.add(panel_1);
 					{
-						maxHueLabel = new JLabel("Hue:");
-						maxHueLabel.setPreferredSize(new Dimension(100, 16));
-						maxHueLabel.setMinimumSize(new Dimension(100, 16));
-						panel_1.add(maxHueLabel);
-					}
-					{
-						maxHueSlider = new JSlider();
-						maxHueSlider.addChangeListener(new ChangeListener() {
-							public void stateChanged(ChangeEvent e) {
-								maxHueLabel.setText("Hue: "
-										+ maxHueSlider.getValue());
+						JPanel minPanel = new JPanel();
+						minPanel.setBorder(new TitledBorder(new EtchedBorder(
+								EtchedBorder.LOWERED, null, null), "",
+								TitledBorder.CENTER, TitledBorder.TOP, null,
+								null));
+						settingsPanel.add(minPanel);
+						minPanel.setLayout(new BoxLayout(minPanel,
+								BoxLayout.Y_AXIS));
+						{
+							JPanel imageResolutionPanel = new JPanel();
+							imageResolutionPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 3, 3));
+							imageResolutionPanel.setBorder(new EmptyBorder(0,
+									0, 0, 0));
+							minPanel.add(imageResolutionPanel);
+							{
+								imageResolutionLabel = new JLabel(
+										"Image resolution:");
+								imageResolutionLabel
+										.setPreferredSize(new Dimension(130, 16));
+								imageResolutionLabel
+										.setMinimumSize(new Dimension(130, 16));
+								imageResolutionPanel.add(imageResolutionLabel);
 							}
-						});
-						maxHueSlider.setMaximum(500);
-						panel_1.add(maxHueSlider);
-					}
-				}
-				{
-					JPanel panel_1 = new JPanel();
-					panel_1.setBorder(new EmptyBorder(0, 0, 0, 0));
-					maxPanel.add(panel_1);
-					{
-						maxSatLabel = new JLabel("Saturation:");
-						maxSatLabel.setMinimumSize(new Dimension(100, 16));
-						maxSatLabel.setPreferredSize(new Dimension(100, 16));
-						panel_1.add(maxSatLabel);
-					}
-					{
-						maxSatSlider = new JSlider();
-						maxSatSlider.addChangeListener(new ChangeListener() {
-							public void stateChanged(ChangeEvent e) {
-								maxSatLabel.setText("Saturation: "
-										+ maxSatSlider.getValue());
+							{
+								imageResolutionTextFieldW = new JTextField(3);
+								imageResolutionTextFieldW
+										.setToolTipText("Width");
+								imageResolutionTextFieldH = new JTextField(3);
+								imageResolutionTextFieldH
+										.setToolTipText("Height");
+								imageResolutionTextFieldH
+										.setPreferredSize(new Dimension(80, 18));
+								imageResolutionTextFieldH
+										.setMinimumSize(new Dimension(80, 18));
+								imageResolutionTextFieldW
+										.setPreferredSize(new Dimension(80, 18));
+								imageResolutionTextFieldW
+										.setMinimumSize(new Dimension(80, 18));
+								imageResolutionPanel
+										.add(imageResolutionTextFieldH);
+								imageResolutionPanel
+										.add(imageResolutionTextFieldW);
 							}
-						});
-						maxSatSlider.setMaximum(500);
-						panel_1.add(maxSatSlider);
-					}
-				}
-				{
-					JPanel panel_1 = new JPanel();
-					panel_1.setBorder(new EmptyBorder(0, 0, 0, 0));
-					maxPanel.add(panel_1);
-					{
-						maxValueLabel = new JLabel("Value:");
-						maxValueLabel.setPreferredSize(new Dimension(100, 16));
-						maxValueLabel.setMinimumSize(new Dimension(100, 16));
-						panel_1.add(maxValueLabel);
-					}
-					{
-						maxValueSlider = new JSlider();
-						maxValueSlider.addChangeListener(new ChangeListener() {
-							public void stateChanged(ChangeEvent e) {
-								maxValueLabel.setText("Value: "
-										+ maxValueSlider.getValue());
+						}
+						{
+							JPanel videoResolutionPanel = new JPanel();
+							videoResolutionPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 3, 3));
+							videoResolutionPanel.setBorder(new EmptyBorder(0,
+									0, 0, 0));
+							minPanel.add(videoResolutionPanel);
+							{
+								videoResolutionLabel = new JLabel(
+										"Video resolution:");
+								videoResolutionLabel
+										.setMinimumSize(new Dimension(130, 16));
+								videoResolutionLabel
+										.setPreferredSize(new Dimension(130, 16));
+								videoResolutionPanel.add(videoResolutionLabel);
 							}
-						});
-						maxValueSlider.setMaximum(500);
-						panel_1.add(maxValueSlider);
+							{
+								videoResolutionTextFieldW = new JTextField(3);
+								videoResolutionTextFieldW
+										.setToolTipText("Width");
+								videoResolutionTextFieldH = new JTextField(3);
+								videoResolutionTextFieldH
+										.setToolTipText("Height");
+								videoResolutionTextFieldH
+										.setPreferredSize(new Dimension(80, 18));
+								videoResolutionTextFieldH
+										.setMinimumSize(new Dimension(80, 18));
+								videoResolutionTextFieldW
+										.setPreferredSize(new Dimension(80, 18));
+								videoResolutionTextFieldW
+										.setMinimumSize(new Dimension(80, 18));
+								videoResolutionPanel
+										.add(videoResolutionTextFieldH);
+								videoResolutionPanel
+										.add(videoResolutionTextFieldW);
+							}
+						}
+						{
+							JPanel cameraPortPanel = new JPanel();
+							cameraPortPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 3, 3));
+							cameraPortPanel.setBorder(new EmptyBorder(0, 0, 0,
+									0));
+							minPanel.add(cameraPortPanel);
+							{
+								cameraPortLabel = new JLabel("Camera Port:");
+								cameraPortLabel.setMinimumSize(new Dimension(
+										130, 16));
+								cameraPortLabel.setPreferredSize(new Dimension(
+										130, 16));
+								cameraPortPanel.add(cameraPortLabel);
+							}
+							{
+								cameraPortTextField = new JTextField(1);
+								cameraPortTextField
+										.setPreferredSize(new Dimension(80, 18));
+								cameraPortTextField
+										.setMinimumSize(new Dimension(80, 18));
+								cameraPortPanel.add(cameraPortTextField);
+							}
+						}
 					}
 				}
 			}
 		}
-		
-		{
-		JPanel settingsPanel = new JPanel();
-		mainPanel.setAlignmentY(LEFT_ALIGNMENT);
-		settingsPanel.setBorder(new TitledBorder(new EtchedBorder(
-				EtchedBorder.LOWERED, null, null), "Settings",
-				TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		mainPanel.add(settingsPanel);
-		settingsPanel.setLayout(new GridLayout(0, 1, 0, 0));
-		{
-			
-			{
-				JPanel minPanel = new JPanel();
-				minPanel.setBorder(new TitledBorder(new EtchedBorder(
-						EtchedBorder.LOWERED, null, null), "",
-						TitledBorder.CENTER, TitledBorder.TOP, null, null));
-				settingsPanel.add(minPanel);
-				minPanel.setLayout(new BoxLayout(minPanel, BoxLayout.Y_AXIS));
-				{
-					JPanel imageResolutionPanel = new JPanel();
-					imageResolutionPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
-					minPanel.add(imageResolutionPanel);
-					{
-						imageResolutionLabel = new JLabel("Image resolution:");
-						imageResolutionLabel.setPreferredSize(new Dimension(130, 16));
-						imageResolutionLabel.setMinimumSize(new Dimension(130, 16));
-						imageResolutionPanel.add(imageResolutionLabel);
-					}
-					{
-						imageResolutionTextFieldH = new JTextField(3);
-						imageResolutionTextFieldW = new JTextField(3);
-						imageResolutionTextFieldH.setPreferredSize(new Dimension(80, 18));
-						imageResolutionTextFieldH.setMinimumSize(new Dimension(80, 18));
-						imageResolutionTextFieldW.setPreferredSize(new Dimension(80, 18));
-						imageResolutionTextFieldW.setMinimumSize(new Dimension(80, 18));
-						imageResolutionPanel.add(imageResolutionTextFieldH);
-						imageResolutionPanel.add(imageResolutionTextFieldW);
-					}
-				}
-				{
-					JPanel videoResolutionPanel = new JPanel();
-					videoResolutionPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
-					minPanel.add(videoResolutionPanel);
-					{
-						videoResolutionLabel = new JLabel("Video resolution:");
-						videoResolutionLabel.setMinimumSize(new Dimension(130, 16));
-						videoResolutionLabel.setPreferredSize(new Dimension(130, 16));
-						videoResolutionPanel.add(videoResolutionLabel);
-					}
-					{
-						videoResolutionTextFieldH = new JTextField(3);
-						videoResolutionTextFieldW = new JTextField(3);
-						videoResolutionTextFieldH.setPreferredSize(new Dimension(80, 18));
-						videoResolutionTextFieldH.setMinimumSize(new Dimension(80, 18));
-						videoResolutionTextFieldW.setPreferredSize(new Dimension(80, 18));
-						videoResolutionTextFieldW.setMinimumSize(new Dimension(80, 18));
-						videoResolutionPanel.add(videoResolutionTextFieldH);
-						videoResolutionPanel.add(videoResolutionTextFieldW);
-					}
-				}
-				{
-					JPanel cameraPortPanel = new JPanel();
-					cameraPortPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
-					minPanel.add(cameraPortPanel);
-					{
-						cameraPortLabel = new JLabel("Camera Port:");
-						cameraPortLabel.setMinimumSize(new Dimension(130, 16));
-						cameraPortLabel.setPreferredSize(new Dimension(130, 16));
-						cameraPortPanel.add(cameraPortLabel);
-					}
-					{
-						cameraPortTextField = new JTextField(1);
-						cameraPortTextField.setPreferredSize(new Dimension(80, 18));
-						cameraPortTextField.setMinimumSize(new Dimension(80, 18));
-						cameraPortPanel.add(cameraPortTextField);
-					}
-				}
-			}		
-			}
-		}
-	}		
 		{
 			JPanel videoPanel = new JPanel();
 			videoPanel.setBorder(new TitledBorder(null, "Video",
@@ -362,7 +420,7 @@ public class CameraDialog extends JDialog {
 							Properties props = new Properties();
 							InputStream is = null;
 							try {
-								 f = new File("./res/config.properties");
+								f = new File("./res/config.properties");
 								is = new FileInputStream(f);
 							} catch (Exception e1) {
 								is = null;
@@ -370,13 +428,14 @@ public class CameraDialog extends JDialog {
 
 							try {
 								if (is == null) {
-									is = getClass().getResourceAsStream("./res/config.properties");
+									is = getClass().getResourceAsStream(
+											"./res/config.properties");
 								}
 
 								props.load(is);
 							} catch (Exception e2) {
 							}
-							
+
 							props.setProperty("minHueThreshold",
 									minHueSlider.getValue() + "");
 							props.setProperty("minSaturationThreshold",
@@ -398,8 +457,8 @@ public class CameraDialog extends JDialog {
 							props.setProperty("captureResolutionWidth",
 									videoResolutionTextFieldW.getText() + "");
 							props.setProperty("cameraInput",
-									cameraPortTextField.getText() + "");				
-							
+									cameraPortTextField.getText() + "");
+
 							OutputStream out = new FileOutputStream(f);
 							props.store(out, "This file has been modified.");
 						} catch (Exception e1) {
@@ -424,8 +483,9 @@ public class CameraDialog extends JDialog {
 			}
 		}
 		initializeVideoCapture();
+		intitializeDialog();
 	}
-	
+
 	public void intitializeDialog() {
 		Properties props = new Properties();
 		InputStream is = null;
@@ -444,25 +504,30 @@ public class CameraDialog extends JDialog {
 			props.load(is);
 		} catch (Exception e) {
 		}
-		
-		minHueSlider.setValue(Integer.valueOf(props.getProperty("minHueThreshold")));
-		minSatSlider.setValue(Integer.valueOf(props.getProperty("minSatThreshold")));
-		minValueSlider.setValue(Integer.valueOf(props.getProperty("minValueThreshold")));
-		maxHueSlider.setValue(Integer.valueOf(props.getProperty("maxHueThreshold")));
-		maxSatSlider.setValue(Integer.valueOf(props.getProperty("maxSatThreshold")));
-		maxSatSlider.setValue(Integer.valueOf(props.getProperty("maxValueThreshold")));
-				
-		imageResolutionTextFieldW.setText(
-				props.getProperty("imageResolutionWidth"));
-		imageResolutionTextFieldH.setText(
-				props.getProperty("imageResolutionHeight"));
-		videoResolutionTextFieldW.setText(
-				props.getProperty("captureResolutionWidth"));
-		videoResolutionTextFieldH.setText(
-				props.getProperty("captureResolutionHeight"));
 
-		cameraPortTextField.setText(
-				props.getProperty("cameraInput"));
+		minHueSlider.setValue(Integer.valueOf(props
+				.getProperty("minHueThreshold")));
+		minSatSlider.setValue(Integer.valueOf(props
+				.getProperty("minSatThreshold")));
+		minValueSlider.setValue(Integer.valueOf(props
+				.getProperty("minValueThreshold")));
+		maxHueSlider.setValue(Integer.valueOf(props
+				.getProperty("maxHueThreshold")));
+		maxSatSlider.setValue(Integer.valueOf(props
+				.getProperty("maxSatThreshold")));
+		maxValueSlider.setValue(Integer.valueOf(props
+				.getProperty("maxValueThreshold")));
+
+		imageResolutionTextFieldW.setText(props
+				.getProperty("imageResolutionWidth"));
+		imageResolutionTextFieldH.setText(props
+				.getProperty("imageResolutionHeight"));
+		videoResolutionTextFieldW.setText(props
+				.getProperty("captureResolutionWidth"));
+		videoResolutionTextFieldH.setText(props
+				.getProperty("captureResolutionHeight"));
+
+		cameraPortTextField.setText(props.getProperty("cameraInput"));
 	}
 
 	public void initializeVideoCapture() {
@@ -498,7 +563,5 @@ public class CameraDialog extends JDialog {
 				}
 			}
 		}).start();
-
 	}
-
 }
