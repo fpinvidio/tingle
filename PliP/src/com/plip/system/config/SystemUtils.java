@@ -31,13 +31,14 @@ public class SystemUtils {
 
 		try {
 			if (is == null) {
-				is = getClass().getResourceAsStream("./res/config.properties");
+				is = getClass().getResourceAsStream("/config.properties");
 			}
 
 			props.load(is);
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
-
+		
 		MainSystemMonitor.imageResolutionWidth = new Integer(
 				props.getProperty("imageResolutionWidth"));
 		MainSystemMonitor.imageResolutionHeight = new Integer(
