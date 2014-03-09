@@ -120,10 +120,11 @@ public class Page implements java.io.Serializable {
 			  String path = imageManager.getImagesPath(filename);
 			  FileSystemManager.checkDirectoryExists(path);
 			  Highgui.imwrite(path + filename +".jpg", image);
+			  String imagePath = path + filename +".jpg";
 			  PageImageDao pageImageDao = new PageImageDaoImpl();
 			  PageDao pageDao = new PageDaoImpl();
 			  try{
-				  PageImage pageImage = new PageImage(path);
+				  PageImage pageImage = new PageImage(imagePath);
 				  pageImageDao.addPageImage(pageImage);
 				  setPageImage(pageImage);
 				  pageDao.updatePage(this);
