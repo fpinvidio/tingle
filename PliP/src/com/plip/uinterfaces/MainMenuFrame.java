@@ -148,7 +148,7 @@ public class MainMenuFrame extends JFrame implements GenericEventListener {
 						public void run() {
 							while (true) {
 								if (!stopper.isRunning()) {
-									msm = new MainSystemMonitor();
+									
 									Mat capturedImage = msm.captureVideoFrame();
 									if (capturedImage != null) {
 										videoDisplayPanel

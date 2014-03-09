@@ -134,7 +134,7 @@ public class MainSystemMonitor implements GenericEventListener {
 	
 	public void stop(){
 		try {
-		Thread.interrupted();
+		
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
