@@ -24,6 +24,7 @@ import com.plip.exceptions.imageprocessing.NoImageException;
 import com.plip.exceptions.imageprocessing.NoMatchException;
 import com.plip.exceptions.persistence.NoPageRecievedException;
 import com.plip.exceptions.persistence.PageNotFoundException;
+import com.plip.imageprocessing.processors.ImageCropper;
 import com.plip.imageprocessing.processors.ObjectCounter;
 import com.plip.imageprocessing.processors.ObjectRecognizer;
 import com.plip.imageprocessing.processors.TrayProcessor;
@@ -180,7 +181,7 @@ public class MainSystemMonitor implements GenericEventListener {
 
 			if (trayBounds != null) {
 
-				screenshot = screenshot.submat(trayBounds);
+				screenshot = ImageCropper.cropContour(screenshot, trayBounds);
 			}
 			try {
 				tehandler.getPage().addTrayImage(screenshot);
