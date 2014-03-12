@@ -11,7 +11,9 @@ import org.hibernate.Transaction;
 
 import com.plip.exceptions.persistence.NullModelAttributesException;
 import com.plip.exceptions.persistence.PageNotFoundException;
+import com.plip.persistence.daos.interfaces.OrderDao;
 import com.plip.persistence.daos.interfaces.PageDao;
+import com.plip.persistence.daos.interfaces.PageProductDao;
 import com.plip.persistence.managers.DaoManager;
 import com.plip.persistence.model.Page;
 import com.plip.persistence.model.PageProduct;
@@ -72,7 +74,42 @@ public class PageDaoImpl implements PageDao {
 		}
 		return page;
 	}
-
+	
+	@Override
+	public void deleteLastPage() throws PageNotFoundException {
+		SessionFactory factory = DaoManager.createSessionFactory();
+		Session session = factory.openSession();
+		Transaction tx = null;
+		Page page = null;
+		OrderDao orderDao = new OrderDaoImpl();
+		PageProductDao pageProductDao = new PageProductDaoImpl();
+		try {
+			tx = session.beginTransaction();
+			//Query query = session.createQuery("from Page ORDER by idPage DESC LIMIT 1");
+			Long pageId = (Long)session.createQuery("select max(idPage) from Page").uniqueResult();
+			page = getPage(pageId);
+			//if(query.list().size() > 0){
+			//page = (Page) query.list().get(0);
+			//Long pageId =page.getIdPage();
+			Set<PageProduct> pageProducts = page.getPageProducts();
+			for(PageProduct pageProduct : pageProducts){
+				pageProductDao.deletePageProduct(pageProduct.getIdPageProduct());
+			}
+			deletePage(pageId);
+			orderDao.deleteOrder(page.getOrder().getIdOrder());
+			//} else {
+			//	throw new PageNotFoundException();
+			//}
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+	}
+	
 	@Override
 	public void updatePage(Page page) throws PageNotFoundException {
 		SessionFactory factory = DaoManager.createSessionFactory();

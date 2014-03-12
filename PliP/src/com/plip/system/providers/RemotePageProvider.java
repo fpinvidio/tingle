@@ -58,6 +58,7 @@ public class RemotePageProvider implements PageProvider{
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
+		pageDao.deleteLastPage();
 		Page page = addPageWithProducts(pageProducts);
 		Order orderModel = addOrder(order);
 		page.setOrder(orderModel);

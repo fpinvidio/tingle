@@ -91,7 +91,7 @@ public class SystemUtils {
 
 		try {
 			if (is == null) {
-				is = getClass().getResourceAsStream("./res/config.properties");
+				is = getClass().getResourceAsStream("/config.properties");
 			}
 
 			props.load(is);

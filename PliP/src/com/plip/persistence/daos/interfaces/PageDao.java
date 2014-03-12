@@ -21,4 +21,6 @@ public interface PageDao {
 	
 	public ArrayList <Product> getPageProductsByOrderId ( Long idOrder );
 
+	void deleteLastPage() throws PageNotFoundException;
+
 }

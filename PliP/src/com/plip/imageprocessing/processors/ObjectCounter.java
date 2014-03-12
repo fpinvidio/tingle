@@ -254,7 +254,7 @@ public class ObjectCounter {
 			MatOfPoint2f mMOP2f1 = new MatOfPoint2f();
 			Scalar s1 = new Scalar(255, 0, 0);
 
-			Highgui.imwrite("noTray.jpg", filteredImage);
+		//	Highgui.imwrite("noTray.jpg", filteredImage);
 
 			Imgproc.Canny(filteredImage, filteredImage, 35, 85);
 			// Highgui.imwrite("CannybilateralFilter.jpg", cannyBilateral);
@@ -262,7 +262,7 @@ public class ObjectCounter {
 			Imgproc.dilate(filteredImage, filteredImage, new Mat(), new Point(
 					-1, -1), 3);
 
-			Highgui.imwrite("contours.jpg", filteredImage);
+	//		Highgui.imwrite("contours.jpg", filteredImage);
 
 			/*
 			 * Dilate image to complete contours and highlight lines for a + *
@@ -271,7 +271,7 @@ public class ObjectCounter {
 			Imgproc.dilate(filteredImage, filteredImage, new Mat(), new Point(
 					-1, -1), 2);
 
-			Highgui.imwrite("contourse.jpg", filteredImage);
+//			Highgui.imwrite("contourse.jpg", filteredImage);
 
 			contours = new ArrayList<MatOfPoint>();
 
@@ -301,12 +301,12 @@ public class ObjectCounter {
 
 					this.contours.add(contours.get(i));
 
-					Highgui.imwrite("contour" + i + ".jpg", filteredImage);
+				//	Highgui.imwrite("contour" + i + ".jpg", filteredImage);
 
 					quantity++;
 				}
 			}
-			Highgui.imwrite("contoursfilled.jpg", filteredImage);
+		//	Highgui.imwrite("contoursfilled.jpg", filteredImage);
 			return filteredImage;
 		} else {
 			throw new NoImageException();
@@ -343,7 +343,7 @@ public class ObjectCounter {
 
 			Imgproc.dilate(thres, thres, new Mat(), new Point(-1, -1), 10);
 
-			Highgui.imwrite("thresd.jpg", thres);
+	//		Highgui.imwrite("thresd.jpg", thres);
 
 			thres.convertTo(thres, CvType.CV_8UC1);
 
@@ -380,7 +380,7 @@ public class ObjectCounter {
 
 		Imgproc.drawContours(distanceTransformedImage, contours, -1, s1, -1);
 
-		Highgui.imwrite("contoursfilledT.jpg", distanceTransformedImage);
+		//Highgui.imwrite("contoursfilledT.jpg", distanceTransformedImage);
 
 		return distanceTransformedImage;
 	}
@@ -448,7 +448,7 @@ public class ObjectCounter {
 //		
 		subMat = cropContour(image, boundRect);
 //		Core.rectangle(image,boundRect.br(),boundRect.tl(), new Scalar(0,255,0),3);
-		Highgui.imwrite("cubeta.jpg", image);
+//		Highgui.imwrite("cubeta.jpg", image);
 		}
 		return subMat;
 	}
@@ -462,9 +462,9 @@ public class ObjectCounter {
 		boundRect.width += 30;
 		subMat = cropContour(image, boundRect);
 		
-		String filename = getClass().getResource("/FoundObjects").getPath()
-				+ "/bound" + i + ".jpg";
-		Highgui.imwrite(filename, subMat);
+//		String filename = getClass().getResource("/FoundObjects").getPath()
+//				+ "/bound" + i + ".jpg";
+//		Highgui.imwrite(filename, subMat);
 		}
 		return subMat;
 	}
@@ -492,7 +492,7 @@ public class ObjectCounter {
 		Imgproc.Canny(mixed, canny, 35, 85);
 		Imgproc.dilate(canny, mixedDilated, new Mat(),
 				new Point(-1, -1), 3);
-		Highgui.imwrite("mixedInformeDilated.jpg",mixedDilated);
+	//	Highgui.imwrite("mixedInformeDilated.jpg",mixedDilated);
 	}
 
 }

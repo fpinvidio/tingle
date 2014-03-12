@@ -13,8 +13,6 @@ import org.json.JSONObject;
 
 public class RemoteServerConnector {
 	
-	
-
 	public JSONObject connectRemoteServer(String url) {
 		JSONObject jsonObject = null;
 		
@@ -60,7 +58,5 @@ public class RemoteServerConnector {
 			e.printStackTrace();
 		}
 		return jsonObject;
-
 	}
-
 }
